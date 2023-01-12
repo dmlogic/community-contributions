@@ -6,6 +6,9 @@
     "require": {
         "php": "^8.2"
     },
+    "require-dev": {
+        "orchestra/testbench": "^7.19"
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -15,12 +18,19 @@
     },
     "autoload": {
         "psr-4": {
-            "DmLogic\\CommunityContributions\\": "src/"
+            "DmLogic\\CommunityContributions\\": "src/",
+            "DmLogic\\CommunityContributions\\Database\\Factories\\": "database/factories/",
+            "DmLogic\\CommunityContributions\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php vendor/bin/testbench package:discover --ansi"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true
