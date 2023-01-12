@@ -3,3 +3,4 @@ composer.lock
 /vendor
 .env
 todo.md
+database.sqlite
