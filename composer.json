@@ -1,0 +1,27 @@
+{
+    "name": "dmlogic/community-contributions",
+    "type": "library",
+    "description": "Allow a small community to manage membership and fund contributions",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DmLogic\\CommunityContributions\\Providers\\CommunityContributionsProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "DmLogic\\CommunityContributions\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
