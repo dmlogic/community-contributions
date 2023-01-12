@@ -18,3 +18,6 @@ To maintain the security of my data
 
 I need to see an overview of maintenance activity
 So I can see how my money is being spent
+
+I need a means to recover my password
+So I can gain access if I have forgotten it
