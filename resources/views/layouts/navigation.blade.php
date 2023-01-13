@@ -38,9 +38,18 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        @if (Auth::user()->isAdmin())
+                        <hr>
+                        <x-dropdown-link :href="route('property.list')">
+                            {{ __('Property') }}
+                        </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
+
+                            <hr>
 
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->unsignedInteger('property_id')->references('id')->on('properties')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,18 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+    });
+
+    Route::prefix('property')->middleware('can:manage,App\Models\Property')->group(function () {
+        Route::get('/', [PropertyController::class, 'list'])->name('property.list');
+        Route::get('/{property}', [PropertyController::class, 'edit'])->name('property.edit');
+        Route::patch('/{property}', [PropertyController::class, 'update'])->name('property.update');
+        Route::delete('/{property}', [PropertyController::class, 'update'])->name('property.delete');
+    });
 });
 
 require __DIR__.'/auth.php';

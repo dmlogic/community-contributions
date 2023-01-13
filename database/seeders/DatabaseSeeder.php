@@ -15,13 +15,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $roles = $this->seedRoles();
-        $properties = $this->seedProperties();
 
         User::factory()
             ->create([
                 'name' => 'Admin',
                 'email' => 'admin@example.com',
-                'property_id' => $properties[0]->id
             ])
             ->roles()->attach(1);
 
@@ -29,29 +27,26 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'Pothole fairy',
                 'email' => 'fairy@example.com',
-                'property_id' => $properties[1]->id
             ])
             ->roles()->attach([2,3]);
 
-            User::factory()
-            ->create([
-                'property_id' => $properties[2]->id
-            ])
+        User::factory()
+            ->create()
             ->roles()->attach(3);
 
-            User::factory()
-            ->create([
-                'property_id' => $properties[3]->id
-            ])
+        User::factory()
+            ->create()
             ->roles()->attach(3);
+
+        $this->seedProperties();
     }
 
     public function seedRoles(): array
     {
         return [
-            Role::create([ 'name' => 'Admin' ]),
-            Role::create([ 'name' => 'Resident' ]),
-            Role::create([ 'name' => 'Maintainer' ])
+            Role::create([ 'name' => Role::ROLE_ADMIN ]),
+            Role::create([ 'name' => Role::ROLE_RESIDENT ]),
+            Role::create([ 'name' => Role::ROLE_MAINTAINER ])
         ];
     }
 
@@ -60,10 +55,10 @@ class DatabaseSeeder extends Seeder
         return Property::factory()
                 ->count(4)
                 ->state(new Sequence(
-                    ['number' => '1'],
-                    ['number' => '10'],
-                    ['number' => '10a'],
-                    ['number' => '20'],
+                    ['number' => '1', 'user_id' => 1],
+                    ['number' => '10', 'user_id' => 2],
+                    ['number' => '10a', 'user_id' => 3],
+                    ['number' => '20', 'user_id' => 4],
                 ))
                 ->create();
     }
