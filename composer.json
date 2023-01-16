@@ -1,22 +1,24 @@
 {
-    "name": "dmlogic/community-contributions",
+    "name": "laravel/laravel",
     "type": "project",
-    "description": "Allow a small community to manage membership and fund contributions",
-    "keywords": ["laravel"],
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
+        "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^9.19",
-        "laravel/sanctum": "^3.0",
-        "laravel/tinker": "^2.7"
+        "laravel/sanctum": "^2.8",
+        "laravel/tinker": "^2.7",
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.7",
+        "brianium/paratest": "^6.8",
         "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.17",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
+        "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",

@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PropertyController;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,24 +16,22 @@ use App\Http\Controllers\PropertyController;
 |
 */
 
-
 Route::get('/', function () {
-    return view('dashboard');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-
-    Route::prefix('profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-    });
-
-    Route::prefix('property')->middleware('can:manage,App\Models\Property')->group(function () {
-        Route::get('/', [PropertyController::class, 'list'])->name('property.list');
-        Route::get('/{property}', [PropertyController::class, 'edit'])->name('property.edit');
-        Route::patch('/{property}', [PropertyController::class, 'update'])->name('property.update');
-        Route::delete('/{property}', [PropertyController::class, 'update'])->name('property.delete');
-    });
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 require __DIR__.'/auth.php';
