@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,28 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/scratch', function () {
+    $p = \App\Models\Property::with('resident')->first()->only('id', 'address', 'resident');
+    return $p;
+
+});
+
 Route::get('/', function () {
+
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::prefix('profile')->group(function(){
+        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+    });
+
+    Route::resources(
+        [
+            'property' => PropertyController::class
+        ]
+    );
 });
 
 require __DIR__.'/auth.php';

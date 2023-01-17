@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use Illuminate\Contracts\Console\Kernel;
 
 trait CreatesApplication
@@ -18,5 +19,10 @@ trait CreatesApplication
         $app->make(Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    public function adminUser(): User
+    {
+        return User::find(1);
     }
 }
