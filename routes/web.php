@@ -18,8 +18,7 @@ use App\Http\Controllers\PropertyController;
 */
 
 Route::get('/scratch', function () {
-    $p = \App\Models\Property::with('resident')->first()->only('id', 'address', 'resident');
-    return $p;
+
 
 });
 
@@ -34,11 +33,13 @@ Route::middleware('auth')->group(function () {
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
     });
 
-    Route::resources(
-        [
-            'property' => PropertyController::class
-        ]
-    );
+    Route::middleware('auth.admin')->group(function () {
+        Route::resources(
+            [
+                'property' => PropertyController::class
+            ]
+        );
+    });
 });
 
 require __DIR__.'/auth.php';

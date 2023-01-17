@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\PropertyRequest;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
 
 class PropertyController extends Controller
 {
@@ -13,75 +18,58 @@ class PropertyController extends Controller
     public function index(): Response
     {
         return Inertia::render('Property/List', [
-            'property' => Property::with('resident')
+            'properties' => Property::with('resident')
                                   ->select('id', 'number', 'street', 'user_id')
+                                  ->orderBy('number')
                                   ->get()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show(Property $property): Response
     {
-        //
+        return Inertia::render('Property/View', [
+            'property' => $property->load('resident'),
+            'residents' => User::select('id', 'name', 'email' )->get(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function create(): Response
     {
-        //
+        return Inertia::render('Property/Form', [
+            'property' => new Property([
+                'number' => '',
+                'street' => config('app.default_address.steet'),
+                'town' => config('app.default_address.town'),
+                'postcode' => config('app.default_address.postcode'),
+            ]),
+            'residents' => User::select('id', 'name', 'email' )->get(),
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function store(PropertyRequest $request): RedirectResponse
     {
-        //
+        Property::create($request->propertyData());
+        return Redirect::route('property.index')->with('success', 'Property created');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(PropertyRequest $request, Property $property): RedirectResponse
     {
-        //
+        $property->fill($request->propertyData())->save();
+        return Redirect::route('property.index')->with('success', 'Property updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Property $property): RedirectResponse
     {
-        //
+        if($property->resident) {
+            throw ValidationException::withMessages(['user_id' => 'Property must be unoccupied']);
+        }
+        $property->delete();
+        return Redirect::route('property.index')->with('success', 'Property deleted');
     }
 }
