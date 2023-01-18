@@ -4,14 +4,12 @@ So I can perform management tasks
 ✅ I need to manage properties
 So they can be assigned to users
 
-I need to invite users to join
+I need to perform CRUD actions on residents
+In order to maintain the data
+
+I need a process to invite new residents
 So they can register their accounts
-
-I need to archive old users who have moved away
-So they can no longer participate
-
-I need to delete old users who have moved away
-So their privacy is maintained
+    property details and name pre-filled
 
 I need to manage funds
 So I can prompt and track contributions

@@ -21,22 +21,22 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@example.com',
             ])
-            ->roles()->attach(1);
+            ->roles()->attach([Role::ROLE_ADMIN, Role::ROLE_RESIDENT]);
 
         User::factory()
             ->create([
                 'name' => 'Pothole fairy',
                 'email' => 'fairy@example.com',
             ])
-            ->roles()->attach([2,3]);
+            ->roles()->attach([Role::ROLE_SUPPLIER]);
 
         User::factory()
             ->create()
-            ->roles()->attach(3);
+            ->roles()->attach(Role::ROLE_RESIDENT);
 
         User::factory()
             ->create()
-            ->roles()->attach(3);
+            ->roles()->attach(Role::ROLE_RESIDENT);
 
         $this->seedProperties();
     }
@@ -44,9 +44,9 @@ class DatabaseSeeder extends Seeder
     public function seedRoles(): array
     {
         return [
-            Role::create([ 'name' => Role::ROLE_ADMIN ]),
-            Role::create([ 'name' => Role::ROLE_RESIDENT ]),
-            Role::create([ 'name' => Role::ROLE_MAINTAINER ])
+            Role::create([ 'id' => Role::ROLE_ADMIN , 'name' => 'Admin']),
+            Role::create([ 'id' => Role::ROLE_RESIDENT , 'name' => 'Resident']),
+            Role::create([ 'id' => Role::ROLE_SUPPLIER, 'name' => 'Supplier' ])
         ];
     }
 

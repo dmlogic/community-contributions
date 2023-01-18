@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\ResidentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +19,16 @@ use App\Http\Controllers\PropertyController;
 */
 
 Route::get('/scratch', function () {
-
+    return \App\Models\Resident::first()->property;
 
 });
 
 Route::get('/', function () {
-
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::prefix('profile')->group(function(){
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
@@ -36,7 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('auth.admin')->group(function () {
         Route::resources(
             [
-                'property' => PropertyController::class
+                'property' => PropertyController::class,
+                'resident' => ResidentController::class,
             ]
         );
     });

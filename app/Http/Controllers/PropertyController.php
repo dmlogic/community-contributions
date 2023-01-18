@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Resident;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Property;
@@ -90,7 +90,7 @@ class PropertyController extends Controller
     {
         return Inertia::render('Property/Form', [
             'property' => $property,
-            'residents' => User::residentData()
+            'residents' => Resident::residentData()
         ]);
     }
 }

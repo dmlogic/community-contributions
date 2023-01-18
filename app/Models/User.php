@@ -31,16 +31,10 @@ class User extends Authenticatable implements MustVerifyEmail
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function residentData()
-    {
-        return static::select('id', 'name', 'email' )
-                     ->get();
-    }
-
     public function isAdmin(): bool
     {
         return $this->roles
-                ->where('name', Role::ROLE_ADMIN)
+                ->where('id', Role::ROLE_ADMIN)
                 ->isNotEmpty();
     }
 
@@ -49,6 +43,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
 }
