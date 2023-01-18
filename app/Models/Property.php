@@ -14,6 +14,30 @@ class Property extends Model
     protected $guarded = [];
     protected $appends = ['address'];
 
+    // ------------------------------------------------------------------------
+    // Helpers
+
+    public static function listData()
+    {
+        return static::with('resident')
+                    ->select('id', 'number', 'street', 'user_id')
+                    ->orderBy('number')
+                    ->get();
+    }
+
+    public static function defaultData()
+    {
+        return new static([
+            'number' => '',
+            'street' => config('app.default_address.steet'),
+            'town' => config('app.default_address.town'),
+            'postcode' => config('app.default_address.postcode'),
+        ]);
+    }
+
+    // ------------------------------------------------------------------------
+    // Custom attributes
+
     public function address(): Attribute
     {
         return Attribute::make(
@@ -24,9 +48,10 @@ class Property extends Model
                 ]));
             }
         );
-
-
     }
+
+    // ------------------------------------------------------------------------
+    // Relationships
 
     public function resident()
     {

@@ -99,22 +99,20 @@ class PropertyTest extends FeatureTest
 
     public function test_forms_contain_expected_data()
     {
-        $this->actingAs($this->adminUser())
+        $response = $this->actingAs($this->adminUser())
             ->get(route('property.create'))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('property')
                 ->has('residents')
                 ->missing('property.id')
-            );
+        );
 
-            $house = Property::first();
-            $this->get(route('property.show', $house->id))
+        $house = Property::first();
+        $this->get(route('property.show', $house->id))
             ->assertInertia(fn (AssertableInertia $page) => $page
             ->has('property')
             ->has('residents')
             ->has('property.id')
         );
-
-
     }
 }
