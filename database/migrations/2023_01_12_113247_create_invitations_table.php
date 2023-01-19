@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
+            $table->string('name');
             $table->string('email');
-            $table->unsignedInteger('user_id')->references('id')->on('users');
             $table->unsignedInteger('role_id')->references('id')->on('roles');
+            $table->unsignedInteger('property_id')->references('id')->on('properties')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

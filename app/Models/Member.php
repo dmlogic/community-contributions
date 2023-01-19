@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-
-class Resident extends User
+class Member extends User
 {
     protected $table = 'users';
 
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function residentData()
+    public static function memberData()
     {
         return static::select('id', 'name', 'email' )
                      ->get();

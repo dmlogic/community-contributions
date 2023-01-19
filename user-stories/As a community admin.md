@@ -4,12 +4,12 @@ So I can perform management tasks
 ✅ I need to manage properties
 So they can be assigned to users
 
-I need to perform CRUD actions on residents
+✅ I need to perform CRUD actions on users
 In order to maintain the data
 
-I need a process to invite new residents
+✅ I need a process to invite new residents
 So they can register their accounts
-    property details and name pre-filled
+    ✅ property details and name pre-filled
 
 I need to manage funds
 So I can prompt and track contributions

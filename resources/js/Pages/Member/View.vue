@@ -1,9 +1,9 @@
 <script setup>
 defineProps({
-    residents: Object,
+    resident: Object,
 });
 </script>
 
 <template>
-   <div>Resident list</div>
+   <div>Member view</div>
 </template>

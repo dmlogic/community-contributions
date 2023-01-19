@@ -1,7 +1,7 @@
-I need to responsd to an invitation
+✅ I need to responsd to an invitation
 So I can join the community
 
-I need to login to the system
+✅ I need to login to the system
 So I can participate and see status
 
 I need to quickly response to contribution invites

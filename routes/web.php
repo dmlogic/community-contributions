@@ -2,10 +2,10 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
-use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\InvitationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,6 @@ use App\Http\Controllers\ResidentController;
 */
 
 Route::get('/scratch', function () {
-    return \App\Models\Resident::first()->property;
 
 });
 
@@ -38,10 +37,19 @@ Route::middleware('auth')->group(function () {
         Route::resources(
             [
                 'property' => PropertyController::class,
-                'resident' => ResidentController::class,
+                'member' => MemberController::class,
             ]
         );
+
+        Route::prefix('invitation')->group(function() {
+            Route::post('/', [InvitationController::class, 'store'])->name('invitation.store');
+        });
     });
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('/invitation/{invitation}', [InvitationController::class, 'confirm'])->name('invitation.confirm');
+    Route::post('/invitation/{invitation}', [InvitationController::class, 'process'])->name('invitation.process');
 });
 
 require __DIR__.'/auth.php';

@@ -19,7 +19,7 @@ class Property extends Model
 
     public static function listData()
     {
-        return static::with('resident')
+        return static::with('member')
                     ->select('id', 'number', 'street', 'user_id')
                     ->orderBy('number')
                     ->get();
@@ -53,7 +53,7 @@ class Property extends Model
     // ------------------------------------------------------------------------
     // Relationships
 
-    public function resident()
+    public function member()
     {
         return $this->belongsTo(User::class, 'user_id')
                     ->select('id', 'name', 'email' );

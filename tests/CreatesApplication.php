@@ -25,4 +25,9 @@ trait CreatesApplication
     {
         return User::find(1);
     }
+
+    public function supplierUser(): User
+    {
+        return User::find(2);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Resident;
+use App\Models\Member;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Property;
@@ -38,7 +38,7 @@ class PropertyController extends Controller
      */
     public function edit(Property $property): Response
     {
-        return $this->renderPropertyForm($property->load('resident'));
+        return $this->renderPropertyForm($property->load('member'));
     }
 
     /**
@@ -54,7 +54,7 @@ class PropertyController extends Controller
      */
     public function store(PropertyRequest $request): RedirectResponse
     {
-        Property::create($request->propertyData());
+        Property::create($request->validated());
         return Redirect::route('property.index')
                        ->with('success', 'Property created');
     }
@@ -64,7 +64,7 @@ class PropertyController extends Controller
      */
     public function update(PropertyRequest $request, Property $property): RedirectResponse
     {
-        $property->fill($request->propertyData())->save();
+        $property->fill($request->validated())->save();
         return Redirect::route('property.index')
                        ->with('success', 'Property updated');
     }
@@ -74,7 +74,7 @@ class PropertyController extends Controller
      */
     public function destroy(Property $property): RedirectResponse
     {
-        if($property->resident) {
+        if($property->member) {
             throw ValidationException::withMessages(['user_id' => 'Property must be unoccupied']);
         }
         $property->delete();
@@ -90,7 +90,7 @@ class PropertyController extends Controller
     {
         return Inertia::render('Property/Form', [
             'property' => $property,
-            'residents' => Resident::residentData()
+            'members' => Member::memberData()
         ]);
     }
 }

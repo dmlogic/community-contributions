@@ -12,7 +12,7 @@ class PropertyTest extends FeatureTest
 {
     public function test_non_admin_cannot_access(): void
     {
-        $this->actingAs( User::where('name', '=', 'Pothole fairy')->first() )
+        $this->actingAs( $this->supplierUser() )
              ->get(route('property.index'))
              ->assertForbidden();
     }
@@ -26,9 +26,9 @@ class PropertyTest extends FeatureTest
                 ->count('properties',4)
                 ->has('properties.0.number')
                 ->has('properties.0.street')
-                ->has('properties.0.resident.id')
-                ->has('properties.0.resident.name')
-                ->has('properties.0.resident.email')
+                ->has('properties.0.member.id')
+                ->has('properties.0.member.name')
+                ->has('properties.0.member.email')
             );
     }
 
@@ -42,7 +42,7 @@ class PropertyTest extends FeatureTest
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('property')
                 ->where('property.address', $house->address)
-                ->where('property.resident.name', $house->resident->name)
+                ->where('property.member.name', $house->member->name)
             );
     }
 
@@ -61,10 +61,10 @@ class PropertyTest extends FeatureTest
 
     public function test_property_is_updated(): void
     {
-        $resident = User::factory()->create();
+        $member = User::factory()->create();
         $house = Property::first();
         $house->street = fake()->streetAddress();
-        $house->user_id = $resident->id;
+        $house->user_id = $member->id;
 
         $this->actingAs($this->adminUser())
              ->patch( route('property.update', $house->id), $house->only('number', 'street', 'town', 'postcode', 'user_id') )
@@ -74,7 +74,7 @@ class PropertyTest extends FeatureTest
         $this->assertDatabaseHas('properties',[
             'id' => $house->id,
             'street' => $house->street,
-            'user_id' => $resident->id
+            'user_id' => $member->id
         ]);
 
     }
@@ -103,7 +103,7 @@ class PropertyTest extends FeatureTest
             ->get(route('property.create'))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('property')
-                ->has('residents')
+                ->has('members')
                 ->missing('property.id')
         );
 
@@ -111,7 +111,7 @@ class PropertyTest extends FeatureTest
         $this->get(route('property.show', $house->id))
             ->assertInertia(fn (AssertableInertia $page) => $page
             ->has('property')
-            ->has('residents')
+            ->has('members')
             ->has('property.id')
         );
     }
