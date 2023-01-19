@@ -11,10 +11,7 @@ In order to maintain the data
 So they can register their accounts
     ✅ property details and name pre-filled
 
-I need to manage funds
-    - CRUD funds
-    - Default fund(?)
-    - Display balance
+✅ I need to manage funds
 So I can prompt and track contributions
 
 I need to manually adjust fund balances

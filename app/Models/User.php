@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Roles;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,7 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin(): bool
     {
         return $this->roles
-                ->where('id', Role::ROLE_ADMIN)
+                ->where('id', Roles::ADMIN->value)
                 ->isNotEmpty();
     }
 

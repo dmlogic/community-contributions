@@ -20,7 +20,7 @@ use App\Http\Controllers\InvitationController;
 */
 
 Route::get('/scratch', function () {
-
+    dd(\App\Enums\Entry::RESIDENT_REQUEST);
 });
 
 Route::get('/', function () {

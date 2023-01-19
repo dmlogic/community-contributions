@@ -23,12 +23,14 @@ class FundController extends Controller
 
     public function show(Fund $fund): Response
     {
-        return $this->edit($fund);
+        return Inertia::render('Fund/View', [
+            'fund' => $fund
+        ]);
     }
 
     public function edit(Fund $fund): Response
     {
-        return Inertia::render('Fund/View', [
+        return Inertia::render('Fund/Form', [
             'fund' => $fund
         ]);
     }

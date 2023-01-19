@@ -64,13 +64,14 @@ class MemberTest extends FeatureTest
 
     public function test_member_can_be_deleted(): void
     {
+        \DB::table('properties')->delete();
         $member = User::factory()->create();
+
         $this->actingAs($this->adminUser())
               ->delete( route('member.destroy', $member->id));
 
-        $this->assertDatabaseMissing('users',[
-            'id' => $member->id
-        ]);
+        $this->assertSoftDeleted($member);
+
     }
 
     public function test_member_cannot_be_deleted_if_occupied(): void

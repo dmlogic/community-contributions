@@ -17,15 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('fund_id')->references('id')->on('funds');
             $table->unsignedInteger('user_id')->references('id')->on('users')->nullable();
-            $table->enum('type', [
-                'RESIDENT_REQUEST',
-                'RESIDENT_ADDITIONAL',
-                'RESIDENT_OTHER',
-                'RESIDENT_OFFLINE',
-                'ADMIN_RECONCILE_ADJUSTMENT',
-                'DISBURSEMENT',
-            ]);
-            $table->text('description');
+            $table->string('type');
+            $table->text('description')->nullable();
+            $table->decimal('amount')->default(0.00);
             $table->timestamps();
         });
     }

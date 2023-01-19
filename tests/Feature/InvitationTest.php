@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
+use App\Enums\Roles;
 use App\Models\User;
+use App\Models\Member;
 use Tests\FeatureTest;
 use App\Models\Property;
-use App\Models\Member;
 use App\Models\Invitation;
+use App\Events\InvitationCreated;
 use Illuminate\Support\Facades\Event;
 use Inertia\Testing\AssertableInertia;
-use App\Events\InvitationCreated;
 
 
 class InvitationTest extends FeatureTest
@@ -30,7 +30,7 @@ class InvitationTest extends FeatureTest
         $newbie = [
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
-            'role_id' => Role::ROLE_RESIDENT,
+            'role_id' => Roles::RESIDENT->value,
             'property_id' => $property->id
         ];
 
@@ -48,14 +48,14 @@ class InvitationTest extends FeatureTest
     public function test_accepted_invitation_creates_member()
     {
         $property = Property::factory()->create();
-        $invite = Invitation::factory()->create(['role_id' => Role::ROLE_RESIDENT, 'property_id' => $property->id]);
+        $invite = Invitation::factory()->create(['role_id' => Roles::RESIDENT->value, 'property_id' => $property->id]);
 
         $this->post( route('invitation.confirm', $invite->id) )
                          ->assertRedirectToRoute('dashboard');
 
         $user = Member::whereEmail($invite->email)->first();
         $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals($user->roles->first()->id, Role::ROLE_RESIDENT);
+        $this->assertEquals($user->roles->first()->id, Roles::RESIDENT->value);
         $this->assertEquals($user->property->id, $property->id);
     }
 }
