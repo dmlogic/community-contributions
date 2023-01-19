@@ -4,7 +4,7 @@ So I can join the community
 ✅ I need to login to the system
 So I can participate and see status
 
-I need to quickly response to contribution invites
+I need to quickly responsd to contribution invites
 So I can contribute with the minimum of hassle
 
 I need to manually make contributions to a specific request

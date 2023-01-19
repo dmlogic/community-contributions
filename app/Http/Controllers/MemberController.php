@@ -31,7 +31,7 @@ class MemberController extends Controller
     public function show(Member $member): Response
     {
         return Inertia::render('Member/View', [
-            'member' => $member->load('property')
+            'member' => $member->load('property', 'roles')
         ]);
     }
 
@@ -40,7 +40,7 @@ class MemberController extends Controller
      */
     public function edit(Member $member): Response
     {
-        return $this->renderMemberForm($member);
+        return $this->renderMemberForm($member->load('property', 'roles'));
     }
 
     /**

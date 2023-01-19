@@ -88,7 +88,7 @@ class PropertyController extends Controller
      */
     private function renderPropertyForm(Property $property): Response
     {
-        return Inertia::render('Property/Form', [
+        return Inertia::render('Property/View', [
             'property' => $property,
             'members' => Member::memberData()
         ]);

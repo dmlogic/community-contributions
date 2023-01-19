@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FundController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
             [
                 'property' => PropertyController::class,
                 'member' => MemberController::class,
+                'fund' => FundController::class,
             ]
         );
 
