@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('user_id')->references('id')->on('users')->nullable();
             $table->string('type');
             $table->text('description')->nullable();
-            $table->decimal('amount')->default(0.00);
+            $table->integer('amount')->default(0)->comment('amount in pence');
             $table->timestamps();
         });
     }

@@ -18,4 +18,11 @@ class LedgerRequest extends FormRequest
             'user_id' => ['nullable','exists:users,id']
         ];
     }
+
+    private function allowedTypes()
+    {
+        if($this->user()->isAdmin()) {
+            return new Enum(Entry::class);
+        }
+    }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->decimal('balance')->default(0.00);
+            $table->integer('balance')->default(0)->comment('Balance in pence');
             $table->softDeletes();
             $table->timestamps();
         });
