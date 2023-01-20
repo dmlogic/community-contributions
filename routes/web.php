@@ -69,10 +69,8 @@ Route::middleware('auth')->group(function () {
         /**
          * Deleting ledger entries
          */
-        Route::delete('/', [LedgerController::class, 'store'])->name('ledger.destroy');
+        Route::delete('/ledger/{ledger}', [LedgerController::class, 'destroy'])->name('ledger.destroy');
     });
-
-
 });
 
 /**

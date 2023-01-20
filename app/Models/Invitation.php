@@ -39,16 +39,4 @@ class Invitation extends Model
         return $user;
     }
 
-    // ------------------------------------------------------------------------
-    // Events
-
-    protected static function booted()
-    {
-        static::creating(function ($invitation) {
-            if(empty($invitation->code)) {
-                $invitation->code = (string) Uuid::uuid4();
-            }
-            return $invitation;
-        });
-    }
 }

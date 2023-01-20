@@ -16,7 +16,7 @@ class LedgerController extends Controller
                        ->with('success', 'Fund value updated');
     }
 
-    public function destory(Ledger $ledger)
+    public function destroy(Ledger $ledger)
     {
         $ledger->delete();
         return Redirect::route('fund.index')

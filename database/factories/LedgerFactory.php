@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\Entry;
+use App\Enums\LedgerTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LedgerFactory extends Factory
@@ -10,7 +10,7 @@ class LedgerFactory extends Factory
     public function definition()
     {
         return [
-            'type' => Entry::RESIDENT_REQUEST->name,
+            'type' => LedgerTypes::RESIDENT_REQUEST->name,
             'description' => fake()->sentence(),
             'amount' => 100
         ];

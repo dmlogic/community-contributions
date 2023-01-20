@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Entry;
+use App\Enums\LedgerTypes;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,9 +12,9 @@ class LedgerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', new Enum(Entry::class)],
+            'type' => ['required', $this->allowedTypes()],
             'description' => ['nullable','string'],
-            'amount' => ['required','decimal:2'],
+            'amount' => ['required','integer'],
             'fund_id' => ['required','exists:funds,id'],
             'user_id' => ['nullable','exists:users,id']
         ];
@@ -22,7 +23,8 @@ class LedgerRequest extends FormRequest
     private function allowedTypes()
     {
         if($this->user()->isAdmin()) {
-            return new Enum(Entry::class);
+            return new Enum(LedgerTypes::class);
         }
+        return Rule::in(LedgerTypes::residentTypes());
     }
 }

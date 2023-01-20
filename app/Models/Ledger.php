@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Fund;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,6 +14,14 @@ class Ledger extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'amount' =>  'decimal:2'
+        'amount' =>  'integer'
     ];
+
+    // ------------------------------------------------------------------------
+    // Relationships
+
+    public function fund()
+    {
+        return $this->belongsTo(Fund::class);
+    }
 }
