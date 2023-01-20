@@ -14,7 +14,7 @@ So they can register their accounts
 ✅ I need to manage funds
 So I can prompt and track contributions
 
-I need to manually adjust fund balances
+✅ I need to manually adjust fund balances
 in order to reconcile offline activity
 
 I need to request a contribution to a fund

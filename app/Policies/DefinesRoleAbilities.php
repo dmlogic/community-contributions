@@ -6,7 +6,7 @@ use App\Models\User;
 
 trait DefinesRoleAbilities
 {
-    public function manage(User $authenticatedUser)
+    public function manage(User $authenticatedUser): bool
     {
         return $authenticatedUser->isAdmin();
     }

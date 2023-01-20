@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LedgerFactory extends Factory
 {
-    public function definition()
+    public function definition(): array
     {
         return [
             'type' => LedgerTypes::RESIDENT_REQUEST->name,

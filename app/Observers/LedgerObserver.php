@@ -17,7 +17,7 @@ class LedgerObserver
         $this->updateFund($ledger->fund, ($ledger->amount * -1));
     }
 
-    private function updateFund(Fund $fund, int $adjustment)
+    private function updateFund(Fund $fund, int $adjustment): void
     {
         if(!$fund) {
             return;
