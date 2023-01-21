@@ -28,10 +28,17 @@ class LedgerTest extends FeatureTest
                 'fund_id' => $fund->id
             ]);
 
-            $balance += $amount;
 
             $this->post(route('ledger.store'),$ledger->toArray());
-            $this->assertDatabaseHas('ledger',$ledger->only(['type','description','amount']));
+            $createdLedger = Ledger::orderBy('id', 'desc')->first();
+            $this->assertSame($createdLedger->type, $ledger->type);
+            $this->assertSame($createdLedger->description, $ledger->description);
+            if($type === LedgerTypes::RESIDENT_OFFLINE) {
+                $this->assertNull($createdLedger->verified_at);
+            } else {
+                $this->assertNotNull($createdLedger->verified_at);
+                $balance += $amount;
+            }
             $this->assertDatabaseHas('funds',['id' => $fund->id, 'balance' => $balance]);
         }
     }
@@ -43,19 +50,17 @@ class LedgerTest extends FeatureTest
         $fund = Fund::factory()->create();
         $this->actingAs($user);
 
-        // These types are allowed
-        foreach(LedgerTypes::residentTypes() as $type) {
-            $ledger = Ledger::factory()->make([
-                'type' => $type,
-                'amount' => 100,
-                'user_id' => $user->id,
-                'fund_id' => $fund->id
-            ]);
-            $this->post(route('ledger.store'),$ledger->toArray())
-                 ->assertSessionHas('success');
-        }
+        // Allowed
+        $ledger = Ledger::factory()->make([
+            'type' => LedgerTypes::RESIDENT_OFFLINE->value,
+            'amount' => 100,
+            'user_id' => $user->id,
+            'fund_id' => $fund->id
+        ]);
+        $this->post(route('ledger.store'),$ledger->toArray())
+                ->assertSessionHas('success');
 
-        // Anything else is not
+        // Not allowed
         $ledger->type = LedgerTypes::ADMIN_ADJUSTMENT->value;
         $this->post(route('ledger.store'),$ledger->toArray())
                  ->assertInvalid();

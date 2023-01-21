@@ -3,18 +3,28 @@ namespace App\Enums;
 
 enum LedgerTypes: string
 {
+    /**
+     * An online (verified) payment by a resident in response to a fund request
+     */
     case RESIDENT_REQUEST = 'RESIDENT_REQUEST';
+    /**
+     * An additional online (verified) payment by a resident
+     */
     case RESIDENT_ADDITIONAL = 'RESIDENT_ADDITIONAL';
-    case RESIDENT_OTHER = 'RESIDENT_OTHER';
+    /**
+     * A notice by a resident that a unverifed payment has been made
+     */
     case RESIDENT_OFFLINE = 'RESIDENT_OFFLINE';
+    /**
+     * A manual adjustment to a fund balance by an administrator
+     */
     case ADMIN_ADJUSTMENT = 'ADMIN_ADJUSTMENT';
-    case DISBURSEMENT = 'DISBURSEMENT';
-
-    public static function residentTypes() {
-        return [
-            LedgerTypes::RESIDENT_REQUEST->value,
-            LedgerTypes::RESIDENT_ADDITIONAL->value,
-            LedgerTypes::RESIDENT_OTHER->value,
-        ];
-    }
+    /**
+     * A log of direct expenditure from a fund
+     */
+    case EXPENDITURE = 'EXPENDITURE';
+    /**
+     * A log of fees paid from a fund (e.g. payment provider charges)
+     */
+    case FEES = 'FEES';
 }

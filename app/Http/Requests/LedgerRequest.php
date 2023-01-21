@@ -25,6 +25,6 @@ class LedgerRequest extends FormRequest
         if($this->user()->isAdmin()) {
             return new Enum(LedgerTypes::class);
         }
-        return Rule::in(LedgerTypes::residentTypes());
+        return Rule::in(LedgerTypes::RESIDENT_OFFLINE->value);
     }
 }

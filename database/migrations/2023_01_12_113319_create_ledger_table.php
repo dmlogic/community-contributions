@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('type');
             $table->text('description')->nullable();
             $table->integer('amount')->default(0)->comment('amount in pence');
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });
     }

@@ -17,11 +17,12 @@ So I can prompt and track contributions
 ✅ I need to manually adjust fund balances
 in order to reconcile offline activity
 
+I need to verify offline payment advice
+So I can ensure balance is reconciled
+
 I need to request a contribution to a fund
 So I can build up a reserve for works
 
-I need to add expenditure to a fund
-So I can reflect the depleted reserve
 
 I need to post information about maintenance activity
 So the community has visibility
