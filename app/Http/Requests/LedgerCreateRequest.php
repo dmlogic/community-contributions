@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LedgerRequest extends FormRequest
+class LedgerCreateRequest extends FormRequest
 {
     public function rules(): array
     {

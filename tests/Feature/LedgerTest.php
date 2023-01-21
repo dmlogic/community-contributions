@@ -11,7 +11,6 @@ use App\Enums\LedgerTypes;
 
 class LedgerTest extends FeatureTest
 {
-
     public function test_admin_can_add_any_valid_type(): void
     {
         $this->actingAs($this->adminUser());
@@ -27,7 +26,6 @@ class LedgerTest extends FeatureTest
                 'user_id' => 1,
                 'fund_id' => $fund->id
             ]);
-
 
             $this->post(route('ledger.store'),$ledger->toArray());
             $createdLedger = Ledger::orderBy('id', 'desc')->first();
@@ -86,5 +84,24 @@ class LedgerTest extends FeatureTest
         $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'amount' => 101]);
         $response = $this->delete(route('ledger.destroy', $ledger->id))
                         ->assertForbidden();
+    }
+
+    public function test_unverfied_entries_can_be_verified()
+    {
+        $this->actingAs($this->adminUser());
+        $fund = Fund::factory()->create();
+        $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'amount' => 101, 'type' => LedgerTypes::RESIDENT_OFFLINE->value]);
+        $this->patch(route('ledger.verify', $ledger->id))
+             ->assertSessionHas('success');
+        $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 101]);
+    }
+
+    public function test_verfied_entries_cannot_be_verified()
+    {
+        $this->actingAs($this->adminUser());
+        $fund = Fund::factory()->create();
+        $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'type' => LedgerTypes::RESIDENT_OFFLINE->value, 'verified_at' => now()]);
+        $this->patch(route('ledger.verify', $ledger->id))
+             ->assertInvalid();
     }
 }

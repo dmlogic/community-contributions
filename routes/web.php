@@ -67,8 +67,9 @@ Route::middleware('auth')->group(function () {
         });
 
         /**
-         * Deleting ledger entries
+         * Additional ledger entry adnin
          */
+        Route::patch('/ledger/{ledger}', [LedgerController::class, 'verify'])->name('ledger.verify');
         Route::delete('/ledger/{ledger}', [LedgerController::class, 'destroy'])->name('ledger.destroy');
     });
 });

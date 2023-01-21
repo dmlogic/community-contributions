@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Concerns\DefinesRoleAbilities;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PropertyPolicy
