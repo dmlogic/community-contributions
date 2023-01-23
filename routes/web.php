@@ -6,6 +6,7 @@ use App\Http\Controllers\FundController;
 use App\Http\Controllers\LedgerController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\InvitationController;
 
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
                 'property' => PropertyController::class,
                 'member' => MemberController::class,
                 'fund' => FundController::class,
+                'campaign' => CampaignController::class,
             ]
         );
 

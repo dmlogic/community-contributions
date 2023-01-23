@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Fund;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,14 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ledger', function (Blueprint $table) {
+        Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
             $table->foreignIdFor(Fund::class);
-            $table->foreignIdFor(User::class);
-            $table->string('type');
-            $table->text('description')->nullable();
-            $table->integer('amount')->default(0)->comment('amount in pence');
-            $table->timestamp('verified_at')->nullable();
+            $table->unsignedInteger('target');
+            $table->unsignedInteger('raised')->default(0);
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ledger');
+        Schema::dropIfExists('contribution_requests');
     }
 };

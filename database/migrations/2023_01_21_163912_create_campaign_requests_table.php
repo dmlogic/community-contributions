@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\Ledger;
+use App\Models\Campaign;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,14 +16,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('campaign_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable();
-            $table->string('number');
-            $table->string('street')->nullable();
-            $table->string('town')->nullable();
-            $table->string('postcode')->nullable();
-            $table->softDeletes();
+            $table->foreignIdFor(Campaign::class);
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Ledger::class)->nullable();
+            $table->timestamp('notified_at')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('campaign_requests');
     }
 };

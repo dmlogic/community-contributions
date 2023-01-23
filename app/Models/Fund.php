@@ -17,6 +17,6 @@ class Fund extends Model
     ];
 
     protected $casts = [
-        'balance' =>  'decimal:2'
+        'balance' =>  'integer'
     ];
 }

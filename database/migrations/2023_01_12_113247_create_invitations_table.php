@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Property;
+use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,8 +20,8 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->string('email');
-            $table->unsignedInteger('role_id')->references('id')->on('roles');
-            $table->unsignedInteger('property_id')->references('id')->on('properties')->nullable();
+            $table->foreignIdFor(Role::class);
+            $table->foreignIdFor(Property::class)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
