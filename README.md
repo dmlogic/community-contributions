@@ -8,7 +8,7 @@ This project provides tools to build a small community who can register, contrib
 * User roles for Admin, Resident and Supplier
 * Admins can create a request for funding which is emailed to Residents
 * Residents can pay via Stripe or manually log an offline payment
-* Admins can manually log offline payments and attribute to residents
+* Admins can manually log & verify offline payments and attribute to residents
 * Suppliers (or Admins) can log upcoming or completed works and the charge to the fund
 * Dashboard shows the current state of funding and upcoming work
 * Resident contributions are anonymised to all expect admins

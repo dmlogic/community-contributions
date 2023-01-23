@@ -64,33 +64,58 @@ class CampaignTest extends FeatureTest
 
     public function test_can_add_member_requests_to_campaign(): void
     {
-        // see request records created
-        // see notifications sent
-        $this->markTestIncomplete();
+        $this->post( route('campaign.new-request', $this->seedData['campaign']->id), [
+                    'members' => [$this->seedData['members'][3]->id, $this->seedData['members'][4]->id]
+                ])
+            ->assertSessionHas('success');
+
+        $this->markTestIncomplete('notifications must be sent to each member');
     }
 
     public function test_can_resend_notifications(): void
     {
-        $this->markTestIncomplete();
+        $this->post( route('campaign.remind-request', $this->seedData['campaign']->id), [
+                'members' => [$this->seedData['members'][1]->id, $this->seedData['members'][2]->id]
+            ])
+            ->assertSessionHas('success');
+
+        $this->markTestIncomplete('notifications must be sent to each member');
     }
 
     public function test_can_delete_member_requests_from_campaign(): void
     {
-        $this->markTestIncomplete();
+        $this->delete( route('campaign.delete-request', $this->seedData['campaign']->id), [
+            'members' => [$this->seedData['members'][1]->id, $this->seedData['members'][2]->id]
+        ])
+        ->assertSessionHas('success');
+
+        $this->assertEquals(1, CampaignRequest::where('campaign_id',$this->seedData['campaign']->id)->count());
+    }
+
+    public function test_cannot_delete_campaign_with_activity()
+    {
+        $request = CampaignRequest::first();
+        $request->ledger_id = 1;
+        $request->save();
+        $this->delete( route('campaign.destroy', $this->seedData['campaign']->id))
+             ->assertInvalid();
     }
 
     public function test_can_delete_campaign(): void
     {
-        // but not if requests have been fulfilled
-        $this->markTestIncomplete();
+        $this->delete( route('campaign.destroy', $this->seedData['campaign']->id))
+             ->assertSessionHas('success');
+        $this->assertDatabaseMissing('campaigns',['id' => $this->seedData['campaign']->id]);
     }
+
+    // ------------------------------------------------------------------------
 
     private function seedCampaign()
     {
         $this->seedData['fund'] = Fund::factory()->create();
         $this->seedData['campaign'] = Campaign::factory()->create(['fund_id' => $this->seedData['fund']->id]);
 
-        $members = User::factory()->count(3)->create();
+        $members = User::factory()->count(5)->create();
         DB::table('role_user')->insert([
             ['user_id' => $members[0]->id, 'role_id' => Roles::RESIDENT->value],
             ['user_id' => $members[1]->id, 'role_id' => Roles::RESIDENT->value],

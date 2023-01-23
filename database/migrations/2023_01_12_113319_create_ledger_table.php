@@ -18,7 +18,8 @@ return new class extends Migration
         Schema::create('ledger', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Fund::class);
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->nullable();
+            $table->foreignIdFor(User::class, 'created_by');
             $table->string('type');
             $table->text('description')->nullable();
             $table->integer('amount')->default(0)->comment('amount in pence');

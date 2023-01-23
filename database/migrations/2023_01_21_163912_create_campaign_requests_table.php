@@ -18,8 +18,8 @@ return new class extends Migration
     {
         Schema::create('campaign_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Campaign::class);
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Campaign::class)->onDelete('cascade');
+            $table->foreignIdFor(User::class)->onDelete('cascade');;
             $table->foreignIdFor(Ledger::class)->nullable();
             $table->timestamp('notified_at')->nullable();
             $table->timestamps();

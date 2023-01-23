@@ -15,6 +15,12 @@ class LedgerObserver
         if($ledger->type !== LedgerTypes::RESIDENT_OFFLINE->value) {
             $ledger->verified_at = now();
         }
+
+        // Attribute a ledger entry the current user,
+        // fallback to the primary user
+        if(!$ledger->created_by) {
+            $ledger->created_by = auth()->user()?->id ?? 1;
+        }
     }
 
     public function created(Ledger $ledger): void
