@@ -14,6 +14,8 @@ So I can gain access if I have forgotten it
 So I can keep my contributions up to date if I miss a request
 
 I need to pay contribution requests via Stripe
+@see https://fideloper.com/mocking-stripe
+@see https://www.youtube.com/watch?v=1-olKBnmC84
 So I can contribute with the minimum of hassle
 
 I need to make additional contributions to a chosen fund
