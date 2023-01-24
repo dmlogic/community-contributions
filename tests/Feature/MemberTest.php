@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Roles;
 use App\Models\User;
+use App\Models\Member;
 use Tests\FeatureTest;
 use App\Models\Property;
-use App\Models\Member;
+use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia;
 
 
@@ -51,20 +53,35 @@ class MemberTest extends FeatureTest
         $member = User::factory()->create();
         $member->name = fake()->name();
 
-        $this->actingAs($this->adminUser())
-             ->patch( route('member.update', $member->id), $member->only(['name', 'email']));             ;
+        $formData = [
+            'name' => $member->name,
+            'email' => $member->email,
+            'role_id' => [Roles::RESIDENT->value, ROLES::SUPPLIER->value],
+        ];
+
+        $response = $this->actingAs($this->adminUser())
+             ->patch( route('member.update', $member->id), $formData)
+             ->assertSessionHas('success');
 
         $this->assertDatabaseHas('users',[
             'id' => $member->id,
             'name' => $member->name,
         ]);
 
-        $this->markTestIncomplete('@TODO validate multiple role submissions');
+        $this->assertDatabaseHas('role_user',[
+            'user_id' => $member->id,
+            'role_id' => Roles::RESIDENT->value
+        ]);
+
+        $this->assertDatabaseHas('role_user',[
+            'user_id' => $member->id,
+            'role_id' => Roles::SUPPLIER->value
+        ]);
     }
 
     public function test_member_can_be_deleted(): void
     {
-        \DB::table('properties')->delete();
+        DB::table('properties')->delete();
         $member = User::factory()->create();
 
         $this->actingAs($this->adminUser())

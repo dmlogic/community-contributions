@@ -66,7 +66,9 @@ class MemberController extends Controller
      */
     public function update(MemberUpdateRequest $request, Member $member): RedirectResponse
     {
-        $member->fill($request->validated())->save();
+        $member->fill($request->safe()->only(['name', 'email']))->save();
+        $member->roles()->sync($request->validated('role_id'));
+
         return Redirect::route('member.index')
                        ->with('success', 'Member updated');
     }

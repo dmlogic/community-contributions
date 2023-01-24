@@ -20,10 +20,10 @@ in order to reconcile offline activity
 ✅ I need to verify offline payment advice
 So I can ensure balance is reconciled
 
-I need to request a contribution to a fund
+✅ I need to request a contribution to a fund
 So I can build up a reserve for works
 
-I need to review who has paid any given request
+✅ I need to review who has paid any given request
 So I can delete or send a nag
 
 I need to post information about maintenance activity

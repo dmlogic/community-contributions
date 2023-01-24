@@ -22,6 +22,18 @@ use App\Http\Controllers\InvitationController;
 */
 
 Route::get('/scratch', function () {
+
+    $user = \App\Models\User::find(1);
+    // $fund = \App\Models\Fund::factory()->create();
+    // $campaign = \App\Models\Campaign::factory()->create(['fund_id' => $fund->id]);
+    // $request = \App\Models\CampaignRequest::create(
+    //         ['user_id' => $user->id, 'campaign_id' => $campaign->id, 'amount' => 50],
+    // );
+
+    $request = \App\Models\CampaignRequest::first();
+    return (new \App\Notifications\FundingReminder($request))
+                ->toMail($user);
+
 });
 
 Route::get('/', function () {

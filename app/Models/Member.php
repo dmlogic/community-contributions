@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\Roles;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Member extends User
 {
@@ -12,13 +14,13 @@ class Member extends User
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function memberData()
+    public static function memberData(): Collection
     {
         return static::select('id', 'name', 'email' )
                      ->get();
     }
 
-    public static function residents()
+    public static function residents(): Collection
     {
         return static::select('id', 'name', 'email' )
                      ->whereHas('roles', function (Builder $query) {
@@ -29,7 +31,7 @@ class Member extends User
     // ------------------------------------------------------------------------
     // Relationships
 
-    public function property()
+    public function property(): BelongsTo
     {
         return $this->belongsTo(Property::class, 'id', 'user_id');
     }

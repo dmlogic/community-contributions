@@ -10,6 +10,12 @@ return [
         'postcode' => env('ADDRESS_DEFAULT_POSTCODE'),
     ],
 
+    'payment_account' => [
+        'name' => env('BANK_ACCOUNT_NAME', 'Sample bank'),
+        'code' => env('BANK_ACCOUNT_SORT_CODE', '11-22-33'),
+        'number' => env('BANK_ACCOUNT_NUMBER', '12345678'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

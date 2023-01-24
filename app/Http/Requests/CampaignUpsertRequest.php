@@ -11,7 +11,7 @@ class CampaignUpsertRequest extends FormRequest
         return [
             'description' => 'required',
             'fund_id' => ['required', 'exists:funds,id'],
-            'target' => ['nullable', 'integer'],
+            'target' => ['integer'],
             'raised' => ['nullable', 'integer'],
             'closed_at' => ['nullable', 'date_format:Y-m-d H:i:s'],
         ];

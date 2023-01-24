@@ -18,6 +18,7 @@ return new class extends Migration
     {
         Schema::create('campaign_requests', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('amount');
             $table->foreignIdFor(Campaign::class)->onDelete('cascade');
             $table->foreignIdFor(User::class)->onDelete('cascade');;
             $table->foreignIdFor(Ledger::class)->nullable();

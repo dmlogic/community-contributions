@@ -7,6 +7,10 @@ use App\Models\Invitation;
 use App\Observers\LedgerObserver;
 use App\Observers\InvitationObserver;
 use Illuminate\Auth\Events\Registered;
+use App\Events\CampaignRequestsGenerated;
+use App\Events\CampaignRemindersGenerated;
+use App\Listeners\SendFundingRequestNotifications;
+use App\Listeners\SendFundingReminderNotifications;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -21,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        CampaignRequestsGenerated::class => [
+            SendFundingRequestNotifications::class
+        ],
+        CampaignRemindersGenerated::class => [
+            SendFundingReminderNotifications::class
+        ]
     ];
 
     /**

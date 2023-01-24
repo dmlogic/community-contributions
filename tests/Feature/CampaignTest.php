@@ -9,7 +9,10 @@ use Tests\FeatureTest;
 use App\Models\Campaign;
 use App\Models\CampaignRequest;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\FundingRequest;
+use App\Notifications\FundingReminder;
 use Inertia\Testing\AssertableInertia;
+use Illuminate\Support\Facades\Notification;
 
 class CampaignTest extends FeatureTest
 {
@@ -64,22 +67,37 @@ class CampaignTest extends FeatureTest
 
     public function test_can_add_member_requests_to_campaign(): void
     {
+        Notification::fake();
+
         $this->post( route('campaign.new-request', $this->seedData['campaign']->id), [
+                    'amount' => 50,
                     'members' => [$this->seedData['members'][3]->id, $this->seedData['members'][4]->id]
                 ])
             ->assertSessionHas('success');
 
-        $this->markTestIncomplete('notifications must be sent to each member');
+        Notification::assertSentTo(
+            [$this->seedData['members'][3], $this->seedData['members'][4]], FundingRequest::class
+        );
+        Notification::assertNotSentTo(
+            [$this->seedData['members'][1]], FundingRequest::class
+        );
     }
 
     public function test_can_resend_notifications(): void
     {
+        Notification::fake();
+
         $this->post( route('campaign.remind-request', $this->seedData['campaign']->id), [
                 'members' => [$this->seedData['members'][1]->id, $this->seedData['members'][2]->id]
             ])
             ->assertSessionHas('success');
 
-        $this->markTestIncomplete('notifications must be sent to each member');
+            Notification::assertSentTo(
+                [$this->seedData['members'][1], $this->seedData['members'][2]], FundingReminder::class
+            );
+            Notification::assertNotSentTo(
+                [$this->seedData['members'][3]], FundingReminder::class
+            );
     }
 
     public function test_can_delete_member_requests_from_campaign(): void
@@ -122,9 +140,9 @@ class CampaignTest extends FeatureTest
             ['user_id' => $members[2]->id, 'role_id' => Roles::RESIDENT->value],
         ]);
         CampaignRequest::insert([
-            ['user_id' => $members[0]->id, 'campaign_id' => $this->seedData['campaign']->id],
-            ['user_id' => $members[1]->id, 'campaign_id' => $this->seedData['campaign']->id],
-            ['user_id' => $members[2]->id, 'campaign_id' => $this->seedData['campaign']->id],
+            ['user_id' => $members[0]->id, 'campaign_id' => $this->seedData['campaign']->id, 'amount' => 50],
+            ['user_id' => $members[1]->id, 'campaign_id' => $this->seedData['campaign']->id, 'amount' => 50],
+            ['user_id' => $members[2]->id, 'campaign_id' => $this->seedData['campaign']->id, 'amount' => 50],
         ]);
         $this->seedData['members'] = $members;
     }
