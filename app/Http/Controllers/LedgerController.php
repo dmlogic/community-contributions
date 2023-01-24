@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ledger;
+use App\Models\CampaignRequest;
 use App\Concerns\UpdatesFundBalance;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -13,9 +14,9 @@ class LedgerController extends Controller
 {
     use UpdatesFundBalance;
 
-    public function store(LedgerCreateRequest $request): RedirectResponse
+    public function store( LedgerCreateRequest $request): RedirectResponse
     {
-        Ledger::create($request->validated());
+        $request->createLedgerEntry();
         return $this->done();
     }
 

@@ -7,6 +7,7 @@ use App\Models\Fund;
 use App\Models\User;
 use Tests\FeatureTest;
 use App\Models\Campaign;
+use Tests\SeedsCampaigns;
 use App\Models\CampaignRequest;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\FundingRequest;
@@ -16,13 +17,13 @@ use Illuminate\Support\Facades\Notification;
 
 class CampaignTest extends FeatureTest
 {
-    private array $seedData = [];
+    use SeedsCampaigns;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->actingAs($this->adminUser());
-        $this->seedCampaign();
+        $this->seedCampaigns();
     }
 
     public function test_non_admin_cannot_access(): void
@@ -128,7 +129,7 @@ class CampaignTest extends FeatureTest
 
     // ------------------------------------------------------------------------
 
-    private function seedCampaign()
+    protected function seedCampaign()
     {
         $this->seedData['fund'] = Fund::factory()->create();
         $this->seedData['campaign'] = Campaign::factory()->create(['fund_id' => $this->seedData['fund']->id]);

@@ -16,6 +16,10 @@ class LedgerObserver
             $ledger->verified_at = now();
         }
 
+        if(request()->user()  && !request()->user()->isAdmin()) {
+            $ledger->user_id = request()->user()->id;
+        }
+
         // Attribute a ledger entry the current user,
         // fallback to the primary user
         if(!$ledger->created_by) {
