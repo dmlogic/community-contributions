@@ -16,16 +16,16 @@ class Member extends User
 
     public static function memberData(): Collection
     {
-        return static::select('id', 'name', 'email' )
+        return static::select('id', 'name', 'email')
                      ->get();
     }
 
     public static function residents(): Collection
     {
-        return static::select('id', 'name', 'email' )
+        return static::select('id', 'name', 'email')
                      ->whereHas('roles', function (Builder $query) {
-                        $query->where('role_id', '=', Roles::RESIDENT->value);
-                    })->get();
+                         $query->where('role_id', '=', Roles::RESIDENT->value);
+                     })->get();
     }
 
     // ------------------------------------------------------------------------

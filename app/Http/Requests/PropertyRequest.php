@@ -13,7 +13,7 @@ class PropertyRequest extends FormRequest
             'street' => 'required',
             'town' => 'required',
             'postcode' => 'required',
-            'user_id' => ['nullable','exists:users,id']
+            'user_id' => ['nullable', 'exists:users,id'],
         ];
     }
 }

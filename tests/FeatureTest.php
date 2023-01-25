@@ -4,7 +4,6 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-
 abstract class FeatureTest extends TestCase
 {
     use CreatesApplication, RefreshDatabase;

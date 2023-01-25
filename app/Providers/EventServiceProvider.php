@@ -26,11 +26,11 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         CampaignRequestsGenerated::class => [
-            SendFundingRequestNotifications::class
+            SendFundingRequestNotifications::class,
         ],
         CampaignRemindersGenerated::class => [
-            SendFundingReminderNotifications::class
-        ]
+            SendFundingReminderNotifications::class,
+        ],
     ];
 
     /**

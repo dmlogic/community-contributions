@@ -11,11 +11,12 @@ class MustBeAdmin
 {
     public function handle(Request $request, Closure $next)
     {
-        if(!$request->user()->isAdmin()) {
+        if (! $request->user()->isAdmin()) {
             throw new AuthorizationException(
                 'You must be an admin to do this', Response::HTTP_UNAUTHORIZED
             );
         }
+
         return $next($request);
     }
 }

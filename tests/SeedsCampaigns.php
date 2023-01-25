@@ -31,5 +31,4 @@ trait SeedsCampaigns
         ]);
         $this->seedData['members'] = $members;
     }
-
 }

@@ -8,5 +8,4 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class PropertyPolicy
 {
     use HandlesAuthorization, DefinesRoleAbilities;
-
 }

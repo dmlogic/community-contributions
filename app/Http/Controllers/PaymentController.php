@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Stripe\StripeClient;
-use Illuminate\Http\Request;
 use App\Http\Requests\PaymentRequest;
 use Illuminate\Http\RedirectResponse;
 
@@ -30,13 +29,13 @@ class PaymentController extends Controller
                 'price_data' => [
                     'currency' => 'gbp',
                     'unit_amount' => (int) $request->validated('amount') * 100,
-                    'product' => config('services.stripe.product_id')
-                  ],
+                    'product' => config('services.stripe.product_id'),
+                ],
             ]],
             'mode' => 'payment',
-          ]);
+        ]);
 
-          return redirect($session->url);
+        return redirect($session->url);
     }
 
     public function success()

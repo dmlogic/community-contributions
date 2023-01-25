@@ -12,7 +12,7 @@ class LedgerFactory extends Factory
         return [
             'type' => LedgerTypes::RESIDENT_REQUEST->name,
             'description' => fake()->sentence(),
-            'amount' => 100
+            'amount' => 100,
         ];
     }
 }

@@ -14,7 +14,7 @@ class UnpaidUsers extends RequestedUsers
      */
     public function __invoke($attribute, $value, $fail): void
     {
-        if($this->countRequestedUsers($value, true)) {
+        if ($this->countRequestedUsers($value, true)) {
             $fail('One or more members has paid this request so it cannot be deleted');
         }
     }

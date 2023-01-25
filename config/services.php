@@ -35,6 +35,6 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
         'product_id' => env('STRIPE_PRODUCT'),
-    ]
+    ],
 
 ];

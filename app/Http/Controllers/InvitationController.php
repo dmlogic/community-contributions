@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class InvitationController extends Controller
 {
-
     public function store(InvitationRequest $request): RedirectResponse
     {
         $invitation = $request->createInvitation();
         InvitationCreated::dispatch($invitation);
+
         return Redirect::route('member.index')
                        ->with('success', 'Member invitation sent');
     }
@@ -28,7 +28,7 @@ class InvitationController extends Controller
     public function confirm(Invitation $invitation): Response
     {
         return Inertia::render('Member/Invitation', [
-            'invitation' => $invitation
+            'invitation' => $invitation,
         ]);
     }
 
@@ -39,8 +39,8 @@ class InvitationController extends Controller
     {
         $user = $invitation->convertToUser();
         Auth::login($user);
+
         return Redirect::route('dashboard')
                        ->with('welcome', 'Welcome to '.config('app.name'));
     }
-
 }

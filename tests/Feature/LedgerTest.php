@@ -28,16 +28,16 @@ class LedgerTest extends FeatureTest
                 'type' => $type->value,
                 'amount' => $amount,
                 'user_id' => 1,
-                'fund_id' => $fund->id
+                'fund_id' => $fund->id,
             ]);
 
             $balance += $amount;
-            $this->post(route('ledger.store'),$ledger->toArray());
+            $this->post(route('ledger.store'), $ledger->toArray());
             $createdLedger = Ledger::orderBy('id', 'desc')->first();
             $this->assertSame($createdLedger->type, $ledger->type);
             $this->assertSame($createdLedger->description, $ledger->description);
             $this->assertNotNull($createdLedger->verified_at);
-            $this->assertDatabaseHas('funds',['id' => $fund->id, 'balance' => $balance]);
+            $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => $balance]);
         }
     }
 
@@ -52,12 +52,12 @@ class LedgerTest extends FeatureTest
         $ledger = Ledger::factory()->make([
             'type' => LedgerTypes::RESIDENT_OFFLINE->value,
             'amount' => 100,
-            'fund_id' => $fund->id
+            'fund_id' => $fund->id,
         ]);
-        $this->post(route('ledger.store'),$ledger->toArray())
+        $this->post(route('ledger.store'), $ledger->toArray())
                 ->assertSessionHas('success');
 
-        $this->assertDatabaseHas('ledger',[
+        $this->assertDatabaseHas('ledger', [
             'user_id' => $user->id,
             'created_by' => $user->id,
             'amount' => 100,
@@ -67,7 +67,7 @@ class LedgerTest extends FeatureTest
 
         // Not allowed
         $ledger->type = LedgerTypes::ADMIN_ADJUSTMENT->value;
-        $this->post(route('ledger.store'),$ledger->toArray())
+        $this->post(route('ledger.store'), $ledger->toArray())
                  ->assertInvalid();
     }
 
@@ -76,16 +76,16 @@ class LedgerTest extends FeatureTest
         $this->seedCampaigns();
         $this->actingAs($this->seedData['members'][0]);
 
-        $fundRequest = CampaignRequest::where('user_id',$this->seedData['members'][0]->id)->first();
-        $this->post(route('ledger.store', ['request_id' => $fundRequest->id]),[
-                'type' => LedgerTypes::RESIDENT_OFFLINE->value,
-                'fund_id' => $this->seedData['fund']->id,
-                'amount' => 100,
-                    ])
+        $fundRequest = CampaignRequest::where('user_id', $this->seedData['members'][0]->id)->first();
+        $this->post(route('ledger.store', ['request_id' => $fundRequest->id]), [
+            'type' => LedgerTypes::RESIDENT_OFFLINE->value,
+            'fund_id' => $this->seedData['fund']->id,
+            'amount' => 100,
+        ])
             ->assertSessionHas('success');
 
         $createdLedger = Ledger::orderBy('id', 'desc')->first();
-        $this->assertDatabaseHas('campaign_requests',['id' => $fundRequest->id, 'ledger_id' => $createdLedger->id]);
+        $this->assertDatabaseHas('campaign_requests', ['id' => $fundRequest->id, 'ledger_id' => $createdLedger->id]);
     }
 
     public function test_admin_can_delete_entries()

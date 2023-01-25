@@ -11,7 +11,7 @@ class CampaignFactory extends Factory
         return [
             'description' => fake()->sentence(),
             'target' => 5000,
-            'raised' => 0
+            'raised' => 0,
         ];
     }
 }

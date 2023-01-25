@@ -17,7 +17,7 @@ class RequestedUsers implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail): void
     {
-        if($this->countRequestedUsers($value) !== count($value)) {
+        if ($this->countRequestedUsers($value) !== count($value)) {
             $fail('One or members does not have a request');
         }
     }
@@ -25,10 +25,10 @@ class RequestedUsers implements InvokableRule
     public function countRequestedUsers($userIds, $withLedgerEntry = false): int
     {
         $query = DB::table('campaign_requests')
-                    ->where('campaign_id','=',request()->route('campaign')->id)
+                    ->where('campaign_id', '=', request()->route('campaign')->id)
                     ->whereIn('user_id', $userIds);
 
-        if($withLedgerEntry) {
+        if ($withLedgerEntry) {
             $query->whereNotNull('ledger_id');
         }
 

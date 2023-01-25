@@ -5,6 +5,7 @@ namespace App\Models;
 class Money
 {
     private string $amount;
+
     private string $currency;
 
     public function __construct($amount)

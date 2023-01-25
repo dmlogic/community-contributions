@@ -24,7 +24,7 @@ class CampaignMembersRequest extends FormRequest
     public function createModels(int $campaignId): Collection
     {
         $requestCollection = new Collection;
-        foreach($this->validated('members') as $userId) {
+        foreach ($this->validated('members') as $userId) {
             $requestCollection->push(
                 CampaignRequest::create([
                     'amount' => $this->validated('amount'),
@@ -33,6 +33,7 @@ class CampaignMembersRequest extends FormRequest
                 ])
             );
         }
+
         return $requestCollection;
     }
 

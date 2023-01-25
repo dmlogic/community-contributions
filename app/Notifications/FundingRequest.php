@@ -14,6 +14,7 @@ class FundingRequest extends Notification implements ShouldQueue
     use Queueable;
 
     protected CampaignRequest $request;
+
     protected Campaign $campaign;
 
     public function __construct(CampaignRequest $request)
@@ -44,6 +45,7 @@ class FundingRequest extends Notification implements ShouldQueue
                 'payment_link' => $this->generatePaymentUrl(),
             ]
         );
+
         return $message;
     }
 }

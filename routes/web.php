@@ -22,7 +22,6 @@ use App\Http\Controllers\InvitationController;
 */
 
 Route::get('/scratch', function () {
-
     $user = \App\Models\User::find(1);
     // $fund = \App\Models\Fund::factory()->create();
     // $campaign = \App\Models\Campaign::factory()->create(['fund_id' => $fund->id]);
@@ -31,9 +30,9 @@ Route::get('/scratch', function () {
     // );
 
     $request = \App\Models\CampaignRequest::first();
+
     return (new \App\Notifications\FundingReminder($request))
                 ->toMail($user);
-
 });
 
 Route::get('/', function () {
@@ -43,8 +42,7 @@ Route::get('/', function () {
 /**
  * Invitation handling
  */
-Route::prefix('invitation')->group(function() {
-
+Route::prefix('invitation')->group(function () {
     Route::post('/', [InvitationController::class, 'store'])->name('invitation.store')
             ->middleware(['auth', 'auth.admin']);
     Route::get('/{invitation}', [InvitationController::class, 'confirm'])->name('invitation.confirm')
@@ -55,11 +53,10 @@ Route::prefix('invitation')->group(function() {
 
 // All subsequent routes require a login of some sort
 Route::middleware('auth')->group(function () {
-
     /**
      * Breeze profile editing
      */
-    Route::prefix('profile')->group(function(){
+    Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
     });
@@ -83,23 +80,18 @@ Route::middleware('auth')->group(function () {
                 'campaign' => CampaignController::class,
             ]
         );
-
     });
-
 
     /**
      * Ledger management
      */
-    Route::prefix('ledger')->group(function(){
+    Route::prefix('ledger')->group(function () {
         Route::post('/', [LedgerController::class, 'store'])->name('ledger.store');
         Route::patch('/{ledger}', [LedgerController::class, 'verify'])->name('ledger.verify')
              ->middleware('auth.admin');
         Route::delete('/{ledger}', [LedgerController::class, 'destroy'])->name('ledger.destroy')
              ->middleware('auth.admin');
     });
-
-
-
 });
 
 require __DIR__.'/auth.php';

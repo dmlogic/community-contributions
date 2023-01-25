@@ -10,14 +10,12 @@ use App\Models\Property;
 use App\Models\Invitation;
 use App\Events\InvitationCreated;
 use Illuminate\Support\Facades\Event;
-use Inertia\Testing\AssertableInertia;
-
 
 class InvitationTest extends FeatureTest
 {
     public function test_non_admin_cannot_create_invitations(): void
     {
-        $this->actingAs( $this->supplierUser() )
+        $this->actingAs($this->supplierUser())
              ->get(route('member.index'))
              ->assertForbidden();
     }
@@ -31,11 +29,11 @@ class InvitationTest extends FeatureTest
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
             'role_id' => Roles::RESIDENT->value,
-            'property_id' => $property->id
+            'property_id' => $property->id,
         ];
 
         $response = $this->actingAs($this->adminUser())
-            ->post( route('invitation.store'), $newbie )
+            ->post(route('invitation.store'), $newbie)
             ->assertRedirectToRoute('member.index');
 
         $invite = Invitation::where('email', '=', $newbie['email'])->first();
@@ -50,7 +48,7 @@ class InvitationTest extends FeatureTest
         $property = Property::factory()->create();
         $invite = Invitation::factory()->create(['role_id' => Roles::RESIDENT->value, 'property_id' => $property->id]);
 
-        $this->post( route('invitation.confirm', $invite->id) )
+        $this->post(route('invitation.confirm', $invite->id))
                          ->assertRedirectToRoute('dashboard');
 
         $user = Member::whereEmail($invite->email)->first();

@@ -13,6 +13,7 @@ class InvitationRequest extends FormRequest
         $member = Invitation::create(
             $this->validated()
         );
+
         return $member;
     }
 
@@ -22,17 +23,17 @@ class InvitationRequest extends FormRequest
      */
     private function destroyMatches()
     {
-        Invitation::where('email','='. $this->input('email'))
+        Invitation::where('email', '='.$this->input('email'))
                   ->delete();
     }
 
     public function rules(): array
     {
         return [
-            'name' => ['required','string', 'max:255'],
-            'email' => ['required','email', 'max:255', 'unique:App\Models\User,email'],
-            'role_id' => ['nullable','exists:roles,id'],
-            'property_id' => ['nullable','exists:properties,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:App\Models\User,email'],
+            'role_id' => ['nullable', 'exists:roles,id'],
+            'property_id' => ['nullable', 'exists:properties,id'],
         ];
     }
 }

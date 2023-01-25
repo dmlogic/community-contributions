@@ -10,12 +10,11 @@ use App\Models\Property;
 use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia;
 
-
 class MemberTest extends FeatureTest
 {
     public function test_non_admin_cannot_access(): void
     {
-        $this->actingAs( $this->supplierUser() )
+        $this->actingAs($this->supplierUser())
              ->get(route('member.index'))
              ->assertForbidden();
     }
@@ -26,7 +25,7 @@ class MemberTest extends FeatureTest
             ->get(route('member.index'))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('members')
-                ->count('members',4)
+                ->count('members', 4)
                 ->has('members.0.name')
                 ->has('members.0.email')
                 ->has('members.0.id')
@@ -39,7 +38,7 @@ class MemberTest extends FeatureTest
         $member = Member::first();
 
         $this->actingAs($this->adminUser())
-            ->get(route('member.show',$member->id))
+            ->get(route('member.show', $member->id))
             ->assertOk()
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('member')
@@ -60,22 +59,22 @@ class MemberTest extends FeatureTest
         ];
 
         $response = $this->actingAs($this->adminUser())
-             ->patch( route('member.update', $member->id), $formData)
+             ->patch(route('member.update', $member->id), $formData)
              ->assertSessionHas('success');
 
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'id' => $member->id,
             'name' => $member->name,
         ]);
 
-        $this->assertDatabaseHas('role_user',[
+        $this->assertDatabaseHas('role_user', [
             'user_id' => $member->id,
-            'role_id' => Roles::RESIDENT->value
+            'role_id' => Roles::RESIDENT->value,
         ]);
 
-        $this->assertDatabaseHas('role_user',[
+        $this->assertDatabaseHas('role_user', [
             'user_id' => $member->id,
-            'role_id' => Roles::SUPPLIER->value
+            'role_id' => Roles::SUPPLIER->value,
         ]);
     }
 
@@ -85,10 +84,9 @@ class MemberTest extends FeatureTest
         $member = User::factory()->create();
 
         $this->actingAs($this->adminUser())
-              ->delete( route('member.destroy', $member->id));
+              ->delete(route('member.destroy', $member->id));
 
         $this->assertSoftDeleted($member);
-
     }
 
     public function test_member_cannot_be_deleted_if_occupied(): void
@@ -96,7 +94,7 @@ class MemberTest extends FeatureTest
         $member = User::factory()->create();
         $property = Property::factory()->create(['user_id' => $member->id]);
         $this->actingAs($this->adminUser())
-              ->delete( route('member.destroy', $member->id))
+              ->delete(route('member.destroy', $member->id))
               ->assertInvalid();
     }
 }

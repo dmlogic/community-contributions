@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Property;
 use App\Models\Member;
+use App\Models\Property;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\MemberUpdateRequest;
@@ -14,14 +14,13 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MemberController extends Controller
 {
-
     /**
      * @route member.index
      */
     public function index(): Response
     {
         return Inertia::render('Member/List', [
-            'members' => Member::with('property')->get()
+            'members' => Member::with('property')->get(),
         ]);
     }
 
@@ -31,7 +30,7 @@ class MemberController extends Controller
     public function show(Member $member): Response
     {
         return Inertia::render('Member/View', [
-            'member' => $member->load('property', 'roles')
+            'member' => $member->load('property', 'roles'),
         ]);
     }
 
@@ -78,10 +77,11 @@ class MemberController extends Controller
      */
     public function destroy(Member $member): RedirectResponse
     {
-        if($member->property) {
+        if ($member->property) {
             throw ValidationException::withMessages(['user_id' => 'Member is attached to a property']);
         }
         $member->delete();
+
         return Redirect::route('member.index')
                        ->with('success', 'Member deleted');
     }
@@ -94,7 +94,7 @@ class MemberController extends Controller
     {
         return Inertia::render('Member/Form', [
             'member' => $member,
-            'properties' => Property::listData()
+            'properties' => Property::listData(),
         ]);
     }
 }

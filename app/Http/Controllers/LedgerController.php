@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ledger;
-use App\Models\CampaignRequest;
 use App\Concerns\UpdatesFundBalance;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -14,27 +13,30 @@ class LedgerController extends Controller
 {
     use UpdatesFundBalance;
 
-    public function store( LedgerCreateRequest $request): RedirectResponse
+    public function store(LedgerCreateRequest $request): RedirectResponse
     {
         $request->createLedgerEntry();
+
         return $this->done();
     }
 
     public function verify(Ledger $ledger): RedirectResponse
     {
-        if($ledger->verified_at) {
-           throw ValidationException::withMessages(['ledger' => 'Entry is already verified']);
+        if ($ledger->verified_at) {
+            throw ValidationException::withMessages(['ledger' => 'Entry is already verified']);
         }
 
         $ledger->verified_at = now();
         $ledger->save();
         $this->updateFund($ledger->fund, $ledger->amount);
+
         return $this->done();
     }
 
     public function destroy(Ledger $ledger): RedirectResponse
     {
         $ledger->delete();
+
         return $this->done();
     }
 
@@ -43,5 +45,4 @@ class LedgerController extends Controller
         return Redirect::route('fund.index')
                        ->with('success', 'Fund value updated');
     }
-
 }

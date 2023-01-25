@@ -18,11 +18,11 @@ class Fund extends Model
     ];
 
     protected $casts = [
-        'balance' =>  'integer'
+        'balance' => 'integer',
     ];
 
     protected $appends = [
-        'value'
+        'value',
     ];
 
     // ------------------------------------------------------------------------
@@ -36,5 +36,4 @@ class Fund extends Model
             }
         );
     }
-
 }

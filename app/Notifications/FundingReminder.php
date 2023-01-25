@@ -18,6 +18,7 @@ class FundingReminder extends FundingRequest
                 'payment_link' => $this->generatePaymentUrl(),
             ]
         );
+
         return $message;
     }
 }

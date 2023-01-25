@@ -6,12 +6,11 @@ use App\Models\Fund;
 use Tests\FeatureTest;
 use Inertia\Testing\AssertableInertia;
 
-
 class FundTest extends FeatureTest
 {
     public function test_non_admin_cannot_access(): void
     {
-        $this->actingAs( $this->supplierUser() )
+        $this->actingAs($this->supplierUser())
              ->get(route('fund.index'))
              ->assertForbidden();
     }
@@ -24,7 +23,7 @@ class FundTest extends FeatureTest
             ->get(route('fund.index'))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('funds')
-                ->count('funds',4)
+                ->count('funds', 4)
                 ->has('funds.0.id')
                 ->has('funds.0.name')
                 ->has('funds.0.description')
@@ -36,7 +35,7 @@ class FundTest extends FeatureTest
         $fund = Fund::factory()->create();
 
         $this->actingAs($this->adminUser())
-            ->get(route('fund.show',$fund->id))
+            ->get(route('fund.show', $fund->id))
             ->assertOk()
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('fund')
@@ -49,7 +48,7 @@ class FundTest extends FeatureTest
         $fund = Fund::factory()->make();
 
         $this->actingAs($this->adminUser())
-            ->post( route('fund.store'), $fund->toArray() )
+            ->post(route('fund.store'), $fund->toArray())
             ->assertRedirectToRoute('fund.index');
 
         $this->assertDatabaseHas('funds', [
@@ -64,9 +63,9 @@ class FundTest extends FeatureTest
         $fund->name = 'Edited name';
 
         $this->actingAs($this->adminUser())
-             ->patch( route('fund.update', $fund->id), $fund->toArray() );
+             ->patch(route('fund.update', $fund->id), $fund->toArray());
 
-        $this->assertDatabaseHas('funds',[
+        $this->assertDatabaseHas('funds', [
             'id' => $fund->id,
             'name' => $fund->name,
         ]);
@@ -76,7 +75,7 @@ class FundTest extends FeatureTest
     {
         $fund = Fund::factory()->create();
         $this->actingAs($this->adminUser())
-             ->delete( route('fund.destroy', $fund->id) );
+             ->delete(route('fund.destroy', $fund->id));
 
         $this->assertDatabaseMissing('funds', ['id', $fund->id]);
     }

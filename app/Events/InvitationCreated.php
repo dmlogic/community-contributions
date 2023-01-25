@@ -17,5 +17,4 @@ class InvitationCreated
     {
         $this->invitation = $invitation;
     }
-
 }

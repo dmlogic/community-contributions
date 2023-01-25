@@ -20,7 +20,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('amount');
             $table->foreignIdFor(Campaign::class)->onDelete('cascade');
-            $table->foreignIdFor(User::class)->onDelete('cascade');;
+            $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->foreignIdFor(Ledger::class)->nullable();
             $table->timestamp('notified_at')->nullable();
             $table->timestamps();

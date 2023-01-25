@@ -16,24 +16,24 @@ use Illuminate\Validation\ValidationException;
 
 class CampaignController extends Controller
 {
-
     public function index(): Response
     {
         return Inertia::render('Campaign/List', [
-            'campaigns' => Campaign::orderBy('created_at', 'desc')->get()
+            'campaigns' => Campaign::orderBy('created_at', 'desc')->get(),
         ]);
     }
 
     public function create(): Response
     {
         return Inertia::render('Campaign/Form', [
-            'campaign' => new Campaign()
+            'campaign' => new Campaign(),
         ]);
     }
 
     public function store(CampaignUpsertRequest $request): RedirectResponse
     {
         $campaign = Campaign::create($request->validated());
+
         return Redirect::route('campaign.show', ['campaign' => $campaign->id])
                        ->with('success', 'Campaign created');
     }
@@ -42,14 +42,14 @@ class CampaignController extends Controller
     {
         return Inertia::render('Campaign/View', [
             'campaign' => $campaign->load('requests'),
-            'residents' => Member::residents()
+            'residents' => Member::residents(),
         ]);
     }
 
     public function edit(Campaign $campaign): Response
     {
         return Inertia::render('Campaign/Form', [
-            'campaign' => $campaign
+            'campaign' => $campaign,
         ]);
     }
 
@@ -57,37 +57,42 @@ class CampaignController extends Controller
     {
         $campaign->fill($request->validated());
         $campaign->save();
+
         return Redirect::route('campaign.index')
                        ->with('success', 'Campaign updated');
     }
 
     public function destroy(Campaign $campaign): RedirectResponse
     {
-        if($campaign->requests()->whereNotNull('ledger_id')->count()) {
+        if ($campaign->requests()->whereNotNull('ledger_id')->count()) {
             throw ValidationException::withMessages(['campaign' => 'Campaign has payment activity']);
         }
         $campaign->delete();
+
         return Redirect::route('campaign.index')
                        ->with('success', 'Campaign deleted');
     }
 
-    public function newRequest(CampaignMembersRequest $request, Campaign $campaign )
+    public function newRequest(CampaignMembersRequest $request, Campaign $campaign)
     {
         CampaignRequestsGenerated::dispatch($campaign, $request->createModels($campaign->id));
+
         return Redirect::route('campaign.index')
                        ->with('success', 'Requests created');
     }
 
-    public function remindRequest(CampaignMembersRequest $request, Campaign $campaign )
+    public function remindRequest(CampaignMembersRequest $request, Campaign $campaign)
     {
         CampaignRemindersGenerated::dispatch($campaign, $request->getModelsToBeReminded($campaign->id));
+
         return Redirect::route('campaign.index')
                        ->with('success', 'Requests created');
     }
 
-    public function deleteRequest(CampaignMembersRequest $request, Campaign $campaign )
+    public function deleteRequest(CampaignMembersRequest $request, Campaign $campaign)
     {
         $request->deleteModels($campaign->id);
+
         return Redirect::route('campaign.index')
                        ->with('success', 'Requests deleted');
     }

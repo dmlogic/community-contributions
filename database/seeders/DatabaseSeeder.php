@@ -44,9 +44,9 @@ class DatabaseSeeder extends Seeder
     public function seedRoles(): array
     {
         return [
-            Role::create([ 'id' => Roles::ADMIN , 'name' => 'Admin']),
-            Role::create([ 'id' => Roles::RESIDENT , 'name' => 'Resident']),
-            Role::create([ 'id' => Roles::SUPPLIER, 'name' => 'Supplier' ])
+            Role::create(['id' => Roles::ADMIN, 'name' => 'Admin']),
+            Role::create(['id' => Roles::RESIDENT, 'name' => 'Resident']),
+            Role::create(['id' => Roles::SUPPLIER, 'name' => 'Supplier']),
         ];
     }
 

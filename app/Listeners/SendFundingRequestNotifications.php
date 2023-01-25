@@ -15,7 +15,9 @@ class SendFundingRequestNotifications implements ShouldQueue
     use InteractsWithQueue;
 
     public Campaign $campaign;
+
     public Collection $requests;
+
     public Collection $users;
 
     public function handle(CampaignRequestsGenerated $event): void
@@ -28,7 +30,7 @@ class SendFundingRequestNotifications implements ShouldQueue
 
     public function sendNotifications(): void
     {
-        foreach($this->requests as $request) {
+        foreach ($this->requests as $request) {
             $this->users[$request->user_id]
                  ->notify(new FundingRequest($request));
         }
@@ -36,7 +38,7 @@ class SendFundingRequestNotifications implements ShouldQueue
 
     public function eagerLoadUsers(): void
     {
-        $this->users = User::whereIn('id',$this->requests->pluck('user_id'))
+        $this->users = User::whereIn('id', $this->requests->pluck('user_id'))
                     ->get()
                     ->keyBy('id');
     }

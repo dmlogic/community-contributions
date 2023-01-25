@@ -14,7 +14,7 @@ class UnrequestedUsers extends RequestedUsers
      */
     public function __invoke($attribute, $value, $fail): void
     {
-        if($this->countRequestedUsers($value)) {
+        if ($this->countRequestedUsers($value)) {
             $fail('One or members already has a request');
         }
     }

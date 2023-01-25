@@ -10,10 +10,8 @@ use App\Models\CampaignRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-
 class CampaignSeeder extends Seeder
 {
-
     public function run(): array
     {
         $data['fund'] = Fund::factory()->create();
@@ -31,7 +29,7 @@ class CampaignSeeder extends Seeder
             ['user_id' => $members[2]->id, 'campaign_id' => $data['campaign']->id, 'amount' => 50],
         ]);
         $data['members'] = $members;
+
         return $data;
     }
-
 }
