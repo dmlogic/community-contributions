@@ -9,6 +9,7 @@ class PaymentRequest extends FormRequest
     public function getMetaData(): array
     {
         return [
+            'user_id' => $this->user()->id,
             'request_id' => $this->validated('request_id'),
             'fund_id' => $this->validated('fund_id'),
         ];
@@ -18,8 +19,8 @@ class PaymentRequest extends FormRequest
     {
         return [
             'amount' => ['required', 'integer', 'min:1'],
-            'request_id' => ['nullable', 'exists:campaign_requests, id'],
-            'fund_id' => ['exists:funds, id'],
+            'request_id' => ['nullable', 'exists:campaign_requests,id'],
+            'fund_id' => ['required', 'exists:funds,id'],
         ];
     }
 }

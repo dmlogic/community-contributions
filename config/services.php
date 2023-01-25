@@ -35,6 +35,8 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
         'product_id' => env('STRIPE_PRODUCT'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+        'webhook_tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
     ],
 
 ];

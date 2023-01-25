@@ -5,18 +5,11 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Stripe\StripeClient;
 use App\Http\Requests\PaymentRequest;
+use App\Http\Requests\WebhookRequest;
 use Illuminate\Http\RedirectResponse;
 
 class PaymentController extends Controller
 {
-    public function form()
-    {
-        return Inertia::render('Payment/Form', [
-            'request_id' => $this->query('request_id'),
-            'fund_id' => $this->query('fund_id'),
-        ]);
-    }
-
     public function checkout(StripeClient $stripe, PaymentRequest $request): RedirectResponse
     {
         $session = $stripe->checkout->sessions->create([
@@ -27,7 +20,7 @@ class PaymentController extends Controller
             'line_items' => [[
                 'quantity' => 1,
                 'price_data' => [
-                    'currency' => 'gbp',
+                    'currency' => 'GBP',
                     'unit_amount' => (int) $request->validated('amount') * 100,
                     'product' => config('services.stripe.product_id'),
                 ],
@@ -35,7 +28,13 @@ class PaymentController extends Controller
             'mode' => 'payment',
         ]);
 
-        return redirect($session->url);
+        return Inertia::location($session->url);
+    }
+
+    public function confirm(WebhookRequest $request)
+    {
+        $request->processWebhook();
+        return 'ok';
     }
 
     public function success()

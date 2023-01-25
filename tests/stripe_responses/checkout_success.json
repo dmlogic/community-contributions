@@ -9,8 +9,8 @@
         "object": "checkout.session",
         "after_expiration": null,
         "allow_promotion_codes": null,
-        "amount_subtotal": 8800,
-        "amount_total": 8800,
+        "amount_subtotal": {amount},
+        "amount_total": {amount},
         "automatic_tax": {
           "enabled": false,
           "status": null
@@ -21,7 +21,7 @@
         "consent": null,
         "consent_collection": null,
         "created": 1674575159,
-        "currency": "gbp",
+        "currency": "GBP",
         "custom_text": {
           "shipping_address": null,
           "submit": null
@@ -62,9 +62,9 @@
         "livemode": false,
         "locale": null,
         "metadata": {
-          "campaign_id": "456",
-          "fund_id": "123",
-          "request_id": "789"
+          "user_id": "{user_id}",
+          "fund_id": "{fund_id}",
+          "request_id": "{request_id}"
         },
         "mode": "payment",
         "payment_intent": "pi_2MToh9Wiw1pQSikD1lcBIa3o",

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FundController;
 use App\Http\Controllers\LedgerController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\PropertyController;
@@ -49,6 +50,20 @@ Route::prefix('invitation')->group(function () {
             ->middleware('guest');
     Route::post('/{invitation}', [InvitationController::class, 'process'])->name('invitation.process')
             ->middleware('guest');
+});
+
+/**
+ * Stripe payment
+ */
+Route::prefix('payment')->group(function () {
+    Route::post('/', [PaymentController::class, 'checkout'])->name('payment.checkout')
+            ->middleware('auth');
+    Route::get('/success', [PaymentController::class, 'success'])->name('payment.success')
+            ->middleware('auth');
+    Route::get('/error', [PaymentController::class, 'error'])->name('payment.error')
+            ->middleware('auth');
+    Route::post('/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
+            ->middleware('stripe');
 });
 
 // All subsequent routes require a login of some sort
