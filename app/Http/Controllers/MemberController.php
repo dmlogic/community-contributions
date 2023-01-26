@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Member;
 use App\Models\Property;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\MemberUpdateRequest;
+use App\Http\Requests\MemberUpsertRequest;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MemberController extends Controller
 {
@@ -53,19 +53,21 @@ class MemberController extends Controller
     /**
      * @route member.store
      */
-    public function store()
+    public function store(MemberUpsertRequest $request)
     {
-        throw new HttpException(
-            \Symfony\Component\HttpFoundation\Response::HTTP_NOT_IMPLEMENTED
-        );
+        $member = User::newUser($request->validated('name'), $request->validated('email'));
+        $member->roles()->sync($request->validated('role_id'));
+
+        return Redirect::route('member.index')
+                       ->with('success', 'Member created');
     }
 
     /**
      * @route member.update
      */
-    public function update(MemberUpdateRequest $request, Member $member): RedirectResponse
+    public function update(MemberUpsertRequest $request, Member $member): RedirectResponse
     {
-        $member->fill($request->safe()->only(['name', 'email']))->save();
+        $member->fill($request->safe(['name', 'email']))->save();
         $member->roles()->sync($request->validated('role_id'));
 
         return Redirect::route('member.index')

@@ -8,7 +8,6 @@ use Inertia\Response;
 use App\Http\Requests\FundRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\ValidationException;
 
 class FundController extends Controller
 {
@@ -54,11 +53,8 @@ class FundController extends Controller
                        ->with('success', 'Fund updated');
     }
 
-    public function destroy(FundRequest $request, Fund $fund): RedirectResponse
+    public function destroy(Fund $fund): RedirectResponse
     {
-        if (! $request->isConfirmed()) {
-            throw ValidationException::withMessages(['confirmation' => 'Please confirm your intention to delete']);
-        }
         $fund->delete();
 
         return Redirect::route('fund.index')

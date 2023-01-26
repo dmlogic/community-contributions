@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Enums\Roles;
-use App\Models\Fund;
-use App\Models\User;
+use App\Models\Ledger;
 use Tests\FeatureTest;
 use App\Models\Campaign;
 use Tests\SeedsCampaigns;
 use App\Models\CampaignRequest;
-use Illuminate\Support\Facades\DB;
 use App\Notifications\FundingRequest;
 use App\Notifications\FundingReminder;
 use Inertia\Testing\AssertableInertia;
@@ -66,6 +63,17 @@ class CampaignTest extends FeatureTest
         $response->assertRedirectToRoute('campaign.show', [$created->id]);
     }
 
+    public function test_can_update_campaign(): void
+    {
+        $this->seedData['campaign']->description = 'edited';
+        $response = $this->patch(route('campaign.update', $this->seedData['campaign']->id),
+            $this->seedData['campaign']->toArray()
+        )
+        ->assertSessionHas('success');
+
+        $this->assertDatabaseHas('campaigns', ['id' => $this->seedData['fund']->id, 'description' => 'edited']);
+    }
+
     public function test_can_add_member_requests_to_campaign(): void
     {
         Notification::fake();
@@ -82,6 +90,15 @@ class CampaignTest extends FeatureTest
         Notification::assertNotSentTo(
             [$this->seedData['members'][1]], FundingRequest::class
         );
+    }
+
+    public function test_cannot_add_a_member_to_a_campaign_twice(): void
+    {
+        $this->post(route('campaign.new-request', $this->seedData['campaign']->id), [
+            'amount' => 50,
+            'members' => [$this->seedData['members'][1]->id],
+        ])
+        ->assertInvalid();
     }
 
     public function test_can_resend_notifications(): void
@@ -101,6 +118,15 @@ class CampaignTest extends FeatureTest
         );
     }
 
+    public function test_cannot_remind_members_without_requests(): void
+    {
+        CampaignRequest::where('user_id', $this->seedData['members'][1]->id)->delete();
+        $this->post(route('campaign.remind-request', $this->seedData['campaign']->id), [
+            'members' => [$this->seedData['members'][1]->id],
+        ])
+        ->assertInvalid();
+    }
+
     public function test_can_delete_member_requests_from_campaign(): void
     {
         $this->delete(route('campaign.delete-request', $this->seedData['campaign']->id), [
@@ -109,6 +135,22 @@ class CampaignTest extends FeatureTest
         ->assertSessionHas('success');
 
         $this->assertEquals(1, CampaignRequest::where('campaign_id', $this->seedData['campaign']->id)->count());
+    }
+
+    public function test_cannot_delete_paid_requests()
+    {
+        $request = CampaignRequest::first();
+        $ledger = Ledger::factory()->create([
+            'user_id' => $request->user_id,
+            'fund_id' => $this->seedData['fund']->id,
+            'verified_at' => now(),
+        ]);
+        $request->ledger_id = $ledger->id;
+        $request->save();
+        $this->delete(route('campaign.delete-request', $this->seedData['campaign']->id), [
+            'members' => [$request->user_id],
+        ])
+        ->assertInvalid();
     }
 
     public function test_cannot_delete_campaign_with_activity()
@@ -127,24 +169,14 @@ class CampaignTest extends FeatureTest
         $this->assertDatabaseMissing('campaigns', ['id' => $this->seedData['campaign']->id]);
     }
 
-    // ------------------------------------------------------------------------
-
-    protected function seedCampaign()
+    public function test_forms_render()
     {
-        $this->seedData['fund'] = Fund::factory()->create();
-        $this->seedData['campaign'] = Campaign::factory()->create(['fund_id' => $this->seedData['fund']->id]);
+        $this->get(route('campaign.create'))
+             ->assertOk();
 
-        $members = User::factory()->count(5)->create();
-        DB::table('role_user')->insert([
-            ['user_id' => $members[0]->id, 'role_id' => Roles::RESIDENT->value],
-            ['user_id' => $members[1]->id, 'role_id' => Roles::RESIDENT->value],
-            ['user_id' => $members[2]->id, 'role_id' => Roles::RESIDENT->value],
-        ]);
-        CampaignRequest::insert([
-            ['user_id' => $members[0]->id, 'campaign_id' => $this->seedData['campaign']->id, 'amount' => 50],
-            ['user_id' => $members[1]->id, 'campaign_id' => $this->seedData['campaign']->id, 'amount' => 50],
-            ['user_id' => $members[2]->id, 'campaign_id' => $this->seedData['campaign']->id, 'amount' => 50],
-        ]);
-        $this->seedData['members'] = $members;
+        $this->get(route('campaign.edit', $this->seedData['campaign']->id))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('campaign.description', $this->seedData['campaign']->description)
+            );
     }
 }

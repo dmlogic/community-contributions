@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Property extends Model
@@ -19,7 +20,7 @@ class Property extends Model
 
     public static function listData()
     {
-        return static::with('member')
+        return Property::with('member')
                     ->select('id', 'number', 'street', 'user_id')
                     ->orderBy('number')
                     ->get();
@@ -27,7 +28,7 @@ class Property extends Model
 
     public static function defaultData()
     {
-        return new static([
+        return new Property([
             'number' => '',
             'street' => config('app.default_address.steet'),
             'town' => config('app.default_address.town'),
@@ -53,7 +54,7 @@ class Property extends Model
     // ------------------------------------------------------------------------
     // Relationships
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id')
                     ->select('id', 'name', 'email');

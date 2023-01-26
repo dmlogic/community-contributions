@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Enums\Roles;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -32,6 +34,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     // ------------------------------------------------------------------------
     // Helpers
+
+    public static function newUser($name, $email)
+    {
+        return static::create([
+            'name' => $name,
+            'email' => $email,
+            'email_verified_at' => now(),
+            'password' => Hash::make(Str::random(40)),
+        ]);
+    }
 
     public function isAdmin(): bool
     {

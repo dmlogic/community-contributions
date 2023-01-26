@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-    residents: Object,
+    members: Object,
 });
 </script>
 

@@ -1,0 +1,20 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+
+    # Level 9 is the highest level
+    level: 5
+
+    ignoreErrors:
+        -
+            message: '#Cannot access property \$id on object\|string#'
+            paths:
+                - app/Http/Requests/MemberUpsertRequest.ph
+                - app/Rules/RequestedUsers.php
+        -
+            message: '#Call to an undefined method Illuminate\\Contracts\\Validation\\Validator::safe#'
+            path: app/Http/Requests/LedgerCreateRequest.php

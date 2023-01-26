@@ -99,6 +99,17 @@ class LedgerTest extends FeatureTest
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 0]);
     }
 
+    public function test_deleting_unverified_entries_does_not_update_fund()
+    {
+        $fund = Fund::factory()->create(['balance' => 20]);
+        $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'type' => LedgerTypes::RESIDENT_OFFLINE->name]);
+        $this->actingAs($this->adminUser());
+        $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 20]);
+        $this->delete(route('ledger.destroy', $ledger->id))
+             ->assertValid();
+        $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 20]);
+    }
+
     public function test_user_cannot_delete_entries()
     {
         $user = User::factory()->create();

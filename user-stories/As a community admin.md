@@ -29,3 +29,5 @@ So I can delete or send a nag
 I need to post information about maintenance activity
 So the community has visibility
 
+I need to receive an email whenever an offline payment is logged
+So I know I need to go verify

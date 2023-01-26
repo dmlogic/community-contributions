@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Campaign extends Model
@@ -26,7 +28,7 @@ class Campaign extends Model
     {
         return Attribute::make(
             get: function ($value, $attributes) {
-                return new Money($attributes['target']);
+                return new Money($attributes['target'] ?? 0);
             }
         );
     }
@@ -35,7 +37,7 @@ class Campaign extends Model
     {
         return Attribute::make(
             get: function ($value, $attributes) {
-                return new Money($attributes['raised']);
+                return new Money($attributes['raised'] ?? 0);
             }
         );
     }
@@ -43,12 +45,12 @@ class Campaign extends Model
     // ------------------------------------------------------------------------
     // Relationships
 
-    public function fund()
+    public function fund(): BelongsTo
     {
         return $this->belongsTo(Fund::class);
     }
 
-    public function requests()
+    public function requests(): HasMany
     {
         return $this->hasMany(CampaignRequest::class);
     }

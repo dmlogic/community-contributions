@@ -41,6 +41,11 @@ class FundTest extends FeatureTest
                 ->has('fund')
                 ->where('fund.name', $fund->name)
             );
+        // Other view routes
+        $this->get(route('fund.edit', $fund->id))
+            ->assertOk();
+        $this->get(route('fund.create'))
+            ->assertOk();
     }
 
     public function test_fund_is_created(): void
@@ -75,8 +80,9 @@ class FundTest extends FeatureTest
     {
         $fund = Fund::factory()->create();
         $this->actingAs($this->adminUser())
-             ->delete(route('fund.destroy', $fund->id));
+             ->delete(route('fund.destroy', $fund->id))
+             ->assertSessionHas('success');
 
-        $this->assertDatabaseMissing('funds', ['id', $fund->id]);
+        $this->assertSoftDeleted($fund);
     }
 }

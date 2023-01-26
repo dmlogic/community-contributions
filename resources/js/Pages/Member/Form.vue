@@ -5,5 +5,5 @@ defineProps({
 </script>
 
 <template>
-   <div>Member view</div>
+   <div>Member form</div>
 </template>

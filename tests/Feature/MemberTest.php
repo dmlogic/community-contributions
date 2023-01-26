@@ -47,6 +47,39 @@ class MemberTest extends FeatureTest
             );
     }
 
+    public function test_member_form_is_shown()
+    {
+        $member = Member::first();
+
+        $this->actingAs($this->adminUser())
+            ->get(route('member.edit', $member->id))
+            ->assertOk()
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->has('member')
+                ->where('member.name', $member->name)
+                ->where('member.property.address', $member->property->address)
+            );
+        $this->get(route('member.create'))
+            ->assertOk();
+    }
+
+    public function test_member_is_created(): void
+    {
+        $member = User::factory()->make();
+        $this->actingAs($this->adminUser());
+        $response = $this->actingAs($this->adminUser())
+             ->post(route('member.store'), [
+                 'name' => $member->name,
+                 'email' => $member->email,
+             ])
+             ->assertSessionHas('success');
+
+        $this->assertDatabaseHas('users', [
+            'email' => $member->email,
+            'name' => $member->name,
+        ]);
+    }
+
     public function test_member_is_updated(): void
     {
         $member = User::factory()->create();

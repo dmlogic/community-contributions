@@ -70,6 +70,17 @@ class PaymentTest extends FeatureTest
         $this->assertDatabaseHas('campaign_requests', ['id' => $request->id, 'ledger_id' => $ledger->id]);
     }
 
+    public function test_sundry_endpoints_render(): void
+    {
+        $this->actingAs($this->adminUser())
+             ->get(route('payment.success'))
+             ->assertOk();
+        $this->get(route('payment.error'))
+             ->assertOk();
+    }
+
+    // ------------------------------------------------------------------------
+
     private function submitWebhookPayload($amount, $userId, $requestId)
     {
         $payload = file_get_contents(__DIR__.'/../stripe_responses/checkout_success.json');

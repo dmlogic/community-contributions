@@ -13,12 +13,10 @@ So I can gain access if I have forgotten it
 ✅ I need to manually make contributions to a specific request
 So I can keep my contributions up to date if I miss a request
 
-I need to pay contribution requests via Stripe
-@see https://fideloper.com/mocking-stripe
-@see https://www.youtube.com/watch?v=1-olKBnmC84
+✅ I need to pay contribution requests via Stripe
 So I can contribute with the minimum of hassle
 
-I need to make additional contributions to a chosen fund
+✅ I need to make additional contributions to a chosen fund
     manually or Stripe
 So I can contribute for any additional liability
 
@@ -27,3 +25,9 @@ So I have any easy means to click and pay
 
 I need to see an overview of maintenance activity
 So I can see how my money is being spent
+
+I need to receive a receipt email whenever I make a payment
+To confirm the payment was successful
+
+I need to receive a receipt email whenever an offline payment is verified
+So I know the admin has reconciled the books

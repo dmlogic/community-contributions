@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CampaignRequest extends Model
 {
@@ -33,18 +34,8 @@ class CampaignRequest extends Model
     // ------------------------------------------------------------------------
     // Relationships
 
-    public function campaign()
+    public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
-    }
-
-    public function member()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function ledger()
-    {
-        return $this->belongsTo(Ledger::class);
     }
 }

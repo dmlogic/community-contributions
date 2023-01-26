@@ -13,25 +13,16 @@ class LedgerCreateRequest extends FormRequest
 {
     public function createLedgerEntry()
     {
-        $data = $this->validated();
+        $data = $this->validator->safe()->except(['request_id']);
         if ($this->user()->isAdmin()) {
             $data['verified_at'] = now();
         }
         $ledger = Ledger::create($data);
 
         if ($this->query('request_id')) {
-            $this->addRequestRelationship($ledger);
+            CampaignRequest::where(['id' => $this->validated('request_id')])
+                            ->update(['ledger_id' => $ledger->id]);
         }
-    }
-
-    public function addRequestRelationship(Ledger $ledger)
-    {
-        $campaignRequest = CampaignRequest::find($this->query('request_id'));
-        if (! $campaignRequest) {
-            return;
-        }
-        $campaignRequest->ledger_id = $ledger->id;
-        $campaignRequest->save();
     }
 
     public function rules(): array
@@ -42,7 +33,18 @@ class LedgerCreateRequest extends FormRequest
             'amount' => ['required', 'integer'],
             'fund_id' => ['required', 'exists:funds,id'],
             'user_id' => ['nullable', 'exists:users,id'],
+            'request_id' => ['nullable', 'exists:campaign_requests,id'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if (! $this->query('request_id')) {
+            return;
+        }
+        $this->merge([
+            'request_id' => $this->query('request_id'),
+        ]);
     }
 
     private function allowedTypes()

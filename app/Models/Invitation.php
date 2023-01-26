@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -18,12 +16,7 @@ class Invitation extends Model
 
     public function convertToUser(): User
     {
-        $user = User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'email_verified_at' => now(),
-            'password' => Hash::make(Str::random(40)),
-        ]);
+        $user = User::newUser($this->name, $this->email);
 
         if ($this->role_id) {
             $user->roles()->attach($this->role_id);

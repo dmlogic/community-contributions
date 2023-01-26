@@ -54,13 +54,13 @@ class CampaignMembersRequest extends FormRequest
 
     public function getMemberRule(): InvokableRule
     {
-        switch(Route::currentRouteName()) {
-            case 'campaign.new-request':
-                return new UnrequestedUsers;
-            case 'campaign.remind-request':
-                return new RequestedUsers;
-            case 'campaign.delete-request':
-                return new UnpaidUsers;
-        }
+        $returnValue = match (Route::currentRouteName()) {
+            'campaign.new-request' => new UnrequestedUsers,
+            'campaign.remind-request' => new RequestedUsers,
+            'campaign.delete-request' => new UnpaidUsers,
+            default => new UnrequestedUsers,
+        };
+
+        return $returnValue;
     }
 }

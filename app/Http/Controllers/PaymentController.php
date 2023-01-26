@@ -6,11 +6,11 @@ use Inertia\Inertia;
 use Stripe\StripeClient;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\WebhookRequest;
-use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaymentController extends Controller
 {
-    public function checkout(StripeClient $stripe, PaymentRequest $request): RedirectResponse
+    public function checkout(StripeClient $stripe, PaymentRequest $request): Response
     {
         $session = $stripe->checkout->sessions->create([
             'success_url' => route('payment.success'),
@@ -34,6 +34,7 @@ class PaymentController extends Controller
     public function confirm(WebhookRequest $request)
     {
         $request->processWebhook();
+
         return 'ok';
     }
 
