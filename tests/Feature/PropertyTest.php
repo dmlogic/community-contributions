@@ -93,7 +93,7 @@ class PropertyTest extends FeatureTest
              ->assertInvalid('user_id');
     }
 
-    public function test_forms_contain_expected_data()
+    public function test_forms_contain_expected_data(): void
     {
         $response = $this->actingAs($this->adminUser())
             ->get(route('property.create'))

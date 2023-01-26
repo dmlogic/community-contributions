@@ -41,7 +41,7 @@ class LedgerTest extends FeatureTest
         }
     }
 
-    public function test_resident_can_only_add_certain_types()
+    public function test_resident_can_only_add_certain_types(): void
     {
         $user = User::factory()->create();
         $user->roles()->attach(Roles::RESIDENT->value);
@@ -88,7 +88,7 @@ class LedgerTest extends FeatureTest
         $this->assertDatabaseHas('campaign_requests', ['id' => $fundRequest->id, 'ledger_id' => $createdLedger->id]);
     }
 
-    public function test_admin_can_delete_entries()
+    public function test_admin_can_delete_entries(): void
     {
         $fund = Fund::factory()->create();
         $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'amount' => 101]);
@@ -99,7 +99,7 @@ class LedgerTest extends FeatureTest
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 0]);
     }
 
-    public function test_deleting_unverified_entries_does_not_update_fund()
+    public function test_deleting_unverified_entries_does_not_update_fund(): void
     {
         $fund = Fund::factory()->create(['balance' => 20]);
         $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'type' => LedgerTypes::RESIDENT_OFFLINE->name]);
@@ -110,7 +110,7 @@ class LedgerTest extends FeatureTest
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 20]);
     }
 
-    public function test_user_cannot_delete_entries()
+    public function test_user_cannot_delete_entries(): void
     {
         $user = User::factory()->create();
         $user->roles()->attach(Roles::RESIDENT->value);
@@ -121,7 +121,7 @@ class LedgerTest extends FeatureTest
                         ->assertForbidden();
     }
 
-    public function test_unverfied_entries_can_be_verified()
+    public function test_unverfied_entries_can_be_verified(): void
     {
         $this->actingAs($this->adminUser());
         $fund = Fund::factory()->create();
@@ -131,7 +131,7 @@ class LedgerTest extends FeatureTest
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 101]);
     }
 
-    public function test_verfied_entries_cannot_be_verified()
+    public function test_verfied_entries_cannot_be_verified(): void
     {
         $this->actingAs($this->adminUser());
         $fund = Fund::factory()->create();

@@ -36,7 +36,7 @@ class NotificationTest extends TestCase
         $this->assertStringContainsString($models->request->created_at->format('d/m/Y'), $contents);
     }
 
-    private function mockModels()
+    private function mockModels(): object
     {
         $fund = Fund::factory()->make();
         $campaign = Campaign::factory()->make();

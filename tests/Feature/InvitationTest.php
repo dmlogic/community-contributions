@@ -56,7 +56,7 @@ class InvitationTest extends FeatureTest
             );
     }
 
-    public function test_accepted_invitation_creates_member()
+    public function test_accepted_invitation_creates_member(): void
     {
         $property = Property::factory()->create();
         $invite = Invitation::factory()->create(['role_id' => Roles::RESIDENT->value, 'property_id' => $property->id]);

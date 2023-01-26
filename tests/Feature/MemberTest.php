@@ -47,7 +47,7 @@ class MemberTest extends FeatureTest
             );
     }
 
-    public function test_member_form_is_shown()
+    public function test_member_form_is_shown(): void
     {
         $member = Member::first();
 
