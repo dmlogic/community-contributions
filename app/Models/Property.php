@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ class Property extends Model
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function listData()
+    public static function listData(): Collection
     {
         return Property::with('member')
                     ->select('id', 'number', 'street', 'user_id')
@@ -26,7 +27,7 @@ class Property extends Model
                     ->get();
     }
 
-    public static function defaultData()
+    public static function defaultData(): Property
     {
         return new Property([
             'number' => '',

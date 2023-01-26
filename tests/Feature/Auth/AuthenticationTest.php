@@ -43,7 +43,7 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_authenticated_users_are_redirected_to_dashboard()
+    public function test_authenticated_users_are_redirected_to_dashboard(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)

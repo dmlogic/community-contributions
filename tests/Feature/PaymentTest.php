@@ -7,6 +7,7 @@ use Tests\FeatureTest;
 use Tests\SeedsCampaigns;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
+use Illuminate\Testing\TestResponse;
 use App\Http\Middleware\VerifyStripeRequest;
 
 class PaymentTest extends FeatureTest
@@ -81,7 +82,7 @@ class PaymentTest extends FeatureTest
 
     // ------------------------------------------------------------------------
 
-    private function submitWebhookPayload($amount, $userId, $requestId)
+    private function submitWebhookPayload($amount, $userId, $requestId): TestResponse
     {
         $payload = file_get_contents(__DIR__.'/../stripe_responses/checkout_success.json');
         $payload = json_decode(

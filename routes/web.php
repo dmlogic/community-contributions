@@ -11,17 +11,6 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\InvitationController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/scratch', function () {
     $user = \App\Models\User::find(1);
     // $fund = \App\Models\Fund::factory()->create();
