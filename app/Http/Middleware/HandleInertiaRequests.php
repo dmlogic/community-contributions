@@ -52,10 +52,11 @@ class HandleInertiaRequests extends Middleware
             return null;
         }
         return [
-            ['href' => route('dashboard'), 'label' => 'Dashboard' ],
-            ['href' => route('campaign.index'), 'label' => 'Campaigns' ],
-            ['href' => route('member.index'), 'label' => 'Members' ],
-            ['href' => route('property.index'), 'label' => 'Properties' ],
+            ['href' => route('dashboard'), 'label' => 'Dashboard', 'icon' => 'table-columns' ],
+            ['href' => route('campaign.index'), 'label' => 'Campaigns', 'icon' => 'sack-dollar' ],
+            ['href' => route('member.index'), 'label' => 'Members', 'icon' => 'users' ],
+            ['href' => route('property.index'), 'label' => 'Properties', 'icon' => 'map-location' ],
+            ['href' => route('fund.index'), 'label' => 'Funds', 'icon' => 'building-columns' ],
         ];
     }
 }
