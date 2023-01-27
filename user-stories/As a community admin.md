@@ -1,5 +1,5 @@
 ✅ I need to login to the software
-So I can perform management tasks
+👍 So I can perform management tasks
 
 ✅ I need to manage properties
 So they can be assigned to users

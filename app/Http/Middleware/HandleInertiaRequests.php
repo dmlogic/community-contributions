@@ -51,12 +51,15 @@ class HandleInertiaRequests extends Middleware
         if(!$user) {
             return null;
         }
-        return [
+        $nav = [
             ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'gauge-simple-high' ],
             ['route' => 'campaign.index', 'label' => 'Campaigns', 'icon' => 'sack-dollar' ],
-            ['route' => 'member.index', 'label' => 'Members', 'icon' => 'users' ],
-            ['route' => 'property.index', 'label' => 'Properties', 'icon' => 'map-location' ],
             ['route' => 'fund.index', 'label' => 'Funds', 'icon' => 'building-columns' ],
         ];
+        if($user->isAdmin()) {
+            $nav[] = ['route' => 'member.index', 'label' => 'Members', 'icon' => 'users' ];
+            $nav[] = ['route' => 'property.index', 'label' => 'Properties', 'icon' => 'map-location' ];
+        }
+        return $nav;
     }
 }

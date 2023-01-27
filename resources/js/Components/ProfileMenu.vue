@@ -12,10 +12,11 @@ import Icon from '@/Components/Icon.vue';
             <div>
                 <MenuButton
                 class="inline-flex w-full justify-center px-4 py-2">
-                    <Icon name="user" />{{ $page.props.auth.user.name }}
+                    <Icon name="user" />
+                    {{ $page.props.auth.user.name }}
+                    <Icon name="chevron-down" class="ml-1" />
                 </MenuButton>
             </div>
-
             <transition enter-active-class="transition duration-100 ease-out"
                 enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
                 leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100"
@@ -44,7 +45,6 @@ import Icon from '@/Components/Icon.vue';
                                 ]"
                                 type="button">Logout</Link>
                         </MenuItem>
-
                     </div>
                 </MenuItems>
             </transition>

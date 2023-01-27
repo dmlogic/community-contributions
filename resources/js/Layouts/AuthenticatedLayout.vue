@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import Status from '@/Components/Status.vue';
 import MainMenu from '@/Components/MainMenu.vue';
 import BurgerMenu from '@/Components/BurgerMenu.vue';
 import ProfileMenu from '@/Components/ProfileMenu.vue';
@@ -27,7 +28,7 @@ import ProfileMenu from '@/Components/ProfileMenu.vue';
                         <MainMenu />
                     </div>
                     <div class="px-4 py-8 md:flex-1 md:p-12 md:overflow-y-auto" scroll-region>
-                        <div>Flash messages here</div>
+                        <Status />
                         <slot />
                     </div>
                 </div>

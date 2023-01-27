@@ -1,9 +1,15 @@
 <script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+
 defineProps({
     properties: Object,
 });
 </script>
 
 <template>
-   <div>Property list</div>
+    <Head title="Dashboard" />
+    <AuthenticatedLayout>
+        listing
+    </AuthenticatedLayout>
 </template>

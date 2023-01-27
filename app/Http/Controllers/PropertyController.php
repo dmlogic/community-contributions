@@ -20,6 +20,7 @@ class PropertyController extends Controller
     {
         return Inertia::render('Property/List', [
             'properties' => Property::listData(),
+            'success' => 'something'
         ]);
     }
 

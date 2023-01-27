@@ -1,8 +1,8 @@
 <script setup>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUser, faUsers, faSackDollar, faGaugeSimpleHigh, faBuildingColumns, faMapLocation  } from '@fortawesome/free-solid-svg-icons'
-library.add(faUser, faUsers, faSackDollar, faGaugeSimpleHigh, faBuildingColumns, faMapLocation)
+import { faUser, faUsers, faSackDollar, faGaugeSimpleHigh, faBuildingColumns, faMapLocation, faChevronDown  } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faUsers, faSackDollar, faGaugeSimpleHigh, faBuildingColumns, faMapLocation, faChevronDown)
 
 const props = defineProps({
     name: String,

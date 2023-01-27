@@ -13,7 +13,7 @@ defineProps({'selected' : false});
             as="a"
             :class="[
                 route().current() === link.route ? 'bg-amber-700/40' : '',
-                'w-full block rounded-md p-4 my-2 text-white hover:bg-amber-700'
+                'w-full block rounded-md p-3 my-2 text-white hover:bg-amber-700'
             ]"
             >
             <Icon :name="link.icon" :active="true" />

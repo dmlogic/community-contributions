@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.inline-anchor {
+    @apply underline;
+    @apply text-teal-700;
+    @apply hover:text-amber-900;
+    @apply rounded-md;
+    @apply focus:outline-none;
+    @apply focus:ring-2;
+    @apply focus:ring-offset-2;
+    @apply focus:ring-teal-500;
+}
