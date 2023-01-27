@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -32,6 +34,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'app_name' => config('app.name'),
+            'nav' => $this->navForUser($request->user()),
             'auth' => [
                 'user' => $request->user(),
             ],
@@ -41,5 +44,18 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
         ]);
+    }
+
+    public function navForUser(?User $user): ?array
+    {
+        if(!$user) {
+            return null;
+        }
+        return [
+            ['href' => route('dashboard'), 'label' => 'Dashboard' ],
+            ['href' => route('campaign.index'), 'label' => 'Campaigns' ],
+            ['href' => route('member.index'), 'label' => 'Members' ],
+            ['href' => route('property.index'), 'label' => 'Properties' ],
+        ];
     }
 }
