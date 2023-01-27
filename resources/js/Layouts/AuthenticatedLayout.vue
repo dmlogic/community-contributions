@@ -5,14 +5,13 @@ import BurgerMenu from '@/Components/BurgerMenu.vue';
 import ProfileMenu from '@/Components/ProfileMenu.vue';
 </script>
 
-
 <template>
     <div>
         <div class="md:flex md:flex-col">
             <div class="md:flex md:flex-col md:h-screen">
                 <div class="md:flex md:flex-shrink-0">
                     <div class="flex items-center justify-between px-6 py-4 bg-teal-900 md:flex-shrink-0 md:justify-center md:w-56">
-                        <Link class="text-white text-lg font-bold">
+                        <Link class="text-white text-lg font-bold" :href="route('dashboard')">
                             {{$page.props.app_name}}
                         </Link>
                         <div class="flex md:hidden" placement="bottom-end">
