@@ -27,7 +27,12 @@ import ProfileMenu from '@/Components/ProfileMenu.vue';
                     <div class="hidden flex-shrink-0 p-4 w-56 bg-teal-800 overflow-y-auto md:block">
                         <MainMenu />
                     </div>
-                    <div class="px-4 py-8 md:flex-1 md:p-12 md:overflow-y-auto" scroll-region>
+                    <div class="md:flex-1 md:p-6 md:overflow-y-auto" scroll-region>
+                        <header class="" v-if="$slots.header">
+                            <h2 class="text-xl p-4 md:p-2 md:mb-8 font-bold uppercase">
+                                <slot name="header" />
+                            </h2>
+                        </header>
                         <Status />
                         <slot />
                     </div>

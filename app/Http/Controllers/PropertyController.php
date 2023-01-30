@@ -20,7 +20,6 @@ class PropertyController extends Controller
     {
         return Inertia::render('Property/List', [
             'properties' => Property::listData(),
-            'success' => 'something'
         ]);
     }
 
@@ -76,11 +75,7 @@ class PropertyController extends Controller
      */
     public function destroy(Property $property): RedirectResponse
     {
-        if ($property->member) {
-            throw ValidationException::withMessages(['user_id' => 'Property must be unoccupied']);
-        }
         $property->delete();
-
         return Redirect::route('property.index')
                        ->with('success', 'Property deleted');
     }
@@ -91,9 +86,9 @@ class PropertyController extends Controller
      */
     private function renderPropertyForm(Property $property): Response
     {
-        return Inertia::render('Property/View', [
+        return Inertia::render('Property/Form', [
             'property' => $property,
-            'members' => Member::memberData(),
+            'residents' => Member::residents(),
         ]);
     }
 }

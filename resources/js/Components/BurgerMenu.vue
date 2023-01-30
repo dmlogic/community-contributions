@@ -6,8 +6,8 @@ import Icon from '@/Components/Icon.vue';
 
 <template>
     <div
-    style="position: fixed; top: 0; right: 0;  bottom: 0; z-index: 99998;"
-    class="w-56 text-right p-1 pt-2">
+    style="position: fixed; top: 0; right: 0;  bottom: 0; "
+    class="w-56 text-right p-1 pt-2 h-10 ">
         <Menu as="div" class="relative inline-block text-left">
             <div>
                 <MenuButton

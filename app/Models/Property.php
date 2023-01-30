@@ -31,7 +31,7 @@ class Property extends Model
     {
         return new Property([
             'number' => '',
-            'street' => config('app.default_address.steet'),
+            'street' => config('app.default_address.street'),
             'town' => config('app.default_address.town'),
             'postcode' => config('app.default_address.postcode'),
         ]);
