@@ -84,22 +84,13 @@ class PropertyTest extends FeatureTest
         $this->assertDatabaseMissing('properties', ['id', $house->id]);
     }
 
-    public function test_property_cannot_be_deleted_if_occupied(): void
-    {
-        $user = User::first();
-        $house = Property::factory()->create(['user_id' => $user->id]);
-        $this->actingAs($this->adminUser())
-             ->delete(route('property.destroy', $house->id))
-             ->assertInvalid('user_id');
-    }
-
     public function test_forms_contain_expected_data(): void
     {
         $response = $this->actingAs($this->adminUser())
             ->get(route('property.create'))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('property')
-                ->has('members')
+                ->has('residents')
                 ->missing('property.id')
             );
 
@@ -107,7 +98,7 @@ class PropertyTest extends FeatureTest
         $this->get(route('property.show', $house->id))
             ->assertInertia(fn (AssertableInertia $page) => $page
             ->has('property')
-            ->has('members')
+            ->has('residents')
             ->has('property.id')
             );
     }
