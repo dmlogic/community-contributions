@@ -33,6 +33,8 @@ Route::get('/', function () {
  * Invitation handling
  */
 Route::prefix('invitation')->group(function () {
+    Route::get('/create', [InvitationController::class, 'create'])->name('invitation.create')
+            ->middleware(['auth', 'auth.admin']);
     Route::post('/', [InvitationController::class, 'store'])->name('invitation.store')
             ->middleware(['auth', 'auth.admin']);
     Route::get('/{invitation}', [InvitationController::class, 'confirm'])->name('invitation.confirm')

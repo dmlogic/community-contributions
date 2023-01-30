@@ -2,7 +2,7 @@
 👍 So I can perform management tasks
 
 ✅ I need to manage properties
-So they can be assigned to users
+👍 So they can be assigned to users
 
 ✅ I need to perform CRUD actions on members
 In order to maintain the data

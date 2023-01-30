@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class InvitationController extends Controller
 {
+    public function create()
+    {
+        return 'todo';
+    }
+
     public function store(InvitationRequest $request): RedirectResponse
     {
         $invitation = $request->createInvitation();

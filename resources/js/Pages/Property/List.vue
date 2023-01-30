@@ -8,9 +8,7 @@ defineProps({
     properties: Object,
 });
 
-function newRecord() {
-    router.get(route('property.create'))
-}
+
 </script>
 
 <template>

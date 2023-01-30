@@ -20,7 +20,7 @@ class MemberController extends Controller
     public function index(): Response
     {
         return Inertia::render('Member/List', [
-            'members' => Member::with('property')->get(),
+            'members' => Member::with(['property', 'roles'])->get(),
         ]);
     }
 
@@ -29,9 +29,7 @@ class MemberController extends Controller
      */
     public function show(Member $member): Response
     {
-        return Inertia::render('Member/View', [
-            'member' => $member->load('property', 'roles'),
-        ]);
+        return $this->edit($member);
     }
 
     /**
@@ -96,7 +94,6 @@ class MemberController extends Controller
     {
         return Inertia::render('Member/Form', [
             'member' => $member,
-            'properties' => Property::listData(),
         ]);
     }
 }
