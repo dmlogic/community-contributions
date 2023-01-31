@@ -47,7 +47,7 @@ function submitForm() {
 </script>
 
 <template>
-    <Head :title="`Edit $property.address`" />
+    <Head title="Property form" />
     <AuthenticatedLayout>
         <template #header>
             <span v-if="property.id">

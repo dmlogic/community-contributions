@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Member;
-use App\Models\Property;
+use Illuminate\Support\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\MemberUpsertRequest;
@@ -45,7 +46,9 @@ class MemberController extends Controller
      */
     public function create(): Response
     {
-        return $this->renderMemberForm(new Member);
+        $emptyMember = new Member;
+        $emptyMember->setRelation('roles',new Collection());
+        return $this->renderMemberForm($emptyMember);
     }
 
     /**
@@ -94,6 +97,7 @@ class MemberController extends Controller
     {
         return Inertia::render('Member/Form', [
             'member' => $member,
+            'roles' => Roles::forForms()
         ]);
     }
 }

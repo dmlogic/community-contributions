@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Property;
 use App\Models\Invitation;
 use App\Events\InvitationCreated;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +17,10 @@ class InvitationController extends Controller
 {
     public function create()
     {
-        return 'todo';
+        return Inertia::render('Member/Invitation', [
+            'properties' => Property::listData(),
+            'roles' => Roles::forForms()
+        ]);
     }
 
     public function store(InvitationRequest $request): RedirectResponse

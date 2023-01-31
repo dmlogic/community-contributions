@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
-    invitation: Object,
+    properties: Object,
+    roles: Object,
 });
 </script>
 
