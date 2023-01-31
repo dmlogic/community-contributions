@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Roles;
+use App\Models\Fund;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Property;
@@ -39,6 +40,9 @@ class DatabaseSeeder extends Seeder
             ->roles()->attach([Roles::RESIDENT]);
 
         $this->seedProperties();
+
+        Fund::factory()->create(['name' => 'Default fund']);
+
     }
 
     public function seedRoles(): array

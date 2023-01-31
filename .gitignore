@@ -12,3 +12,4 @@ yarn-error.log
 /.vscode
 todo.md
 database.sqlite
+database/seeders/ProductionSeeder.php

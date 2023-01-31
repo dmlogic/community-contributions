@@ -13,6 +13,8 @@
 
 ✅ I need to manage funds
 So I can prompt and track contributions
+But not delete the only fund
+And not delete funds with key relationships
 
 ✅ I need to manually adjust fund balances
 in order to reconcile offline activity

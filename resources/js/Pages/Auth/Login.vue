@@ -74,11 +74,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-        <div class="text-center mt-10">
-
-            <Link  href="#" class="inline-anchor">
-                Request access
-            </Link>
-        </div>
     </GuestLayout>
 </template>

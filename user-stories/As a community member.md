@@ -1,6 +1,3 @@
-I need to request access to the community
-So the admin can send me an invitation
-
 ✅ I need to respond to an invitation
 👍 So I can join the community
 👍 So I can set my password

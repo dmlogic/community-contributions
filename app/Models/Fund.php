@@ -32,7 +32,7 @@ class Fund extends Model
     {
         return Attribute::make(
             get: function ($value, $attributes) {
-                return new Money($attributes['balance'] ?? 0);
+                return (string) new Money($attributes['balance'] ?? 0);
             }
         );
     }
