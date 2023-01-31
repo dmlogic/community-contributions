@@ -1,14 +1,18 @@
-✅ I need to responsd to an invitation
-So I can join the community
+I need to request access to the community
+So the admin can send me an invitation
+
+✅ I need to respond to an invitation
+👍 So I can join the community
+👍 So I can set my password
 
 ✅ I need to login to the system
-So I can participate and see status
+👍 So I can participate and see status
 
 ✅ I need to adjust my login details
-To maintain the security of my data
+👍 To maintain the security of my data
 
 ✅ I need a means to recover my password
-So I can gain access if I have forgotten it
+👍 So I can gain access if I have forgotten it
 
 ✅ I need to manually make contributions to a specific request
 So I can keep my contributions up to date if I miss a request

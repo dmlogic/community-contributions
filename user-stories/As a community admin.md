@@ -5,10 +5,10 @@
 👍 So they can be assigned to users
 
 ✅ I need to perform CRUD actions on members
-In order to maintain the data
+👍 In order to maintain the data
 
 ✅ I need a process to invite new members
-So they can register their accounts
+👍 So they can register their accounts
     ✅ property details and name pre-filled
 
 ✅ I need to manage funds

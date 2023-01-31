@@ -47,7 +47,8 @@ class MemberController extends Controller
     public function create(): Response
     {
         $emptyMember = new Member;
-        $emptyMember->setRelation('roles',new Collection());
+        $emptyMember->setRelation('roles', new Collection());
+
         return $this->renderMemberForm($emptyMember);
     }
 
@@ -97,7 +98,7 @@ class MemberController extends Controller
     {
         return Inertia::render('Member/Form', [
             'member' => $member,
-            'roles' => Roles::forForms()
+            'roles' => Roles::forForms(),
         ]);
     }
 }

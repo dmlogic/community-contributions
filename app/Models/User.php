@@ -21,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -35,13 +36,16 @@ class User extends Authenticatable implements MustVerifyEmail
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function newUser($name, $email)
+    public static function newUser(string $name, string $email, ?string $password): User
     {
+        if(!$password) {
+            $password = Str::random(40);
+        }
         return static::create([
             'name' => $name,
             'email' => $email,
             'email_verified_at' => now(),
-            'password' => Hash::make(Str::random(40)),
+            'password' => Hash::make($password),
         ]);
     }
 

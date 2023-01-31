@@ -6,7 +6,6 @@ use App\Models\User;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -43,24 +42,25 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
-            'status' =>$request->session()->get('success'),
+            'status' => $request->session()->get('success'),
         ]);
     }
 
     public function navForUser(?User $user): ?array
     {
-        if(!$user) {
+        if (! $user) {
             return null;
         }
         $nav = [
-            ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'gauge-simple-high' ],
-            ['route' => 'campaign.index', 'label' => 'Campaigns', 'icon' => 'sack-dollar' ],
-            ['route' => 'fund.index', 'label' => 'Funds', 'icon' => 'building-columns' ],
+            ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'gauge-simple-high'],
+            ['route' => 'campaign.index', 'label' => 'Campaigns', 'icon' => 'sack-dollar'],
+            ['route' => 'fund.index', 'label' => 'Funds', 'icon' => 'building-columns'],
         ];
-        if($user->isAdmin()) {
-            $nav[] = ['route' => 'member.index', 'label' => 'Members', 'icon' => 'users' ];
-            $nav[] = ['route' => 'property.index', 'label' => 'Properties', 'icon' => 'map-location' ];
+        if ($user->isAdmin()) {
+            $nav[] = ['route' => 'member.index', 'label' => 'Members', 'icon' => 'users'];
+            $nav[] = ['route' => 'property.index', 'label' => 'Properties', 'icon' => 'map-location'];
         }
+
         return $nav;
     }
 }

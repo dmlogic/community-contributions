@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Roles;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Property;
 use App\Models\Invitation;
-use App\Events\InvitationCreated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\InvitationRequest;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\InvitationAcceptRequest;
+use App\Http\Requests\InvitationCreateRequest;
 
 class InvitationController extends Controller
 {
@@ -19,14 +18,12 @@ class InvitationController extends Controller
     {
         return Inertia::render('Member/Invitation', [
             'properties' => Property::listData(),
-            'roles' => Roles::forForms()
         ]);
     }
 
-    public function store(InvitationRequest $request): RedirectResponse
+    public function store(InvitationCreateRequest $request): RedirectResponse
     {
-        $invitation = $request->createInvitation();
-        InvitationCreated::dispatch($invitation);
+        $request->createInvitation();
 
         return Redirect::route('member.index')
                        ->with('success', 'Member invitation sent');
@@ -37,20 +34,20 @@ class InvitationController extends Controller
      */
     public function confirm(Invitation $invitation): Response
     {
-        return Inertia::render('Member/Invitation', [
-            'invitation' => $invitation,
+        return Inertia::render('Member/Accept', [
+            'invitation' => $invitation->load('property'),
         ]);
     }
 
     /**
      * @route invitation.process
      */
-    public function process(Invitation $invitation)
+    public function process(InvitationAcceptRequest $request, Invitation $invitation)
     {
-        $user = $invitation->convertToUser();
+        $user = $invitation->convertToUser($request->validated('password'));
         Auth::login($user);
 
         return Redirect::route('dashboard')
-                       ->with('welcome', 'Welcome to '.config('app.name'));
+                       ->with('success', 'Welcome to '.config('app.name'));
     }
 }

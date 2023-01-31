@@ -9,7 +9,6 @@ use App\Models\Property;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\PropertyRequest;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\ValidationException;
 
 class PropertyController extends Controller
 {
@@ -76,6 +75,7 @@ class PropertyController extends Controller
     public function destroy(Property $property): RedirectResponse
     {
         $property->delete();
+
         return Redirect::route('property.index')
                        ->with('success', 'Property deleted');
     }
