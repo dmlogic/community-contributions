@@ -1,12 +1,13 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-
+import { balanceBackground } from '@/helpers.js';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 defineProps({
     funds: Object,
 });
+
 </script>
 
 <template>
@@ -28,19 +29,21 @@ defineProps({
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="fund in funds" class="hover:bg-neutral-100">
+                <tr v-for="fund in funds"
+                    class="hover:bg-neutral-100 cursor-pointer"
+
+                    @click="router.get(route('fund.show',fund.id))">
                     <td class=" py-3 px-5 border-b border-blue-gray-50">
                         {{  fund.name }}<br>
                         <em>{{ fund.description }}</em>
                     </td>
-                    <td class=" py-3 px-5 border-b border-blue-gray-50 ">{{fund.value}}</td>
+                    <td class="py-3 px-5 border-b border-blue-gray-50">
+                        <span :class="['rounded-md p-2',balanceBackground(fund.balance)]">
+                            {{fund.value}}
+                        </span>
+                    </td>
                     <td class=" py-3 px-5 border-b border-blue-gray-50 text-right">
-                        <Link class="inline-anchor font-bold" :href="route('fund.show', fund.id)">
-                            View
-                        </Link>
-                        <Link class="font-light ml-3
-             underline text-gray-500 hover:text-amber-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500;
-                        " :href="route('fund.edit', fund.id)">
+                        <Link class="inline-anchor font-bold" @click.stop="" :href="route('fund.edit', fund.id)">
                             Edit
                         </Link>
                     </td>

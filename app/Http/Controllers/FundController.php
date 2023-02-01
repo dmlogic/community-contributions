@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fund;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Ledger;
 use App\Http\Requests\FundRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -22,6 +23,7 @@ class FundController extends Controller
     {
         return Inertia::render('Fund/View', [
             'fund' => $fund,
+            'ledgers' => Ledger::forFund($fund->id)->take(10)->get()
         ]);
     }
 

@@ -12,11 +12,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\InvitationController;
 
 Route::get('/scratch', function () {
-    $invite = \App\Models\Invitation::first();
 
-    $tmpUser = new \App\Models\User(['name' => $invite->name, 'email' => $invite->email]);
-
-    $tmpUser->notify(new \App\Notifications\InviteMember($invite));
 });
 
 Route::get('/', function () {
