@@ -23,7 +23,8 @@ class FundController extends Controller
     {
         return Inertia::render('Fund/View', [
             'fund' => $fund,
-            'ledgers' => Ledger::forFund($fund->id)->take(10)->get()
+            'ledgers' => Ledger::forFund($fund->id)
+                               ->simplePaginate(20)
         ]);
     }
 

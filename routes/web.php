@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
      * Ledger management
      */
     Route::prefix('ledger')->group(function () {
+        Route::get('/', [LedgerController::class, 'index'])->name('ledger.index');
         Route::post('/', [LedgerController::class, 'store'])->name('ledger.store');
         Route::patch('/{ledger}', [LedgerController::class, 'verify'])->name('ledger.verify')
              ->middleware('auth.admin');

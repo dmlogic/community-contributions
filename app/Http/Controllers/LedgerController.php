@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ledger;
+use Illuminate\Http\Request;
 use App\Concerns\UpdatesFundBalance;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -12,6 +13,15 @@ use Illuminate\Validation\ValidationException;
 class LedgerController extends Controller
 {
     use UpdatesFundBalance;
+
+    public function index(Request $request)
+    {
+        return response()->json([
+            'ledgers' => Ledger::forFund($request->fund_id)
+                               ->simplePaginate(20)
+                               ->appends(['fund_id' => $request->fund_id])
+        ]);
+    }
 
     public function store(LedgerCreateRequest $request): RedirectResponse
     {

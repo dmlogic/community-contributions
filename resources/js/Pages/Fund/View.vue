@@ -1,8 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import LedgerEntry from '@/Components/LedgerEntry.vue';
+import Ledger from '@/Pages/Fund/Ledger.vue';
 import { Head } from '@inertiajs/vue3';
-import { computed } from 'vue';
 import { balanceBackground } from '@/helpers.js';
 
 const props = defineProps({
@@ -33,19 +32,7 @@ const props = defineProps({
                     <li>Verify action</li>
                     <li>Delete action</li>
                 </ul>
-                <table v-if="ledgers.count" class="w-full table-auto">
-                    <thead>
-                        <tr>
-                            <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Date</th>
-                            <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Details</th>
-                            <th class="border-b border-blue-gray-50 py-3 px-5 text-right">Amount</th>
-                            <th class="border-b border-blue-gray-50 py-3 px-5"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <LedgerEntry v-for="ledger in ledgers" :ledger="ledger" />
-                    </tbody>
-                </table>
+                <Ledger :ledgers="ledgers" :fundId="fund.id" />
             </section>
         </div>
     </AuthenticatedLayout>
