@@ -6,6 +6,7 @@ use App\Models\Fund;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Ledger;
+use Illuminate\Http\Request;
 use App\Http\Requests\FundRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -19,12 +20,13 @@ class FundController extends Controller
         ]);
     }
 
-    public function show(Fund $fund): Response
+    public function show(Request $request, Fund $fund): Response
     {
         return Inertia::render('Fund/View', [
             'fund' => $fund,
-            'ledgers' => Ledger::forFund($fund->id)
+            'ledgers' => Ledger::forFund($fund->id, $request->filter)
                                ->simplePaginate(20)
+                               ->withPath(route('ledger.index',['fund_id' => $fund->id, 'filter' => $request->filter]))
         ]);
     }
 

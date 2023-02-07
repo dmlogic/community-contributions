@@ -1,14 +1,20 @@
 <script setup>
+import { Link } from '@inertiajs/vue3';
 import LedgerEntry from '@/Components/LedgerEntry.vue';
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, computed } from 'vue';
 
 const props = defineProps({
     ledgers: Object,
     fundId: Number,
 });
 let allData = reactive(props.ledgers.data);
-let nextPage = route('ledger.index',{fund_id: props.fundId});
+let nextPage = props.ledgers.next_page_url;
 const loadMoreIntersect = ref(null)
+const filter = computed(function() {
+    let urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('filter') ?? 'all'
+});
+
 function loadMore() {
     if (nextPage === null) {
         return
@@ -20,8 +26,7 @@ function loadMore() {
     .then(response => response.json())
     .then((response) => {
         Object.assign(allData, [...allData, ...response.ledgers.data])
-                nextPage = response.ledgers.next_page_url
-                console.log("visited")
+        nextPage = response.ledgers.next_page_url
     });
 }
 onMounted(() => {
@@ -33,6 +38,18 @@ onMounted(() => {
 </script>
 
 <template>
+    <div class="my-4">
+        <Link :class="[
+            'mr-4 inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150',
+            filter === 'all' || !filter ? 'bg-teal-900' : null
+            ]"
+             :href="route('fund.show',props.fundId)">All activity</Link>
+        <Link :class="[
+            'mr-4 inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150',
+            filter === 'unverified' ? 'bg-teal-900' : null
+            ]"
+            :href="route('fund.show',{fund: props.fundId, filter: 'unverified'})">Unverified payments</Link>
+    </div>
     <table class="w-full table-auto">
         <thead>
             <tr>
@@ -43,7 +60,7 @@ onMounted(() => {
             </tr>
         </thead>
         <tbody>
-            <LedgerEntry v-for="ledger in allData" :model="ledger" />
+            <LedgerEntry v-for="ledger in allData" :model="ledger"  />
         </tbody>
     </table>
     <span data-foo="fum" ref="loadMoreIntersect"/>

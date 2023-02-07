@@ -25,11 +25,15 @@ class Ledger extends Model
         'value'
     ];
 
-    public static function forFund(int $fundId): Builder
+    public static function forFund(int $fundId, ?string $filter): Builder
     {
-        return Ledger::with('user')
+        $query =  Ledger::with('user')
                      ->where('fund_id', '=', $fundId)
                      ->latest();
+        if($filter === 'unverified') {
+            $query->whereNull('verified_at');
+        }
+        return $query;
     }
 
     // ------------------------------------------------------------------------

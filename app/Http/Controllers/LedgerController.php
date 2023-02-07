@@ -17,9 +17,9 @@ class LedgerController extends Controller
     public function index(Request $request)
     {
         return response()->json([
-            'ledgers' => Ledger::forFund($request->fund_id)
+            'ledgers' => Ledger::forFund($request->fund_id, $request->filter)
                                ->simplePaginate(20)
-                               ->appends(['fund_id' => $request->fund_id])
+                               ->appends(['fund_id' => $request->fund_id, 'filter' => $request->filter])
         ]);
     }
 

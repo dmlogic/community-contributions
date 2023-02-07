@@ -26,11 +26,9 @@ const props = defineProps({
             <section>
                 <h1 class="text-lg">Activity</h1>
                 <ul>
-                    <li>Auto pagination (@see https://downing.tech/posts/infinite-loading-in-inertia-js)</li>
-                    <li>Filter to unverified</li>
                     <li>Manual add adjustment</li>
-                    <li>Verify action</li>
-                    <li>Delete action</li>
+                    <li>Verify confirmation action</li>
+                    <li>Delete confirmation action</li>
                 </ul>
                 <Ledger :ledgers="ledgers" :fundId="fund.id" />
             </section>
