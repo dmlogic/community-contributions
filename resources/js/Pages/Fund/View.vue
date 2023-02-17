@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Ledger from '@/Pages/Fund/Ledger.vue';
+import Ledger from '@/Components/Ledger.vue';
 import { Head } from '@inertiajs/vue3';
 import { balanceBackground } from '@/helpers.js';
 
@@ -24,7 +24,6 @@ const props = defineProps({
                 </div>
             </section>
             <section>
-                <h1 class="text-lg">Activity</h1>
                 <ul>
                     <li>Manual add adjustment</li>
                     <li>Verify confirmation action</li>

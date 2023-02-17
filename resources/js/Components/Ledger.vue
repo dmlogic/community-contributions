@@ -45,12 +45,12 @@ onMounted(() => {
             ]"
              :href="route('fund.show',props.fundId)">All activity</Link>
         <Link :class="[
-            'mr-4 inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150',
-            filter === 'unverified' ? 'bg-teal-900' : null
+            'mr-4 inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-900/50 transition ease-in-out duration-150',
+            filter === 'unverified' ? 'bg-blue-900' : null
             ]"
             :href="route('fund.show',{fund: props.fundId, filter: 'unverified'})">Unverified payments</Link>
     </div>
-    <table class="w-full table-auto">
+    <table class="w-full table-auto" v-if="ledgers.data.length">
         <thead>
             <tr>
                 <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Date</th>
