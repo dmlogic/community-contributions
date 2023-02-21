@@ -15,7 +15,7 @@ This project provides tools to build a small community who can register, contrib
 
 ## Software stack
 
-This is Laravel 9 app built from a Breeze/Intertia/Vue.js starter kit.
+This is Laravel 10 app built from a Breeze/Intertia/Vue.js starter kit.
 
 It has been built to make the most of AWS free tier services:
 
@@ -27,8 +27,18 @@ The app could also be hosted anywhere that supports PHP8.2 and common extensions
 
 ## Local development
 
+Sail is best. `./vendor/bin/sail up -d`
+
 ### Testing
+
+For server side tests, run `php artisan test`
+
+For VueJS component tests, run `@todo`.
 
 ## Building
 
+@todo: Plan best practice for building for production
+
 ## Deployment
+
+@todo. GitHub action to deploy new Lambda on commit to main branch.
