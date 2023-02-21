@@ -12,7 +12,6 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\InvitationController;
 
 Route::get('/scratch', function () {
-
 });
 
 Route::get('/', function () {

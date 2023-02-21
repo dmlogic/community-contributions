@@ -36,7 +36,7 @@ const type = computed(function () {
             {{ date }}
         </td>
         <td class="py-3 px-5 border-b border-blue-gray-50">
-            <p class="font-bold mb-2 uppercase text-sm text-gray-400">{{ model.id }} {{ type }}</p>
+            <p class="font-bold mb-2 uppercase text-sm text-gray-400">{{ type }}</p>
             <p v-if="model.description" class="mb-2">{{ model.description }}</p>
             <p v-if="model.user" class="mb-2">
                 <Link class="inline-anchor" :href="route('member.show', props.model.user_id)">

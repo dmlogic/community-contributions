@@ -23,7 +23,7 @@ const form = useForm({
     request_id: props.requestId,
     type: props.type,
     description: null,
-    amount: 0,
+    amount: '0.00',
     created_at: props.created,
 })
 
@@ -39,11 +39,11 @@ const valueSymbol = computed(() => {
 });
 
 const valueDescription = computed(() => {
-    return isNegativeType() || isNegativeValue() ? 'deduction' : 'addition'
+    return isNegativeType() || isNegativeValue() ? 'deduction' : 'deposit'
 });
 
 const valueMin = computed(() => {
-     return form.type === 'ADMIN_ADJUSTMENT' ? '' : '0.1';
+     return form.type === 'ADMIN_ADJUSTMENT' ? '' : '1.00';
 });
 
 function isNegativeType() {
@@ -62,6 +62,7 @@ function checkAmountSymbol() {
     }
 }
 function submitForm() {
+    form.amount = form.amount * 100;
     form.post(route('ledger.store'));
 }
 </script>
@@ -116,15 +117,16 @@ function submitForm() {
                 <InputLabel for="amount" value="Value" />
                 <div :class="['rounded p-2', valueClass]">
                     <strong class="text-lg mr-2">{{ valueSymbol }}</strong>
-                    <TextInput
-                        id="amount"
-                        type="number"
-                        :min="valueMin"
-                        list="commonPayments"
-                        class="mt-1"
-                        required
-                        v-model="form.amount"
-                    />
+                    <div class="border-gray-300 p-2 focus:border-teal-500 focus:ring-teal-500 rounded-md shadow-sm inline-block bg-white">
+                        <span class="font-bold">£ </span>
+                        <input
+                            class="inline bg-none border-none focus:border-none"
+                            type="number"
+                            step="0.01"
+                            :min="valueMin"
+                            v-model="form.amount"
+                        />
+                    </div>
                     <strong class="text-lg font-light ml-2">{{ valueDescription }}</strong>
                 </div>
                 <InputError class="mt-2" :message="form.amount.description" />

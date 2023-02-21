@@ -34,6 +34,7 @@ class LedgerCreateRequest extends FormRequest
             'fund_id' => ['required', 'exists:funds,id'],
             'user_id' => ['nullable', 'exists:users,id'],
             'request_id' => ['nullable', 'exists:campaign_requests,id'],
+            'created_at' => ['date'],
         ];
     }
 

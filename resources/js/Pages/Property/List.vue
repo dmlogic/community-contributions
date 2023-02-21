@@ -19,7 +19,7 @@ defineProps({
         </template>
 
         <div class="mt-4 mb-10 text-right">
-                <PrimaryButton type="button" @click="router.get(route('property.create'))">Add property</PrimaryButton>
+            <PrimaryButton type="button" @click="router.get(route('property.create'))">Add property</PrimaryButton>
         </div>
 
         <table v-if="properties" class="w-full table-auto">

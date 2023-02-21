@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fund;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Member;
@@ -19,22 +20,20 @@ class CampaignController extends Controller
     public function index(): Response
     {
         return Inertia::render('Campaign/List', [
-            'campaigns' => Campaign::orderBy('created_at', 'desc')->get(),
+            'campaigns' => Campaign::orderBy('closed_at', 'desc')->orderBy('created_at', 'desc')->get(),
         ]);
     }
 
     public function create(): Response
     {
-        return Inertia::render('Campaign/Form', [
-            'campaign' => new Campaign(),
-        ]);
+        return $this->renderForm(new Campaign(['fund_id' => 1]));
     }
 
     public function store(CampaignUpsertRequest $request): RedirectResponse
     {
         $campaign = Campaign::create($request->validated());
 
-        return Redirect::route('campaign.show', ['campaign' => $campaign->id])
+        return Redirect::route('campaign.index')
                        ->with('success', 'Campaign created');
     }
 
@@ -48,9 +47,7 @@ class CampaignController extends Controller
 
     public function edit(Campaign $campaign): Response
     {
-        return Inertia::render('Campaign/Form', [
-            'campaign' => $campaign,
-        ]);
+        return $this->renderForm($campaign);
     }
 
     public function update(CampaignUpsertRequest $request, Campaign $campaign): RedirectResponse
@@ -95,5 +92,13 @@ class CampaignController extends Controller
 
         return Redirect::route('campaign.index')
                        ->with('success', 'Requests deleted');
+    }
+
+    private function renderForm(Campaign $campaign): Response
+    {
+        return Inertia::render('Campaign/Form', [
+            'campaign' => $campaign,
+            'funds' => Fund::get()
+        ]);
     }
 }

@@ -28,7 +28,7 @@ class Campaign extends Model
     {
         return Attribute::make(
             get: function ($value, $attributes) {
-                return new Money($attributes['target'] ?? 0);
+                return (string) new Money($attributes['target'] ?? 0);
             }
         );
     }
@@ -37,7 +37,7 @@ class Campaign extends Model
     {
         return Attribute::make(
             get: function ($value, $attributes) {
-                return new Money($attributes['raised'] ?? 0);
+                return (string) new Money($attributes['raised'] ?? 0);
             }
         );
     }

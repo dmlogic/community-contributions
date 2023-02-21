@@ -43,7 +43,8 @@ class LedgerController extends Controller
     {
         $request->createLedgerEntry();
 
-        return $this->done();
+        return Redirect::route('fund.show', $request->fund_id)
+                       ->with('success', 'Fund value updated');
     }
 
     public function verify(Ledger $ledger): RedirectResponse

@@ -17,10 +17,10 @@ But not delete the only fund
 And not delete funds with key relationships
 
 ✅ I need to manually adjust fund balances
-in order to reconcile offline activity
+👍 in order to reconcile offline activity
 
 ✅ I need to verify offline payment advice
-So I can ensure balance is reconciled
+👍 So I can ensure balance is reconciled
 
 ✅ I need to request a contribution to a fund
 So I can build up a reserve for works
