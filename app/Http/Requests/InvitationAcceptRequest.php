@@ -12,5 +12,4 @@ class InvitationAcceptRequest extends FormRequest
             'password' => ['required', 'confirmed'],
         ];
     }
-
 }

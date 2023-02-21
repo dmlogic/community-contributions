@@ -24,7 +24,7 @@ class LedgerController extends Controller
         return response()->json([
             'ledgers' => Ledger::forFund($request->fund_id, $request->filter)
                                ->simplePaginate(20)
-                               ->appends(['fund_id' => $request->fund_id, 'filter' => $request->filter])
+                               ->appends(['fund_id' => $request->fund_id, 'filter' => $request->filter]),
         ]);
     }
 
@@ -32,10 +32,10 @@ class LedgerController extends Controller
     {
         return Inertia::render('Fund/LedgerForm', [
             'residents' => Member::residents(),
-            'fund' => Fund::findOrFail($request->fund_id)->only(['id','name']),
+            'fund' => Fund::findOrFail($request->fund_id)->only(['id', 'name']),
             'requestId' => $request->request_id,
             'type' => LedgerTypes::ADMIN_ADJUSTMENT->value,
-            'created' => now()->subDays(1)->format('Y-m-d H:i')
+            'created' => now()->subDays(1)->format('Y-m-d H:i'),
         ]);
     }
 
@@ -64,6 +64,7 @@ class LedgerController extends Controller
     public function destroy(Ledger $ledger): RedirectResponse
     {
         $ledger->delete();
+
         return Redirect::route('fund.show', [$ledger->fund_id])
                        ->with('success', 'Fund value updated');
     }

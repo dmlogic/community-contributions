@@ -38,7 +38,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'can' => [
-                'admin' => $request->user()?->isAdmin()
+                'admin' => $request->user()?->isAdmin(),
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [

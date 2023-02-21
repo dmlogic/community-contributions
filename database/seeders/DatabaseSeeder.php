@@ -42,7 +42,6 @@ class DatabaseSeeder extends Seeder
         $this->seedProperties();
 
         Fund::factory()->create(['name' => 'Default fund']);
-
     }
 
     public function seedRoles(): array

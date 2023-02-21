@@ -98,7 +98,7 @@ class CampaignController extends Controller
     {
         return Inertia::render('Campaign/Form', [
             'campaign' => $campaign,
-            'funds' => Fund::get()
+            'funds' => Fund::get(),
         ]);
     }
 }

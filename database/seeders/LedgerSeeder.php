@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Ledger;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use RuntimeException;
 
 class LedgerSeeder extends Seeder
 {
@@ -14,7 +13,7 @@ class LedgerSeeder extends Seeder
         DB::table('ledger')->delete();
 
         $i = 200;
-        $userIds = [1,3,4];
+        $userIds = [1, 3, 4];
         while ($i > 0) {
             shuffle($userIds);
             Ledger::factory()->create(
@@ -23,7 +22,7 @@ class LedgerSeeder extends Seeder
                     'verified_at' => now(),
                     'user_id' => current($userIds),
                     'amount' => rand(5000, 10000),
-                    'created_at' => now()->subMinutes(rand(0,6000))
+                    'created_at' => now()->subMinutes(rand(0, 6000)),
                 ]
             );
             $i--;

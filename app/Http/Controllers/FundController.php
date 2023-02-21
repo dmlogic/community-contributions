@@ -26,7 +26,7 @@ class FundController extends Controller
             'fund' => $fund,
             'ledgers' => Ledger::forFund($fund->id, $request->filter)
                                ->simplePaginate(20)
-                               ->withPath(route('ledger.index',['fund_id' => $fund->id, 'filter' => $request->filter]))
+                               ->withPath(route('ledger.index', ['fund_id' => $fund->id, 'filter' => $request->filter])),
         ]);
     }
 
