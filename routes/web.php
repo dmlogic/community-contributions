@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
      */
     Route::prefix('ledger')->group(function () {
         Route::get('/', [LedgerController::class, 'index'])->name('ledger.index');
+        Route::get('/new', [LedgerController::class, 'create'])->name('ledger.create');
         Route::post('/', [LedgerController::class, 'store'])->name('ledger.store');
         Route::patch('/{ledger}', [LedgerController::class, 'verify'])->name('ledger.verify')
              ->middleware('auth.admin');

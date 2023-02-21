@@ -21,3 +21,14 @@ export function balanceColor(amount) {
     }
     return 'text-amber-800'
 }
+
+export function ledgerTypes() {
+    return {
+        'RESIDENT_REQUEST': 'Funding request',
+        'RESIDENT_ADDITIONAL': 'Voluntary payment',
+        'RESIDENT_OFFLINE': 'Offline payment',
+        'ADMIN_ADJUSTMENT': 'Ledger adjustment',
+        'EXPENDITURE': 'Expenditure',
+        'FEES': 'Banking fees'
+    }
+}

@@ -16,6 +16,7 @@ let nextPage = props.ledgers.next_page_url;
 const loadMoreIntersect = ref(null)
 const confirmingVerify = ref(false);
 const confirmingDeletion = ref(false);
+const showAddForm = ref(false);
 const formProcesssing = ref(false);
 const formAction = ref(false);
 const filter = computed(function() {
@@ -62,6 +63,9 @@ onMounted(() => {
 </script>
 
 <template>
+    <div class="mt-4 mb-10 text-right">
+        <PrimaryButton type="button" @click="router.get(route('ledger.create',{fund_id: props.fundId}))">Add manual entry</PrimaryButton>
+    </div>
     <div class="my-4">
         <Link :class="[
             'mr-4 inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150',

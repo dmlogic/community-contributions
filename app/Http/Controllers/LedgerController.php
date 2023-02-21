@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fund;
+use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Ledger;
+use App\Models\Member;
+use App\Enums\LedgerTypes;
 use Illuminate\Http\Request;
 use App\Concerns\UpdatesFundBalance;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +25,17 @@ class LedgerController extends Controller
             'ledgers' => Ledger::forFund($request->fund_id, $request->filter)
                                ->simplePaginate(20)
                                ->appends(['fund_id' => $request->fund_id, 'filter' => $request->filter])
+        ]);
+    }
+
+    public function create(Request $request): Response
+    {
+        return Inertia::render('Fund/LedgerForm', [
+            'residents' => Member::residents(),
+            'fund' => Fund::findOrFail($request->fund_id)->only(['id','name']),
+            'requestId' => $request->request_id,
+            'type' => LedgerTypes::ADMIN_ADJUSTMENT->value,
+            'created' => now()->subDays(1)->format('Y-m-d H:i')
         ]);
     }
 

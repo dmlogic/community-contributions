@@ -5,7 +5,6 @@ import { Link } from '@inertiajs/vue3';
 import { balanceBackground } from '@/helpers.js';
 import Icon from '@/Components/Icon.vue';
 import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
 
 const props = defineProps({
     model: Object,
@@ -16,7 +15,7 @@ const date = computed(() => moment(props.model.created_at).format('DD/MM/YYYY'))
 const type = computed(function () {
     switch (props.model.type) {
         case 'RESIDENT_REQUEST':
-            return 'Fundung request';
+            return 'Funding request';
         case 'RESIDENT_ADDITIONAL':
             return 'Voluntary payment';
         case 'RESIDENT_OFFLINE':

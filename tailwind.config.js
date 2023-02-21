@@ -10,6 +10,7 @@ module.exports = {
         './resources/js/helpers.js',
     ],
 
+
     theme: {
         extend: {
             fontFamily: {
