@@ -12,3 +12,12 @@ export function balanceBackground(amount) {
     }
     return 'bg-amber-500/20'
 }
+export function balanceColor(amount) {
+    if(amount > 0) {
+        return 'text-lime-800'
+    }
+    if(amount < 0) {
+        return 'text-red-800'
+    }
+    return 'text-amber-800'
+}

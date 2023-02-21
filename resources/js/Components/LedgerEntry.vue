@@ -69,8 +69,17 @@ const type = computed(function () {
                 </template>
 
                 <template #content>
-                    <DropdownLink v-if="!model.verified_at" :href="route('ledger.verify', model.id)" method="patch" as="button">Verify</DropdownLink>
-                    <DropdownLink :href="route('ledger.destroy', model.id)" method="delete" as="button">Delete</DropdownLink>
+                    <button
+                        class="dropdown-link"
+                        v-if="!model.verified_at"
+                        @click="$emit('verifyLedger', model.id)">
+                        Verify
+                    </button>
+                    <button
+                        class="dropdown-link"
+                        @click="$emit('deleteLedger', model.id)">
+                        Delete
+                    </button>
                 </template>
             </Dropdown>
         </td>

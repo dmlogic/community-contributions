@@ -12,3 +12,22 @@
     @apply focus:ring-offset-2;
     @apply focus:ring-teal-500;
 }
+
+.dropdown-link {
+    @apply block;
+    @apply w-full;
+    @apply px-4;
+    @apply py-2;
+    @apply text-left;
+    @apply text-sm;
+    @apply rounded-md;
+    @apply leading-5;
+    @apply text-gray-900;
+    @apply hover:bg-amber-700;
+    @apply hover:text-white;
+    @apply focus:outline-none;
+    @apply focus:bg-gray-100;
+    @apply transition;
+    @apply duration-150;
+    @apply ease-in-out;
+}

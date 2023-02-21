@@ -40,14 +40,15 @@ class LedgerController extends Controller
         $ledger->save();
         $this->updateFund($ledger->fund, $ledger->amount);
 
-        return $this->done();
+        return Redirect::route('fund.show', [$ledger->fund_id])
+                       ->with('success', 'Fund value updated');
     }
 
     public function destroy(Ledger $ledger): RedirectResponse
     {
         $ledger->delete();
-
-        return $this->done();
+        return Redirect::route('fund.show', [$ledger->fund_id])
+                       ->with('success', 'Fund value updated');
     }
 
     private function done(): RedirectResponse

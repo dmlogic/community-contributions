@@ -1,6 +1,10 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
+import Modal from '@/Components/Modal.vue';
 import LedgerEntry from '@/Components/LedgerEntry.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 import { ref, onMounted, reactive, computed } from 'vue';
 
 const props = defineProps({
@@ -10,6 +14,10 @@ const props = defineProps({
 let allData = reactive(props.ledgers.data);
 let nextPage = props.ledgers.next_page_url;
 const loadMoreIntersect = ref(null)
+const confirmingVerify = ref(false);
+const confirmingDeletion = ref(false);
+const formProcesssing = ref(false);
+const formAction = ref(false);
 const filter = computed(function() {
     let urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('filter') ?? 'all'
@@ -29,6 +37,22 @@ function loadMore() {
         nextPage = response.ledgers.next_page_url
     });
 }
+
+function confirmDeleteLedger(entryId) {
+    formAction.value = route('ledger.destroy', entryId);
+    confirmingDeletion.value = true;
+}
+
+function confirmVerifyLedger(entryId) {
+    formAction.value = route('ledger.verify', entryId);
+    confirmingVerify.value = true;
+}
+
+const closeModal = () => {
+    confirmingDeletion.value = false;
+    confirmingVerify.value = false
+};
+
 onMounted(() => {
     const observer = new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && loadMore(), {
       rootMargin: "-150px 0px 0px 0px"
@@ -60,8 +84,57 @@ onMounted(() => {
             </tr>
         </thead>
         <tbody>
-            <LedgerEntry v-for="ledger in allData" :model="ledger"  />
+            <LedgerEntry
+                v-for="ledger in allData"
+                :model="ledger"
+                @verify-ledger="confirmVerifyLedger"
+                @delete-ledger="confirmDeleteLedger"  />
         </tbody>
     </table>
     <span data-foo="fum" ref="loadMoreIntersect"/>
+
+    <Modal :show="confirmingDeletion" @close="closeModal">
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                Are you sure you want to delete this transaction? There is no undo and the fund balance will be adjusted.
+            </h2>
+
+            <div class="mt-6 flex justify-center">
+                <SecondaryButton @click="closeModal" class="mr-10"> Cancel </SecondaryButton>
+                <form :action="formAction" method="POST">
+                    <DangerButton
+                        class="ml-3"
+                        :type="'submit'"
+                        :class="{ 'opacity-25': formProcesssing }"
+                        :disabled="formProcesssing"
+                        @click="formProcesssing.value = true">
+                        Delete transaction
+                    </DangerButton>
+                    <input type="hidden" name="_method" value="DELETE"/>
+                </form>
+            </div>
+        </div>
+    </Modal>
+    <Modal :show="confirmingVerify" @close="closeModal">
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                Are you sure you want to vefify this transaction and update fund balance?
+            </h2>
+
+            <div class="mt-6 flex justify-center">
+                <SecondaryButton @click="closeModal" class="mr-10"> Cancel </SecondaryButton>
+                <form :action="formAction" method="POST">
+                    <PrimaryButton
+                        class="ml-3"
+                        :type="'submit'"
+                        :class="{ 'opacity-25': formProcesssing }"
+                        :disabled="formProcesssing"
+                        @click="formProcesssing.value = true">
+                        Verify transaction
+                    </PrimaryButton>
+                    <input type="hidden" name="_method" value="PATCH"/>
+                </form>
+            </div>
+        </div>
+    </Modal>
 </template>
