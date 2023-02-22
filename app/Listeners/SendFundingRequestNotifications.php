@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use App\Notifications\FundingRequest;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\CampaignRequestsGenerated;
+use App\Models\CampaignRequest;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -26,6 +27,12 @@ class SendFundingRequestNotifications implements ShouldQueue
         $this->requests = $event->requests;
         $this->eagerLoadUsers();
         $this->sendNotifications();
+        $this->updateNotificationDate();
+    }
+
+    public function updateNotificationDate()
+    {
+        CampaignRequest::whereIn('id', $this->requests->pluck('id'))->update(['notified_at' => now()]);
     }
 
     public function sendNotifications(): void

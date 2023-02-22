@@ -12,3 +12,6 @@ So I know the code works
 
 I must CSRF protection back on when I've finalised the form submission process for Stripe
 So it's safer
+
+I need to sort out the menu highlighting
+So that is works correctly for nested routes

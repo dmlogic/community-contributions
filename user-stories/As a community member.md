@@ -21,6 +21,9 @@ So I can contribute with the minimum of hassle
     manually or Stripe
 So I can contribute for any additional liability
 
+I a missing contribution request to change itself to a voluntary request
+In case the admin deleted the request before I acted on it
+
 I need to see any outstanding requests I have
 So I have any easy means to click and pay
 

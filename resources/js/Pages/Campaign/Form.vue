@@ -34,6 +34,7 @@ const closeModal = () => {
 };
 
 function submitForm() {
+    form.target = form.target * 100;
     if(props.campaign.id) {
         form.patch(route('campaign.update', props.campaign.id));
     } else {

@@ -26,7 +26,7 @@ class CampaignRequest extends Model
     {
         return Attribute::make(
             get: function ($value, $attributes) {
-                return new Money($attributes['amount']);
+                return (string) new Money($attributes['amount']);
             }
         );
     }
@@ -37,5 +37,10 @@ class CampaignRequest extends Model
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    public function ledger(): BelongsTo
+    {
+        return $this->belongsTo(Ledger::class);
     }
 }
