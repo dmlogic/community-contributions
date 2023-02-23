@@ -32,7 +32,10 @@ defineProps({
                     class="hover:bg-neutral-100 cursor-pointer"
                     @click="router.get(route('campaign.show',campaign.id))">
                     <td class=" py-3 px-5 border-b border-blue-gray-50">{{  campaign.description }}</td>
-                    <td class=" py-3 px-5 border-b border-blue-gray-50">{{  campaign.raised_value }} / {{  campaign.target_value }}</td>
+                    <td class=" py-3 px-5 border-b border-blue-gray-50">
+                        <span v-if="campaign.closed_at" class="font-xs p-2 rounded-full bg-yellow-600/40">Closed</span>
+                        {{  campaign.raised_value }} / {{  campaign.target_value }}
+                    </td>
                     <td class=" py-3 px-5 border-b border-blue-gray-50 text-right">
                         <Link class="inline-anchor font-bold" @click.stop="" :href="route('campaign.edit', campaign.id)">
                             Edit

@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/campaign/{campaign}/request', [CampaignController::class, 'newRequest'])->name('campaign.new-request');
         Route::delete('/campaign/{campaign}/request', [CampaignController::class, 'deleteRequest'])->name('campaign.delete-request');
         Route::post('/campaign/{campaign}/remind', [CampaignController::class, 'remindRequest'])->name('campaign.remind-request');
+        Route::patch('/campaign/{campaign}/close', [CampaignController::class, 'close'])->name('campaign.close');
 
         Route::resources(
             [

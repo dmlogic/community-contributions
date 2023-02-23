@@ -24,6 +24,15 @@ class Campaign extends Model
         'closed_at' => 'datetime',
     ];
 
+    public function close(): void
+    {
+        $this->closed_at = now();
+        $this->save();
+    }
+
+    // ------------------------------------------------------------------------
+    // Custom attributes
+
     public function targetValue(): Attribute
     {
         return Attribute::make(

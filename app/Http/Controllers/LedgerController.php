@@ -33,8 +33,10 @@ class LedgerController extends Controller
         return Inertia::render('Fund/LedgerForm', [
             'residents' => Member::residents(),
             'fund' => Fund::findOrFail($request->fund_id)->only(['id', 'name']),
-            'requestId' => $request->request_id,
-            'type' => LedgerTypes::ADMIN_ADJUSTMENT->value,
+            'requestId' => (int) $request->request_id,
+            'amount' => (int) $request->amount,
+            'userId' => (int) $request->user_id,
+            'type' => $request->user_id ? LedgerTypes::RESIDENT_OFFLINE->value : LedgerTypes::ADMIN_ADJUSTMENT->value,
             'created' => now()->subDays(1)->format('Y-m-d H:i'),
         ]);
     }
@@ -42,6 +44,11 @@ class LedgerController extends Controller
     public function store(LedgerCreateRequest $request): RedirectResponse
     {
         $request->createLedgerEntry();
+
+        if($request->campaignRequest) {
+            return Redirect::route('campaign.show', $request->campaignRequest->campaign_id)
+                       ->with('success', 'Campaign total updated');
+        }
 
         return Redirect::route('fund.show', $request->fund_id)
                        ->with('success', 'Fund value updated');

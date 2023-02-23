@@ -13,17 +13,19 @@ const props = defineProps({
     residents: Object,
     fund: Object,
     requestId: String,
+    userId: String,
+    amount: Number,
     type: String,
     created: String,
 });
 
 const form = useForm({
-    user_id: null,
+    user_id: props.userId ?? null,
     fund_id: props.fund.id,
     request_id: props.requestId,
     type: props.type,
     description: null,
-    amount: '0.00',
+    amount: props.amount ?? '0.00',
     created_at: props.created,
 })
 

@@ -7,7 +7,7 @@ import DangerButton from '@/Components/DangerButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
 import Icon from '@/Components/Icon.vue';
 import moment from 'moment';
@@ -189,8 +189,21 @@ function changeTab(index) {
                                     {{ moment(request.notified_at).format('DD/MM/YYYY') }}
                                 </td>
                                 <td class="py-3 px-5 border-b border-blue-gray-50 text-left">
-                                    <span v-if="request.ledger" class="bg-lime-100 rounded p-2">Paid {{ moment(request.ledger.created_at).format('DD/MM/YYYY') }}</span>
-                                    <span v-else="request.ledger" class="">Pending</span>
+                                    <span v-if="request.ledger"><span class="bg-lime-100 rounded-full p-2">Paid</span> {{ moment(request.ledger.created_at).format('DD/MM/YYYY') }}</span>
+                                    <div v-else="request.ledger" class="">
+                                        <span class="rounded-full p-2">Pending</span>
+                                        <Link v-if="!request.ledger"
+                                             :href="route('ledger.create',{
+                                                'fund_id' : campaign.fund_id,
+                                                'request_id': request.id,
+                                                'amount' : request.amount / 100,
+                                                'type': 'RESIDENT_OFFLINE',
+                                                'user_id': request.user_id,
+                                                })"
+                                             class="inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-[0.6rem] text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150">
+                                             Log payment
+                                        </Link>
+                                    </div>
                                 </td>
                                 <td class="py-3 px-5 border-b border-blue-gray-50 text-right">
                                     <input type="checkbox" v-if="!request.ledger_id" :value="request.user_id" v-model="checkedRequests">

@@ -31,7 +31,7 @@ class CampaignController extends Controller
 
     public function store(CampaignUpsertRequest $request): RedirectResponse
     {
-        $campaign = Campaign::create($request->validated());
+        Campaign::create($request->validated());
 
         return Redirect::route('campaign.index')
                        ->with('success', 'Campaign created');
@@ -43,8 +43,8 @@ class CampaignController extends Controller
             'campaign' => $campaign,
             'requests' => $campaign->requests()
                                    ->with('ledger')
-                                   ->orderBy('ledger_id','desc')
-                                   ->orderBy('updated_at','asc')
+                                   ->orderBy('ledger_id', 'desc')
+                                   ->orderBy('updated_at', 'asc')
                                    ->get()
                                    ->keyBy('user_id'),
             'residents' => Member::residents()
@@ -64,6 +64,13 @@ class CampaignController extends Controller
 
         return Redirect::route('campaign.index')
                        ->with('success', 'Campaign updated');
+    }
+
+    public function close(Campaign $campaign): RedirectResponse
+    {
+        $campaign->close();
+        return Redirect::route('campaign.index')
+                       ->with('success', 'Campaign closed');
     }
 
     public function destroy(Campaign $campaign): RedirectResponse

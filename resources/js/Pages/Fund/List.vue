@@ -38,7 +38,7 @@ defineProps({
                         <em>{{ fund.description }}</em>
                     </td>
                     <td class="py-3 px-5 border-b border-blue-gray-50">
-                        <span :class="['rounded-md p-2',balanceBackground(fund.balance)]">
+                        <span :class="['rounded-full p-2',balanceBackground(fund.balance)]">
                             {{fund.value}}
                         </span>
                     </td>

@@ -4,10 +4,10 @@ namespace App\Listeners;
 
 use App\Models\User;
 use App\Models\Campaign;
+use App\Models\CampaignRequest;
 use App\Notifications\FundingRequest;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\CampaignRequestsGenerated;
-use App\Models\CampaignRequest;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 

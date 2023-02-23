@@ -8,7 +8,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import Modal from '@/Components/Modal.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 const props = defineProps({
     campaign: Object,
@@ -22,6 +22,7 @@ const form = useForm({
 })
 
 const confirmingDeletion = ref(false);
+const confirmingClose = ref(false);
 const deleteCampaign = () => {
     form.delete(route('campaign.destroy', props.campaign.id), {
         preserveScroll: true,
@@ -30,6 +31,7 @@ const deleteCampaign = () => {
 };
 const closeModal = () => {
     confirmingDeletion.value = false;
+    confirmingClose.value = false;
     form.reset();
 };
 
@@ -103,9 +105,34 @@ function submitForm() {
 
         </form>
 
-        <div v-if="campaign.id && !form.user_id" class="mt-10 p-4 sm:p-8 bg-red-900/10 w-56 shadow sm:rounded-lg space-y-6">
-            <DangerButton @click="confirmingDeletion = true">Delete campaign</DangerButton>
+        <div class="grid grid-cols-2 justify-items-center" v-if="campaign.id">
+            <div  class="mt-10 p-4 sm:p-8 bg-red-900/10 w-56 shadow sm:rounded-lg space-y-6">
+                <DangerButton @click="confirmingDeletion = true">Delete campaign</DangerButton>
+            </div>
+            <div class="mt-10 p-4 sm:p-8 bg-lime-900/10 w-56 shadow sm:rounded-lg space-y-6" v-if="!campaign.closed_at">
+                <PrimaryButton @click="confirmingClose = true" class="bg-lime-700 hover:bg-lime-900">Close campaign</PrimaryButton>
+            </div>
         </div>
+
+        <Modal :show="confirmingClose" @close="closeModal">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    Are you sure you want to close this campaign? Contributions can still be made but it will dissapear from your dashboard
+                </h2>
+
+                <div class="mt-6 flex justify-center">
+                    <SecondaryButton @click="closeModal" class="mr-10"> Cancel </SecondaryButton>
+
+                    <form @submit.prevent="router.patch(route('campaign.close',campaign.id))">
+                        <PrimaryButton
+                            class="ml-3"
+                        >
+                            Close campaign
+                        </PrimaryButton>
+                    </form>
+                </div>
+            </div>
+        </Modal>
 
         <Modal :show="confirmingDeletion" @close="closeModal">
             <div class="p-6">

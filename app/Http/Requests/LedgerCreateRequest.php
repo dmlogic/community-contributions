@@ -7,21 +7,27 @@ use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use App\Events\CampaignContributionCreated;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LedgerCreateRequest extends FormRequest
 {
+    public $campaignRequest;
+
     public function createLedgerEntry()
     {
+        if ($this->input('request_id')) {
+            $this->campaignRequest = CampaignRequest::findorFail($this->input('request_id'));
+        }
+
         $data = $this->validator->safe()->except(['request_id']);
         if ($this->user()->isAdmin()) {
             $data['verified_at'] = now();
         }
         $ledger = Ledger::create($data);
 
-        if ($this->query('request_id')) {
-            CampaignRequest::where(['id' => $this->validated('request_id')])
-                            ->update(['ledger_id' => $ledger->id]);
+        if ($this->campaignRequest) {
+            CampaignContributionCreated::dispatch($this->campaignRequest, $ledger);
         }
     }
 

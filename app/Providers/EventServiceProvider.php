@@ -9,6 +9,8 @@ use App\Observers\InvitationObserver;
 use Illuminate\Auth\Events\Registered;
 use App\Events\CampaignRequestsGenerated;
 use App\Events\CampaignRemindersGenerated;
+use App\Listeners\LogCampaignContribution;
+use App\Events\CampaignContributionCreated;
 use App\Listeners\SendFundingRequestNotifications;
 use App\Listeners\SendFundingReminderNotifications;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -30,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         CampaignRemindersGenerated::class => [
             SendFundingReminderNotifications::class,
+        ],
+        CampaignContributionCreated::class => [
+            LogCampaignContribution::class,
         ],
     ];
 

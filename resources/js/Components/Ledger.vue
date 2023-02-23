@@ -16,7 +16,6 @@ let nextPage = props.ledgers.next_page_url;
 const loadMoreIntersect = ref(null)
 const confirmingVerify = ref(false);
 const confirmingDeletion = ref(false);
-const showAddForm = ref(false);
 const formProcesssing = ref(false);
 const formAction = ref(false);
 const filter = computed(function() {
@@ -68,13 +67,13 @@ onMounted(() => {
     </div>
     <div class="my-4">
         <Link :class="[
-            'mr-4 inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150',
-            filter === 'all' || !filter ? 'bg-teal-900' : null
+            'rounded-l-lg px-6 py-2 font-md ui-selected:font-semibold uppercase my-4',
+            filter === 'all' || !filter ? 'bg-teal-700 text-white' : 'bg-teal-700/10'
             ]"
              :href="route('fund.show',props.fundId)">All activity</Link>
         <Link :class="[
-            'mr-4 inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-900/50 transition ease-in-out duration-150',
-            filter === 'unverified' ? 'bg-blue-900' : null
+            'rounded-r-lg px-6 py-2 font-md ui-selected:font-semibold uppercase my-4',
+            filter === 'unverified' || !filter ? 'bg-teal-700 text-white' : 'bg-teal-700/10'
             ]"
             :href="route('fund.show',{fund: props.fundId, filter: 'unverified'})">Unverified payments</Link>
     </div>
