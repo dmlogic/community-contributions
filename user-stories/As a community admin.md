@@ -12,7 +12,7 @@
     ✅ property details and name pre-filled
 
 ✅ I need to manage funds
-So I can prompt and track contributions
+👍 So I can prompt and track contributions
 But not delete the only fund
 And not delete funds with key relationships
 
@@ -23,13 +23,13 @@ And not delete funds with key relationships
 👍 So I can ensure balance is reconciled
 
 ✅ I need to request a contribution to a fund
-So I can build up a reserve for works
+👍 So I can build up a reserve for works
 
 ✅ I need to review who has paid any given request
-So I can delete or send a nag
+👍 So I can delete or send a nag
 
 I need to post information about maintenance activity
 So the community has visibility
 
-I need to receive an email whenever an offline payment is logged
-So I know I need to go verify
+✅ I need to receive an email whenever an offline payment is logged
+👍 So I know I need to go verify

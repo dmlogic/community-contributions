@@ -32,11 +32,15 @@ class DatabaseSeeder extends Seeder
             ->roles()->attach([Roles::SUPPLIER]);
 
         User::factory()
-            ->create()
+            ->create([
+                'email' => 'resident1@example.com',
+            ])
             ->roles()->attach([Roles::RESIDENT]);
 
         User::factory()
-            ->create()
+            ->create([
+                'email' => 'resident2@example.com',
+            ])
             ->roles()->attach([Roles::RESIDENT]);
 
         $this->seedProperties();
