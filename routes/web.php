@@ -12,6 +12,8 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\InvitationController;
 
 Route::get('/scratch', function () {
+
+    return \App\Models\CampaignRequest::where('user_id',2)->findOrFail( 2);
 });
 
 Route::get('/', function () {
@@ -36,6 +38,8 @@ Route::prefix('invitation')->group(function () {
  * Stripe payment
  */
 Route::prefix('payment')->group(function () {
+    Route::get('/', [PaymentController::class, 'form'])->name('payment.form')
+         ->middleware('auth');
     Route::post('/', [PaymentController::class, 'checkout'])->name('payment.checkout')
             ->middleware('auth');
     Route::get('/success', [PaymentController::class, 'success'])->name('payment.success')
@@ -43,7 +47,8 @@ Route::prefix('payment')->group(function () {
     Route::get('/error', [PaymentController::class, 'error'])->name('payment.error')
             ->middleware('auth');
     Route::post('/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
-            ->middleware('stripe');
+            // ->middleware('stripe')
+            ;
 });
 
 // All subsequent routes require a login of some sort

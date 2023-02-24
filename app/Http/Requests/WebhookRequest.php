@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Ledger;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
+use App\Events\CampaignContributionCreated;
 use Illuminate\Foundation\Http\FormRequest;
 
 class WebhookRequest extends FormRequest
@@ -23,8 +24,8 @@ class WebhookRequest extends FormRequest
             'verified_at' => now(),
         ]);
 
-        if ($requestId) {
-            CampaignRequest::where('id', $requestId)->update(['ledger_id' => $ledger->id]);
+        if ($requestId && $campaignRequest = CampaignRequest::find($requestId)) {
+            CampaignContributionCreated::dispatch($campaignRequest, $ledger);
         }
     }
 
