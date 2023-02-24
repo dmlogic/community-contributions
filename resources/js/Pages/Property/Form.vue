@@ -59,7 +59,7 @@ function submitForm() {
         </template>
 
 
-        <form @submit.prevent="submitForm" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg space-y-6">
+        <form @submit.prevent="submitForm" class="standard-form">
 
             <div>
                 <InputLabel for="number" value="Number" />

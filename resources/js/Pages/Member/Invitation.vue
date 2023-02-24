@@ -25,7 +25,7 @@ const form = useForm({
         <template #header>
             Invite new resident
         </template>
-        <form @submit.prevent="form.post(route('invitation.store'))" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg space-y-6">
+        <form @submit.prevent="form.post(route('invitation.store'))"  class="standard-form">
             <div>
                 <InputLabel for="name" value="Name" />
                 <TextInput

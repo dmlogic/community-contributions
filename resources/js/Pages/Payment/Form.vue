@@ -1,10 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     request: Object,
@@ -27,45 +24,46 @@ const form = useForm({
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Confirm contribution amount</h2>
         </template>
 
-        <div>
-            <div>
-                <div v-if="request">
-                    <p>
-                        Thank you for contributing to the {{ request.campaign.description }} funding campaign.
-                    </p>
-                    <p>
-                        We have currently raised {{ request.campaign.raised_value }} against our target of {{ request.campaign.target_value }}.
-                    </p>
-                </div>
-                <div v-else>
-                    Thank you for making a voluntary payment.
-                </div>
-                <p>
-                    The balance for the {{ fund.name }} fund is {{ fund.value }}
+        <div class="p-4">
+            <div v-if="request">
+                <p class="mb-4">
+                    Thank you for contributing to the <strong>{{ request.campaign.description }}</strong> funding campaign.
+                </p>
+                <p class="mb-4">
+                    We have currently raised <strong>{{ request.campaign.raised_value }}</strong> against our target of <strong>{{ request.campaign.target_value }}</strong>.
                 </p>
             </div>
+            <div v-else class="mb-4">
+                Thank you for making a voluntary payment.
+            </div>
+            <p class="mb-4">
+                The balance for the <strong>{{ fund.name }}</strong> fund is <strong>{{ fund.value }}</strong>
+            </p>
 
-            <form :action="route('payment.checkout')" method="post"  v-if="!request || !request.ledger_id">
-                <p>
+            <form :action="route('payment.checkout')" method="post"  v-if="!request || !request.ledger_id"  class="mt-8">
+                <p class="mb-4">
                     Please confirm the amount to pay below and then continue to the payment form, hosted by Stripe.com
                 </p>
-                <p>
-                    <TextInput
-                        id="amount"
-                        name="amount"
-                        type="number"
-                        v-model="form.amount"
-                        class="mt-1 block w-full"
-                        required
-                            />
+                <div class="mb-4">
+                    <div class="border border-gray-300 focus:border-teal-500 focus:ring-teal-500 rounded-md shadow-sm inline-block text-2xl">
+                        <span class="font-bold px-2">£ </span>
+                        <input
+                            class="inline bg-none border-none focus:border-none text-2xl"
+                            name="amount"
+                            type="number"
+                            step="1"
+                            min="1"
+                            v-model="form.amount"
+                        />
+                    </div>
                     <input type="hidden" name="fund_id" v-model="form.fund_id"/>
                     <input type="hidden" name="request_id" v-model="form.request_id"/>
-                </p>
-                <p>
+                </div>
+                <div class="mt-4 text-right">
                     <PrimaryButton class="ml-4" >
                         Continue to payment form
                     </PrimaryButton>
-                </p>
+                </div>
             </form>
             <div v-else>
                 A payment against this funding request has already been made.

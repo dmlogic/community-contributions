@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.standard-form {
+    @apply p-4;
+    @apply sm:p-8;
+    @apply bg-white;
+    @apply shadow;
+    @apply sm:rounded-lg;
+    @apply space-y-6;
+}
+
 .inline-anchor {
     @apply underline;
     @apply text-teal-700;

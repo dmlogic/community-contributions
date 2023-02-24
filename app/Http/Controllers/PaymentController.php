@@ -28,6 +28,7 @@ class PaymentController extends Controller
         }
         return Inertia::render('Payment/Form',$formData);
     }
+
     public function checkout(StripeClient $stripe, PaymentRequest $request): Response
     {
         $session = $stripe->checkout->sessions->create([
@@ -52,17 +53,16 @@ class PaymentController extends Controller
     public function confirm(WebhookRequest $request)
     {
         $request->processWebhook();
-
         return 'ok';
     }
 
     public function success()
     {
-        return '@todo payment success';
+        return Inertia::render('Payment/Success');
     }
 
     public function error()
     {
-        return '@todo payment error';
+        return Inertia::render('Payment/Failure');
     }
 }

@@ -47,7 +47,7 @@ Route::prefix('payment')->group(function () {
     Route::get('/error', [PaymentController::class, 'error'])->name('payment.error')
             ->middleware('auth');
     Route::post('/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
-            // ->middleware('stripe')
+            ->middleware('stripe')
             ;
 });
 
