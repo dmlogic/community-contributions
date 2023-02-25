@@ -25,13 +25,8 @@ class PaymentController extends Controller
          * But if we don't find one, we don't fail. Instead treat it like an additional
          * funding request and allow the resident to continue to payment
          */
-        if ($request->input('request_id')) {
-            $formData['request'] = CampaignRequest::where('user_id', $request->user()->id)
-                                        ->with('campaign')
-                                        ->find($request->input('request_id'));
-            if($formData['request']) {
-                $formData['amount'] = $formData['request']->amount / 100;
-            }
+        if($formData['request'] = CampaignRequest::loadFromHttpRequest($request)) {
+            $formData['amount'] = $formData['request']->amount / 100;
         }
 
         return Inertia::render('Payment/Form', $formData);
