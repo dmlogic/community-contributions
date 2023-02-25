@@ -38,6 +38,7 @@ class LedgerController extends Controller
             'userId' => (int) $request->user_id,
             'type' => $request->user_id ? LedgerTypes::RESIDENT_OFFLINE->value : LedgerTypes::ADMIN_ADJUSTMENT->value,
             'created' => now()->subDays(1)->format('Y-m-d H:i'),
+            'description' => $request->type === LedgerTypes::RESIDENT_OFFLINE->value ? 'Reconciled from bank statement' : '',
         ]);
     }
 
@@ -45,7 +46,7 @@ class LedgerController extends Controller
     {
         $request->createLedgerEntry();
 
-        if($request->campaignRequest) {
+        if ($request->campaignRequest) {
             return Redirect::route('campaign.show', $request->campaignRequest->campaign_id)
                        ->with('success', 'Campaign total updated');
         }

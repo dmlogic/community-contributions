@@ -94,6 +94,7 @@ onMounted(() => {
                 @delete-ledger="confirmDeleteLedger"  />
         </tbody>
     </table>
+    <p v-else class="m-6">No activity found</p>
     <span data-foo="fum" ref="loadMoreIntersect"/>
 
     <Modal :show="confirmingDeletion" @close="closeModal">

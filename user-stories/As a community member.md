@@ -11,17 +11,18 @@
 ✅ I need a means to recover my password
 👍 So I can gain access if I have forgotten it
 
-✅ I need to manually make contributions to a specific request
-So I can keep my contributions up to date if I miss a request
-
 ✅ I need to pay contribution requests via Stripe
-So I can contribute with the minimum of hassle
+👍 So I can contribute with the minimum of hassle
+
+✅ I need to manually make contributions to a specific request
+👍 In order to avoid bank fees
+So I can keep my contributions up to date if I miss a request
 
 ✅ I need to make additional contributions to a chosen fund
     manually or Stripe
 So I can contribute for any additional liability
 
-I a missing contribution request to change itself to a voluntary request
+A missing contribution request should redirect to a voluntary request
 In case the admin deleted the request before I acted on it
 
 I need to see any outstanding requests I have

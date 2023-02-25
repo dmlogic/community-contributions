@@ -56,10 +56,11 @@ class HandleInertiaRequests extends Middleware
         }
         $nav = [
             ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'gauge-simple-high'],
-            ['route' => 'campaign.index', 'label' => 'Campaigns', 'icon' => 'sack-dollar'],
-            ['route' => 'fund.index', 'label' => 'Funds', 'icon' => 'building-columns'],
+
         ];
         if ($user->isAdmin()) {
+            $nav[] = ['route' => 'campaign.index', 'label' => 'Campaigns', 'icon' => 'sack-dollar'];
+            $nav[] = ['route' => 'fund.index', 'label' => 'Funds', 'icon' => 'building-columns'];
             $nav[] = ['route' => 'member.index', 'label' => 'Members', 'icon' => 'users'];
             $nav[] = ['route' => 'property.index', 'label' => 'Properties', 'icon' => 'map-location'];
         }

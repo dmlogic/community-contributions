@@ -17,6 +17,7 @@ const props = defineProps({
     amount: Number,
     type: String,
     created: String,
+    description: String,
 });
 
 const form = useForm({
@@ -24,7 +25,7 @@ const form = useForm({
     fund_id: props.fund.id,
     request_id: props.requestId,
     type: props.type,
-    description: null,
+    description: props.description,
     amount: props.amount ?? '0.00',
     created_at: props.created,
 })

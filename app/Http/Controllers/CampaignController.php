@@ -42,13 +42,11 @@ class CampaignController extends Controller
         return Inertia::render('Campaign/View', [
             'campaign' => $campaign,
             'requests' => $campaign->requests()
-                                   ->with('ledger')
-                                   ->orderBy('ledger_id', 'desc')
-                                   ->orderBy('updated_at', 'asc')
-                                   ->get()
-                                   ->keyBy('user_id'),
-            'residents' => Member::residents()
-                                 ->keyBy('id'),
+                                    ->orderBy('ledger_id', 'asc')
+                                    ->orderBy('updated_at', 'asc')
+                                    ->with('ledger')
+                                    ->get(),
+            'residents' => Member::residents(),
         ]);
     }
 
@@ -69,6 +67,7 @@ class CampaignController extends Controller
     public function close(Campaign $campaign): RedirectResponse
     {
         $campaign->close();
+
         return Redirect::route('campaign.index')
                        ->with('success', 'Campaign closed');
     }

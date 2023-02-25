@@ -1,6 +1,5 @@
 <?php
 
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FundController;
 use App\Http\Controllers\LedgerController;
@@ -9,16 +8,16 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
 
 Route::get('/scratch', function () {
-
-    return \App\Models\CampaignRequest::where('user_id',2)->findOrFail( 2);
+    return \App\Models\CampaignRequest::where('user_id', 2)->findOrFail(2);
 });
 
-Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'show'])
+     ->name('dashboard')
+     ->middleware(['auth', 'verified']);
 
 /**
  * Invitation handling
@@ -47,8 +46,7 @@ Route::prefix('payment')->group(function () {
     Route::get('/error', [PaymentController::class, 'error'])->name('payment.error')
             ->middleware('auth');
     Route::post('/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
-            ->middleware('stripe')
-            ;
+            ->middleware('stripe');
 });
 
 // All subsequent routes require a login of some sort

@@ -19,7 +19,7 @@ defineProps({
         <div class="mt-4 mb-10 text-right">
             <PrimaryButton type="button" @click="router.get(route('campaign.create'))">Add campaign</PrimaryButton>
         </div>
-        <table v-if="campaigns" class="w-full table-auto">
+        <table v-if="campaigns.length" class="w-full table-auto">
             <thead>
                 <tr>
                     <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Description</th>
