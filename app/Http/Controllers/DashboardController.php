@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Fund;
 use Inertia\Inertia;
-use App\Models\Campaign;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class DashboardController extends Controller

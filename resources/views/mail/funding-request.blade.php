@@ -11,7 +11,7 @@ Pay online
 </x-mail::button>
 </x-mail::panel>
 
-We are trying to raise a total of **{{$campaign->total}}** from the community during this campaign
+We are trying to raise a total of **{{$campaign->target_value}}** from the community during this campaign
 so any additional contributions are always welcome!
 
 
@@ -23,7 +23,7 @@ SORT CODE: {{ config('app.payment_account.code') }}
 ACCOUNT NUMBER: {{ config('app.payment_account.number') }}
 ```
 
-If you choose this method, _please reply to this email to let us know you've paid_.
+If you choose this method, [let us know you've paid using this form]({{$offline_link}}).
 
 Thank you for your contribution to our community<br>
 **{{ config('app.name') }}**

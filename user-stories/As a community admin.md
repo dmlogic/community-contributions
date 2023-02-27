@@ -33,6 +33,7 @@ So the community has visibility
 
 I need to receive an email whenever an offline payment is logged
 So I know I need to go verify
+    This should be a daily cron
 
 I need to see a summary of offline payment advice
 So I can easily reconcile

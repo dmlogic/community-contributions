@@ -16,6 +16,7 @@ class FundingReminder extends FundingRequest
                 'campaign' => $this->campaign,
                 'request' => $this->request,
                 'payment_link' => $this->generatePaymentUrl(),
+                'offline_link' => $this->generatePaymentUrl('payment.offline'),
             ]
         );
 

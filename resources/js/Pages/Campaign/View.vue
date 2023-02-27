@@ -176,8 +176,7 @@ function changeTab(index) {
                                 <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Sent</th>
                                 <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Status</th>
                                 <th class="border-b border-blue-gray-50 py-3 px-5 text-right">
-                                    <SecondaryButton :type="'button'" @click="selectAllRequests">Select all
-                                    </SecondaryButton>
+                                    <SecondaryButton :type="'button'" @click="selectAllRequests" class="px-2 py-1 text-[0.6rem]">Select all</SecondaryButton>
                                 </th>
                             </tr>
                         </thead>
@@ -199,7 +198,7 @@ function changeTab(index) {
                                         <span class="rounded-full p-2">Paid offline</span>
                                         <Link :href="route('ledger.verify', request.ledger.id)"
                                             method="patch"
-                                            class="inline-flex items-center px-2 py-1 bg-amber-700/50 border border-transparent rounded-md font-semibold text-[0.6rem] text-white uppercase tracking-widest hover:bg-amber-900/50 transition ease-in-out duration-150">
+                                            class="inline-flex items-center px-2 py-1 bg-amber-700/50 border border-2 border-amber-900 rounded-md font-semibold text-[0.6rem] text-white uppercase tracking-widest hover:bg-amber-900/50 transition ease-in-out duration-150">
                                         Verify transaction
                                         </Link>
                                     </div>
@@ -212,7 +211,7 @@ function changeTab(index) {
                                             'type': 'RESIDENT_OFFLINE',
                                             'user_id': request.user_id,
                                         })"
-                                            class="inline-flex items-center px-2 py-1 bg-teal-700/50 border border-transparent rounded-md font-semibold text-[0.6rem] text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150">
+                                            class="inline-flex items-center px-2 py-1 bg-teal-700/50 border border-2 border-teal-900 rounded-md font-semibold text-[0.6rem] text-white uppercase tracking-widest hover:bg-teal-900/50 transition ease-in-out duration-150">
                                         Log payment
                                         </Link>
                                     </div>
@@ -236,8 +235,7 @@ function changeTab(index) {
                             <tr>
                                 <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Resident</th>
                                 <th class="border-b border-blue-gray-50 py-3 px-5 text-right">
-                                    <SecondaryButton :type="'button'" @click="selectAllResidents">Select all
-                                    </SecondaryButton>
+                                    <SecondaryButton :type="'button'" @click="selectAllResidents" class="px-2 py-1 text-[0.6rem]">Select all</SecondaryButton>
                                 </th>
                             </tr>
                         </thead>

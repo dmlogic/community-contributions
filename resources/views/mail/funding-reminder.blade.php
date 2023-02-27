@@ -23,7 +23,7 @@ SORT CODE: {{ config('app.payment_account.code') }}
 ACCOUNT NUMBER: {{ config('app.payment_account.number') }}
 ```
 
-If you choose this method, _please reply to this email to let us know you've paid_.
+If you choose this method,  [let us know you've paid using this form]({{$offline_link}})..
 
 Thank you for your contribution to our community<br>
 **{{ config('app.name') }}**

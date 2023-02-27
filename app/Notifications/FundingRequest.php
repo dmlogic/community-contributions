@@ -23,9 +23,9 @@ class FundingRequest extends Notification implements ShouldQueue
         $this->campaign = $request->campaign;
     }
 
-    public function generatePaymentUrl()
+    public function generatePaymentUrl($route = 'payment.form'): string
     {
-        return route('payment.form', [
+        return route($route, [
             'request_id' => $this->request->id,
             'fund_id' => $this->campaign->fund_id,
         ]);
@@ -46,6 +46,7 @@ class FundingRequest extends Notification implements ShouldQueue
                 'campaign' => $this->campaign,
                 'request' => $this->request,
                 'payment_link' => $this->generatePaymentUrl(),
+                'offline_link' => $this->generatePaymentUrl('payment.offline'),
             ]
         );
 
