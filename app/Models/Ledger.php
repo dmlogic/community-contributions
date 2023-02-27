@@ -61,4 +61,9 @@ class Ledger extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function request(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(CampaignRequest::class);
+    }
 }

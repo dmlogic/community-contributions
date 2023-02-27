@@ -13,6 +13,8 @@ class LogCampaignContribution implements ShouldQueue
     public function handle(CampaignContributionCreated $event): void
     {
         $event->campaignReqest->update(['ledger_id' => $event->ledgerEntry->id]);
-        $event->campaignReqest->campaign->increment('raised', $event->ledgerEntry->amount);
+        if ($event->ledgerEntry->verified_at) {
+            $event->campaignReqest->campaign->increment('raised', $event->ledgerEntry->amount);
+        }
     }
 }

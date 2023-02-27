@@ -23,15 +23,16 @@ class CampaignRequest extends Model
 
     public static function loadFromHttpRequest(Request $request): ?CampaignRequest
     {
-        if(!$request->input('request_id')) {
+        if (! $request->input('request_id')) {
             return null;
         }
         $record = static::with('campaign')->find($request->input('request_id'));
         // This prevents us loading a request for someone else, whilst not throwing
         // and exception for a missing request
-        if($record && $record->user_id !== $request->user()->id) {
+        if ($record && $record->user_id !== $request->user()->id) {
             throw new ModelNotFoundException;
         }
+
         return $record;
     }
 

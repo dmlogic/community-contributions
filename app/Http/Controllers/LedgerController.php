@@ -9,7 +9,6 @@ use App\Models\Ledger;
 use App\Models\Member;
 use App\Enums\LedgerTypes;
 use Illuminate\Http\Request;
-use App\Concerns\UpdatesFundBalance;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\LedgerCreateRequest;
@@ -17,8 +16,6 @@ use Illuminate\Validation\ValidationException;
 
 class LedgerController extends Controller
 {
-    use UpdatesFundBalance;
-
     public function index(Request $request)
     {
         return response()->json([
@@ -63,7 +60,6 @@ class LedgerController extends Controller
 
         $ledger->verified_at = now();
         $ledger->save();
-        $this->updateFund($ledger->fund, $ledger->amount);
 
         return Redirect::route('fund.show', [$ledger->fund_id])
                        ->with('success', 'Fund value updated');

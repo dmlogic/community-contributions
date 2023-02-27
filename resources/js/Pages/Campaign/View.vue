@@ -193,11 +193,19 @@ function changeTab(index) {
                                     {{ moment(request.notified_at).format('DD/MM/YYYY') }}
                                 </td>
                                 <td class="py-3 px-5 border-b border-blue-gray-50 text-left">
-                                    <span v-if="request.ledger"><span class="bg-lime-100 rounded-full p-2">Paid</span> {{
+                                    <span v-if="request.ledger && request.ledger.verified_at"><span class="bg-lime-100 rounded-full p-2">Paid</span> {{
                                         moment(request.ledger.created_at).format('DD/MM/YYYY') }}</span>
-                                    <div v-else="request.ledger" class="">
+                                    <div v-else-if="request.ledger" class="">
+                                        <span class="rounded-full p-2">Paid offline</span>
+                                        <Link :href="route('ledger.verify', request.ledger.id)"
+                                            method="patch"
+                                            class="inline-flex items-center px-2 py-1 bg-amber-700/50 border border-transparent rounded-md font-semibold text-[0.6rem] text-white uppercase tracking-widest hover:bg-amber-900/50 transition ease-in-out duration-150">
+                                        Verify transaction
+                                        </Link>
+                                    </div>
+                                    <div v-else class="">
                                         <span class="rounded-full p-2">Pending</span>
-                                        <Link v-if="!request.ledger" :href="route('ledger.create', {
+                                        <Link :href="route('ledger.create', {
                                             'fund_id': campaign.fund_id,
                                             'request_id': request.id,
                                             'amount': request.amount / 100,

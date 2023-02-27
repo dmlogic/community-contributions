@@ -19,14 +19,14 @@
 So I can keep my contributions up to date if I miss a request
 
 ✅ I need to make additional contributions to a chosen fund
-    manually or Stripe
-So I can contribute for any additional liability
+👍     manually or Stripe
+👍 So I can contribute for any additional liability
 
-A missing contribution request should redirect to a voluntary request
-In case the admin deleted the request before I acted on it
+✅ A missing contribution request should redirect to a voluntary request
+👍 In case the admin deleted the request before I acted on it
 
-I need to see any outstanding requests I have
-So I have any easy means to click and pay
+✅ I need to see any outstanding requests I have
+👍 So I have any easy means to click and pay
 
 I need to see an overview of maintenance activity
 So I can see how my money is being spent
@@ -36,3 +36,6 @@ To confirm the payment was successful
 
 I need to receive a receipt email whenever an offline payment is verified
 So I know the admin has reconciled the books
+
+I need to see a history of payments I've made
+Cos it's nice to know that kind of thing

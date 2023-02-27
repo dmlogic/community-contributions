@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Fund;
 use Inertia\Inertia;
+use Inertia\Response;
 use Stripe\StripeClient;
 use Illuminate\Http\Request;
 use App\Models\CampaignRequest;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\WebhookRequest;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\OfflinePaymentRequest;
 
 class PaymentController extends Controller
 {
@@ -25,14 +28,37 @@ class PaymentController extends Controller
          * But if we don't find one, we don't fail. Instead treat it like an additional
          * funding request and allow the resident to continue to payment
          */
-        if($formData['request'] = CampaignRequest::loadFromHttpRequest($request)) {
+        if ($formData['request'] = CampaignRequest::loadFromHttpRequest($request)) {
             $formData['amount'] = $formData['request']->amount / 100;
         }
 
         return Inertia::render('Payment/Form', $formData);
     }
 
-    public function checkout(StripeClient $stripe, PaymentRequest $request): Response
+    public function offlineForm(Request $request): Response
+    {
+        $formData = [
+            'fund' => Fund::findOrFail($request->input('fund_id')),
+            'paymentDate' => now()->format('Y-m-d'),
+
+            // This form requires a valid campaign request record to have any meaning
+            'request' => CampaignRequest::where('user_id', '=', $request->user()->id)
+                                        ->with('campaign')
+                                        ->findOrFail($request->input('request_id')),
+        ];
+
+        return Inertia::render('Payment/OfflineForm', $formData);
+    }
+
+    public function offline(OfflinePaymentRequest $request): RedirectResponse
+    {
+        $request->createLedgerEntry();
+
+        return Redirect::route('dashboard')
+                       ->with('success', 'Payment advice logged');
+    }
+
+    public function checkout(StripeClient $stripe, PaymentRequest $request): \Symfony\Component\HttpFoundation\Response
     {
         $session = $stripe->checkout->sessions->create([
             'success_url' => route('payment.success'),
@@ -53,7 +79,7 @@ class PaymentController extends Controller
         return Inertia::location($session->url);
     }
 
-    public function confirm(WebhookRequest $request)
+    public function confirm(WebhookRequest $request): string
     {
         $request->processWebhook();
 

@@ -20,11 +20,9 @@ class LedgerCreateRequest extends FormRequest
             $this->campaignRequest = CampaignRequest::findorFail($this->input('request_id'));
         }
 
-        $data = $this->validator->safe()->except(['request_id']);
-        if ($this->user()->isAdmin()) {
-            $data['verified_at'] = now();
-        }
-        $ledger = Ledger::create($data);
+        $ledger = Ledger::create(
+            $this->validator->safe()->except(['request_id'])
+        );
 
         if ($this->campaignRequest) {
             CampaignContributionCreated::dispatch($this->campaignRequest, $ledger);

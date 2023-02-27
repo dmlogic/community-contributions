@@ -12,7 +12,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
 
 Route::get('/scratch', function () {
-    return \App\Models\CampaignRequest::where('user_id', 2)->findOrFail(2);
 });
 
 Route::get('/', [DashboardController::class, 'show'])
@@ -37,17 +36,15 @@ Route::prefix('invitation')->group(function () {
  * Stripe payment
  */
 Route::prefix('payment')->group(function () {
-    Route::get('/', [PaymentController::class, 'form'])->name('payment.form')
-         ->middleware('auth');
-    Route::post('/', [PaymentController::class, 'checkout'])->name('payment.checkout')
-            ->middleware('auth');
-    Route::get('/success', [PaymentController::class, 'success'])->name('payment.success')
-            ->middleware('auth');
-    Route::get('/error', [PaymentController::class, 'error'])->name('payment.error')
-            ->middleware('auth');
-    Route::post('/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
-            ->middleware('stripe');
-});
+    Route::get('/', [PaymentController::class, 'form'])->name('payment.form');
+    Route::post('/', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/error', [PaymentController::class, 'error'])->name('payment.error');
+    Route::get('/offline', [PaymentController::class, 'offlineForm'])->name('payment.offline-form');
+    Route::post('/offline', [PaymentController::class, 'offline'])->name('payment.offline');
+})->middleware('auth');
+Route::post('/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
+    ->middleware('stripe');
 
 // All subsequent routes require a login of some sort
 Route::middleware('auth')->group(function () {
