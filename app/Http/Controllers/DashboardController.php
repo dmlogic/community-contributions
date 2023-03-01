@@ -26,16 +26,16 @@ class DashboardController extends Controller
                 'campaigns.requests.ledger',
             ])
             ->get(),
-            'reconcile' => []
+            'reconcile' => [],
         ];
 
-        if(!request()->user()->isAdmin()) {
+        if (! request()->user()->isAdmin()) {
             return $data;
         }
 
-        $data['reconcile'] = Fund::whereHas('campaigns.requests.ledger', function(Builder $query) {
+        $data['reconcile'] = Fund::whereHas('campaigns.requests.ledger', function (Builder $query) {
             $query->whereNull('verified_at');
-        }) ->get();
+        })->get();
 
         return $data;
     }

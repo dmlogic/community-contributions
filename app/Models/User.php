@@ -36,7 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function newUser(string $name, string $email, ?string $password): User
+    public static function newUser(string $name, string $email, ?string $password = null): User
     {
         if (! $password) {
             $password = Str::random(40);

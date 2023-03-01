@@ -59,7 +59,7 @@ class LedgerObserver
         // resident advising an offline payment has been made
         if (
             $ledger->type !== LedgerTypes::RESIDENT_OFFLINE->value ||
-            auth()->user()->isAdmin()
+            (auth()->check() && auth()->user()->isAdmin())
         ) {
             $ledger->verified_at = now();
         }

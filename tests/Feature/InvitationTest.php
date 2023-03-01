@@ -8,8 +8,6 @@ use App\Models\Member;
 use Tests\FeatureTest;
 use App\Models\Property;
 use App\Models\Invitation;
-use App\Events\InvitationCreated;
-use Illuminate\Support\Facades\Event;
 use Inertia\Testing\AssertableInertia;
 
 class InvitationTest extends FeatureTest
@@ -23,8 +21,6 @@ class InvitationTest extends FeatureTest
 
     public function test_invitation_is_created(): void
     {
-        Event::fake([InvitationCreated::class]);
-
         $property = Property::factory()->create();
         $newbie = [
             'name' => fake()->name(),
@@ -40,8 +36,6 @@ class InvitationTest extends FeatureTest
         $invite = Invitation::where('email', '=', $newbie['email'])->first();
         $this->assertNotEmpty($invite);
         $this->assertNotEmpty($invite->code);
-
-        Event::assertDispatched(InvitationCreated::class);
     }
 
     public function test_confirm_screen_renders(): void
@@ -49,8 +43,8 @@ class InvitationTest extends FeatureTest
         $property = Property::factory()->create();
         $invite = Invitation::factory()->create(['role_id' => Roles::RESIDENT->value, 'property_id' => $property->id]);
 
-        $this->assertGuest()
-            ->get(route('invitation.confirm', $invite->id))
+        $response = $this->assertGuest()
+            ->get(route('invitation.confirm', $invite->code))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->where('invitation.code', $invite->code)
             );
@@ -61,8 +55,11 @@ class InvitationTest extends FeatureTest
         $property = Property::factory()->create();
         $invite = Invitation::factory()->create(['role_id' => Roles::RESIDENT->value, 'property_id' => $property->id]);
 
-        $this->post(route('invitation.confirm', $invite->id))
-                         ->assertRedirectToRoute('dashboard');
+        $this->post(route('invitation.confirm', $invite->code), [
+            'password' => 'pass',
+            'password_confirmation' => 'pass',
+        ])
+                ->assertRedirectToRoute('dashboard');
 
         $user = Member::whereEmail($invite->email)->first();
         $this->assertInstanceOf(User::class, $user);

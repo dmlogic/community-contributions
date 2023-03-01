@@ -31,9 +31,9 @@ class CampaignController extends Controller
 
     public function store(CampaignUpsertRequest $request): RedirectResponse
     {
-        Campaign::create($request->validated());
+        $model = Campaign::create($request->validated());
 
-        return Redirect::route('campaign.index')
+        return Redirect::route('campaign.show', $model->id)
                        ->with('success', 'Campaign created');
     }
 

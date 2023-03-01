@@ -48,8 +48,8 @@ class CampaignTest extends FeatureTest
                         ->assertInertia(fn (AssertableInertia $page) => $page
                         ->has('campaign')
                         ->has('campaign.fund')
-                        ->has('campaign.requests')
-                        ->has('campaign.requests.0.user_id')
+                        ->has('requests')
+                        ->has('requests.0.user_id')
                         ->has('residents')
                         ->has('residents.0.name')
                         );
@@ -71,7 +71,7 @@ class CampaignTest extends FeatureTest
         )
         ->assertSessionHas('success');
 
-        $this->assertDatabaseHas('campaigns', ['id' => $this->seedData['fund']->id, 'description' => 'edited']);
+        $this->assertDatabaseHas('campaigns', ['id' => $this->seedData['campaign']->id, 'description' => 'edited']);
     }
 
     public function test_can_add_member_requests_to_campaign(): void

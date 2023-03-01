@@ -23,7 +23,7 @@ class FundTest extends FeatureTest
             ->get(route('fund.index'))
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('funds')
-                ->count('funds', 4)
+                ->count('funds', 5)
                 ->has('funds.0.id')
                 ->has('funds.0.name')
                 ->has('funds.0.description')

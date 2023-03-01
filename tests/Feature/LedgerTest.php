@@ -123,9 +123,9 @@ class LedgerTest extends FeatureTest
 
     public function test_unverfied_entries_can_be_verified(): void
     {
-        $this->actingAs($this->adminUser());
         $fund = Fund::factory()->create();
         $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'amount' => 101, 'type' => LedgerTypes::RESIDENT_OFFLINE->value]);
+        $this->actingAs($this->adminUser());
         $this->patch(route('ledger.verify', $ledger->id))
              ->assertSessionHas('success');
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 101]);
