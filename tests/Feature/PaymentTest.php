@@ -42,6 +42,14 @@ class PaymentTest extends FeatureTest
        );
     }
 
+    public function test_cannot_load_anothers_request(): void
+    {
+        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][1]->id)->first();
+        $this->actingAs($this->seedData['members'][0])
+            ->get(route('payment.form',['fund_id' => 1, 'request_id' => $request->id]))
+            ->assertNotFound();
+    }
+
     public function test_offline_form_renders(): void
     {
         $request = CampaignRequest::where('user_id','=',$this->seedData['members'][2]->id)->first();

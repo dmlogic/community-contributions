@@ -169,6 +169,13 @@ class CampaignTest extends FeatureTest
         $this->assertDatabaseMissing('campaigns', ['id' => $this->seedData['campaign']->id]);
     }
 
+    public function test_can_close_campaign(): void
+    {
+        $this->patch(route('campaign.close', $this->seedData['campaign']->id))
+             ->assertSessionHas('success');
+        $this->assertDatabaseMissing('campaigns', ['id' => $this->seedData['campaign']->id, 'closed_at' => null]);
+    }
+
     public function test_forms_render()
     {
         $this->get(route('campaign.create'))

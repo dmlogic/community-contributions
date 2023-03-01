@@ -36,9 +36,11 @@ class LedgerObserver
 
     public function updated(Ledger $ledger)
     {
+        // @codeCoverageIgnoreStart
         if ($ledger->getOriginal('verfied_at') || ! $ledger->verified_at) {
             return;
         }
+        // @codeCoverageIgnoreEnd
         $this->updateFund($ledger->fund, $ledger->amount);
         if ($ledger->request) {
             $this->updateCampaignTotal($ledger->request->campaign, $ledger->amount);

@@ -27,6 +27,11 @@ class LedgerTest extends FeatureTest
                  ->has('ledgers.data')
                  ->has('ledgers.next_page_url')
         );
+
+        $response = $this->getJson('ledger?fund_id=1&page=1&filter=unverified');
+        $response->assertJson(fn (AssertableJson $json) =>
+            $json->has('ledgers.data')
+        );
     }
 
     public function test_ledger_form_renders()
@@ -147,12 +152,13 @@ class LedgerTest extends FeatureTest
 
     public function test_unverfied_entries_can_be_verified(): void
     {
-        $fund = Fund::factory()->create();
-        $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'amount' => 101, 'type' => LedgerTypes::RESIDENT_OFFLINE->value]);
+        $this->seedCampaigns();
+        $ledger = Ledger::factory()->create(['fund_id' => $this->seedData['fund']->id, 'amount' => 101, 'type' => LedgerTypes::RESIDENT_OFFLINE->value]);
+        CampaignRequest::where('user_id','=', $this->seedData['members'][0]->id)->update(['ledger_id' => $ledger->id]);
         $this->actingAs($this->adminUser());
         $this->patch(route('ledger.verify', $ledger->id))
              ->assertSessionHas('success');
-        $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 101]);
+        $this->assertDatabaseHas('funds', ['id' => $this->seedData['fund']->id, 'balance' => 101]);
     }
 
     public function test_verfied_entries_cannot_be_verified(): void

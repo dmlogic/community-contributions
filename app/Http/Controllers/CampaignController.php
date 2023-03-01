@@ -67,7 +67,6 @@ class CampaignController extends Controller
     public function close(Campaign $campaign): RedirectResponse
     {
         $campaign->close();
-
         return Redirect::route('campaign.index')
                        ->with('success', 'Campaign closed');
     }

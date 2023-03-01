@@ -30,9 +30,9 @@ class LedgerController extends Controller
         return Inertia::render('Fund/LedgerForm', [
             'residents' => Member::residents(),
             'fund' => Fund::findOrFail($request->fund_id)->only(['id', 'name']),
-            'requestId' => (int) $request->request_id,
+            'requestId' => $request->request_id ?? null,
             'amount' => (int) $request->amount,
-            'userId' => (int) $request->user_id,
+            'userId' => $request->user_id ?? null,
             'type' => $request->user_id ? LedgerTypes::RESIDENT_OFFLINE->value : LedgerTypes::ADMIN_ADJUSTMENT->value,
             'created' => now()->subDays(1)->format('Y-m-d H:i'),
             'description' => $request->type === LedgerTypes::RESIDENT_OFFLINE->value ? 'Reconciled from bank statement' : '',

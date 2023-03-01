@@ -14,12 +14,6 @@ class Member extends User
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function memberData(): Collection
-    {
-        return static::select('id', 'name', 'email')
-                     ->get();
-    }
-
     public static function residents(): Collection
     {
         return static::select('id', 'name', 'email')

@@ -47,6 +47,21 @@ class InvitationTest extends FeatureTest
         $this->assertNotEmpty($invite->code);
     }
 
+    public function test_invitation_is_created_with_default_role(): void
+    {
+        $property = Property::factory()->create();
+        $newbie = [
+            'name' => fake()->name(),
+            'email' => fake()->safeEmail(),
+        ];
+
+        $this->actingAs($this->adminUser())
+            ->post(route('invitation.store'), $newbie);
+
+        $invite = Invitation::where('email', '=', $newbie['email'])->first();
+        $this->assertSame($invite->role_id, Roles::RESIDENT->value);
+    }
+
     public function test_confirm_screen_renders(): void
     {
         $property = Property::factory()->create();
