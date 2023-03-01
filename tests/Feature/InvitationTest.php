@@ -19,6 +19,15 @@ class InvitationTest extends FeatureTest
              ->assertForbidden();
     }
 
+    public function test_invitation_form_renders(): void
+    {
+        $this->actingAs($this->adminUser())
+             ->get(route('invitation.create'))
+             ->assertInertia(fn (AssertableInertia $page) => $page
+                ->has('properties')
+            );
+    }
+
     public function test_invitation_is_created(): void
     {
         $property = Property::factory()->create();

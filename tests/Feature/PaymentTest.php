@@ -8,6 +8,7 @@ use Tests\SeedsCampaigns;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
 use Illuminate\Testing\TestResponse;
+use Inertia\Testing\AssertableInertia;
 use App\Http\Middleware\VerifyStripeRequest;
 
 class PaymentTest extends FeatureTest
@@ -18,6 +19,57 @@ class PaymentTest extends FeatureTest
     {
         parent::setUp();
         $this->seedCampaigns();
+    }
+
+    public function test_voluntary_payment_form_renders(): void
+    {
+        $this->actingAs($this->seedData['members'][0])
+            ->get(route('payment.form',['fund_id' => 1]))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+            ->has('fund')
+            ->where('request',null)
+       );
+    }
+
+    public function test_request_payment_form_renders(): void
+    {
+        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][1]->id)->first();
+        $this->actingAs($this->seedData['members'][1])
+            ->get(route('payment.form',['fund_id' => 1, 'request_id' => $request->id]))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+            ->has('fund')
+            ->where('request.id',$request->id)
+       );
+    }
+
+    public function test_offline_form_renders(): void
+    {
+        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][2]->id)->first();
+        $this->actingAs($this->seedData['members'][2])
+            ->get(route('payment.offline-form',['fund_id' => 1, 'request_id' => $request->id]))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+            ->has('fund.id')
+            ->has('request.id')
+            ->has('paymentDate')
+       );
+    }
+
+    public function test_offline_form_is_processed(): void
+    {
+        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][2]->id)->first();
+        $this->actingAs($this->seedData['members'][2]);
+        $response = $this->post(route('payment.offline'), [
+            'payment_date' => now()->format('Y-m-d'),
+            'fund_id' => 1,
+            'request_id' => $request->id
+        ]);
+        $createdLedger = Ledger::latest()->first();
+
+        $this->assertSame($createdLedger->type, LedgerTypes::RESIDENT_OFFLINE->value);
+        $this->assertNull($createdLedger->verified_at);
+        $this->assertSame($createdLedger->user_id, $this->seedData['members'][2]->id);
+        $this->assertNull($createdLedger->verified_at);
+        $this->assertDatabaseHas('campaign_requests', ['id' => $request->id, 'ledger_id' => $createdLedger->id]);
     }
 
     public function test_checkout_fails_without_expected_data(): void

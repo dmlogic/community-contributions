@@ -11,6 +11,7 @@ npm-debug.log
 yarn-error.log
 .phpunit.result.cache
 /.vscode
+/_report
 todo.md
 database.sqlite
 database/seeders/ProductionSeeder.php

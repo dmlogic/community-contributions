@@ -10,10 +10,34 @@ use Tests\FeatureTest;
 use Tests\SeedsCampaigns;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
+use Inertia\Testing\AssertableInertia;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 class LedgerTest extends FeatureTest
 {
     use SeedsCampaigns;
+
+    public function test_pagination_endpoint()
+    {
+        $this->actingAs($this->adminUser());
+
+        $response = $this->getJson('ledger?fund_id=1&page=1');
+        $response->assertJson(fn (AssertableJson $json) =>
+            $json->has('ledgers.current_page')
+                 ->has('ledgers.data')
+                 ->has('ledgers.next_page_url')
+        );
+    }
+
+    public function test_ledger_form_renders()
+    {
+        $response = $this->actingAs($this->adminUser())
+             ->get(route('ledger.create',['fund_id' => 1]))
+             ->assertInertia(fn (AssertableInertia $page) => $page
+                ->has('fund')
+                ->has('residents')
+            );
+    }
 
     public function test_admin_can_add_any_valid_type(): void
     {

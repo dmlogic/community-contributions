@@ -72,10 +72,4 @@ class LedgerController extends Controller
         return Redirect::route('fund.show', [$ledger->fund_id])
                        ->with('success', 'Fund value updated');
     }
-
-    private function done(): RedirectResponse
-    {
-        return Redirect::route('fund.index')
-                       ->with('success', 'Fund value updated');
-    }
 }
