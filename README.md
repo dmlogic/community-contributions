@@ -17,11 +17,7 @@ This project provides tools to build a small community who can register, contrib
 
 This is Laravel 10 app built from a Breeze/Intertia/Vue.js starter kit.
 
-It has been built to make the most of AWS free tier services:
-
-* Application API (a custom domain can be forward to the generated endpoint)
-* Lambda invocation via Bref and serverless deploy with Github actions
-* SQLite data storage on EFS (likely to be the only chargeable item)
+It has been built to run a the Fly.io free tier with a SQLite database mounted from small a shared volume.
 
 The app could also be hosted anywhere that supports PHP8.2 and common extensions.
 
@@ -35,10 +31,24 @@ For server side tests, run `php artisan test`
 
 For VueJS component tests, run `@todo`.
 
-## Building
-
-@todo: Plan best practice for building for production
-
 ## Deployment
 
-@todo. GitHub action to deploy new Lambda on commit to main branch.
+With reference to the [Fly.io Laravel documentation](https://fly.io/docs/laravel/), create a suitable project and `fly.toml` file.
+
+Create a small [Volume](https://fly.io/docs/reference/volumes/) for the app and be sure to add mount in your fly.toml file.
+The following is recommended as it also solves the issue of persistent storage.
+
+```
+[mounts]
+source="myapp_data"
+destination="/var/www/html/storage"
+```
+
+Adjust your fly ENV values to attach to a database in this mount, for example
+
+```
+  DB_CONNECTION="sqlite"
+  DB_DATABASE="/var/www/html/storage/database.sqlite"
+  ```
+
+  Finally, you will need to seed at least one admin account. This could be done via an [console session](https://fly.io/docs/flyctl/ssh-console/) using the `artisan tinker` command, creating a production Seeder class or by transferring a database via [SFTP](https://fly.io/docs/flyctl/ssh-sftp/).
