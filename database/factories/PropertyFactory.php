@@ -10,9 +10,9 @@ class PropertyFactory extends Factory
     {
         return [
             'number' => fake()->uuid(),
-            'street' => config('community.address.street', fake()->streetAddress()),
-            'town' => config('community.address.town', fake()->city()),
-            'postcode' => config('community.address.postcode', fake()->postcode()),
+            'street' => config('app.default_address.street', fake()->streetAddress()),
+            'town' => config('app.default_address.town', fake()->city()),
+            'postcode' => config('app.default_address.postcode', fake()->postcode()),
         ];
     }
 }
