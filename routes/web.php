@@ -43,7 +43,7 @@ Route::prefix('payment')->group(function () {
     Route::get('/offline', [PaymentController::class, 'offlineForm'])->name('payment.offline-form');
     Route::post('/offline', [PaymentController::class, 'offline'])->name('payment.offline');
 })->middleware('auth');
-Route::post('/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
+Route::post('/payment/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
     ->middleware('stripe');
 
 // All subsequent routes require a login of some sort
@@ -92,4 +92,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
