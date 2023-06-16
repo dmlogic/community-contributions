@@ -39,7 +39,8 @@ class FundingRequest extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         $message = (new MailMessage);
-        $message->subject(config('app.name').' funding request');
+        $message->subject(config('app.name') . ' funding request');
+        $message->replyTo(config('mail.from.address'), config('mail.from.name'));
         $message->markdown(
             'mail.funding-request',
             [
