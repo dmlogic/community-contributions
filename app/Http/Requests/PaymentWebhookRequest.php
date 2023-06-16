@@ -5,10 +5,11 @@ namespace App\Http\Requests;
 use App\Models\Ledger;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
+use App\Events\OnlinePaymentReceived;
 use App\Events\CampaignContributionCreated;
 use Illuminate\Foundation\Http\FormRequest;
 
-class WebhookRequest extends FormRequest
+class PaymentWebhookRequest extends FormRequest
 {
     public function processWebhook()
     {
@@ -20,6 +21,7 @@ class WebhookRequest extends FormRequest
             'created_by' => $this->validated('data.object.metadata.user_id'),
             'type' => $requestId ? LedgerTypes::RESIDENT_REQUEST->value : LedgerTypes::RESIDENT_ADDITIONAL->value,
             'description' => 'Online payment',
+            'provider_reference' => $this->validated('data.object.payment_intent'),
             'amount' => $this->validated('data.object.amount_total'),
             'verified_at' => now(),
         ]);
@@ -27,6 +29,8 @@ class WebhookRequest extends FormRequest
         if ($requestId && $campaignRequest = CampaignRequest::find($requestId)) {
             CampaignContributionCreated::dispatch($campaignRequest, $ledger);
         }
+
+        OnlinePaymentReceived::dispatch($ledger);
     }
 
     public function rules(): array
@@ -37,6 +41,7 @@ class WebhookRequest extends FormRequest
             'data.object.metadata.user_id' => ['required', 'exists:users,id'],
             'data.object.metadata.fund_id' => ['required', 'exists:funds,id'],
             'data.object.metadata.request_id' => ['nullable', 'exists:campaign_requests,id'],
+            'data.object.payment_intent' => ['required'],
         ];
     }
 }

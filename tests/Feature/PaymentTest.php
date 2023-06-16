@@ -24,52 +24,55 @@ class PaymentTest extends FeatureTest
     public function test_voluntary_payment_form_renders(): void
     {
         $this->actingAs($this->seedData['members'][0])
-            ->get(route('payment.form',['fund_id' => 1]))
-            ->assertInertia(fn (AssertableInertia $page) => $page
+            ->get(route('payment.form', ['fund_id' => 1]))
+            ->assertInertia(
+                fn (AssertableInertia $page) => $page
             ->has('fund')
-            ->where('request',null)
-       );
+            ->where('request', null)
+            );
     }
 
     public function test_request_payment_form_renders(): void
     {
-        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][1]->id)->first();
+        $request = CampaignRequest::where('user_id', '=', $this->seedData['members'][1]->id)->first();
         $this->actingAs($this->seedData['members'][1])
-            ->get(route('payment.form',['fund_id' => 1, 'request_id' => $request->id]))
-            ->assertInertia(fn (AssertableInertia $page) => $page
+            ->get(route('payment.form', ['fund_id' => 1, 'request_id' => $request->id]))
+            ->assertInertia(
+                fn (AssertableInertia $page) => $page
             ->has('fund')
-            ->where('request.id',$request->id)
-       );
+            ->where('request.id', $request->id)
+            );
     }
 
     public function test_cannot_load_anothers_request(): void
     {
-        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][1]->id)->first();
+        $request = CampaignRequest::where('user_id', '=', $this->seedData['members'][1]->id)->first();
         $this->actingAs($this->seedData['members'][0])
-            ->get(route('payment.form',['fund_id' => 1, 'request_id' => $request->id]))
+            ->get(route('payment.form', ['fund_id' => 1, 'request_id' => $request->id]))
             ->assertNotFound();
     }
 
     public function test_offline_form_renders(): void
     {
-        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][2]->id)->first();
+        $request = CampaignRequest::where('user_id', '=', $this->seedData['members'][2]->id)->first();
         $this->actingAs($this->seedData['members'][2])
-            ->get(route('payment.offline-form',['fund_id' => 1, 'request_id' => $request->id]))
-            ->assertInertia(fn (AssertableInertia $page) => $page
+            ->get(route('payment.offline-form', ['fund_id' => 1, 'request_id' => $request->id]))
+            ->assertInertia(
+                fn (AssertableInertia $page) => $page
             ->has('fund.id')
             ->has('request.id')
             ->has('paymentDate')
-       );
+            );
     }
 
     public function test_offline_form_is_processed(): void
     {
-        $request = CampaignRequest::where('user_id','=',$this->seedData['members'][2]->id)->first();
+        $request = CampaignRequest::where('user_id', '=', $this->seedData['members'][2]->id)->first();
         $this->actingAs($this->seedData['members'][2]);
         $response = $this->post(route('payment.offline'), [
             'payment_date' => now()->format('Y-m-d'),
             'fund_id' => 1,
-            'request_id' => $request->id
+            'request_id' => $request->id,
         ]);
         $createdLedger = Ledger::latest()->first();
 
@@ -140,17 +143,32 @@ class PaymentTest extends FeatureTest
              ->assertOk();
     }
 
+    public function test_only_one_ledger_per_payment_intent(): void
+    {
+        // with reference to ledger.provider_reference, ensure we can't double process
+        // an entry. This could be via validation or a separate "ok" bailout check
+        $this->markTestIncomplete();
+    }
+
+    public function test_payment_receipt_is_sent(): void
+    {
+        // this is the SendOnlinePaymentReceipt notification
+        $this->markTestIncomplete();
+    }
+
     // ------------------------------------------------------------------------
 
     private function submitWebhookPayload($amount, $userId, $requestId): TestResponse
     {
-        $payload = file_get_contents(__DIR__.'/../stripe_responses/checkout_success.json');
+        $payload = file_get_contents(__DIR__ . '/../stripe_responses/checkout_success.json');
         $payload = json_decode(
             str_replace(
                 ['{amount}', '{user_id}', '{fund_id}', '{request_id}'],
                 [$amount, $userId, $this->seedData['fund']->id, $requestId],
                 $payload
-            ), true);
+            ),
+            true
+        );
 
         return $this->postJson(route('payment.confirm'), $payload);
     }

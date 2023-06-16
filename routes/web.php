@@ -12,6 +12,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
 
 Route::get('/scratch', function () {
+    // $ledger = \App\Models\Ledger::find(3);
+    // return (new \App\Notifications\OnlinePaymentReceipt($ledger))
+    //         ->toMail($ledger->user);
 });
 
 Route::get('/', [DashboardController::class, 'show'])

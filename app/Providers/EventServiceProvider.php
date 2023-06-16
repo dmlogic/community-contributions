@@ -5,12 +5,14 @@ namespace App\Providers;
 use App\Models\Ledger;
 use App\Models\Invitation;
 use App\Observers\LedgerObserver;
+use App\Events\OnlinePaymentReceived;
 use App\Observers\InvitationObserver;
 use Illuminate\Auth\Events\Registered;
 use App\Events\CampaignRequestsGenerated;
 use App\Events\CampaignRemindersGenerated;
 use App\Listeners\LogCampaignContribution;
 use App\Events\CampaignContributionCreated;
+use App\Listeners\SendOnlinePaymentReceipt;
 use App\Listeners\SendFundingRequestNotifications;
 use App\Listeners\SendFundingReminderNotifications;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -35,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         CampaignContributionCreated::class => [
             LogCampaignContribution::class,
+        ],
+        OnlinePaymentReceived::class => [
+            SendOnlinePaymentReceipt::class,
         ],
     ];
 

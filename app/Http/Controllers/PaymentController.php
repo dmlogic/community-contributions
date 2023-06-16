@@ -9,10 +9,10 @@ use Stripe\StripeClient;
 use Illuminate\Http\Request;
 use App\Models\CampaignRequest;
 use App\Http\Requests\PaymentRequest;
-use App\Http\Requests\WebhookRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\OfflinePaymentRequest;
+use App\Http\Requests\PaymentWebhookRequest;
 
 class PaymentController extends Controller
 {
@@ -79,7 +79,7 @@ class PaymentController extends Controller
         return Inertia::location($session->url);
     }
 
-    public function confirm(WebhookRequest $request): string
+    public function confirm(PaymentWebhookRequest $request): string
     {
         $request->processWebhook();
 
