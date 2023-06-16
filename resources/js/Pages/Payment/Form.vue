@@ -14,6 +14,10 @@ const form = useForm({
     fund_id: props.fund.id,
     request_id: props.request ? props.request.id : null
 })
+
+function submitForm() {
+    form.post(route('payment.checkout'));
+}
 </script>
 
 <template>
@@ -40,7 +44,7 @@ const form = useForm({
                 The balance for the <strong>{{ fund.name }}</strong> fund is <strong>{{ fund.value }}</strong>
             </p>
 
-            <form :action="route('payment.checkout')" method="post"  v-if="!request || !request.ledger_id"  class="mt-8">
+            <form @submit.prevent="submitForm"  v-if="!request || !request.ledger_id"  class="mt-8">
                 <p class="mb-4">
                     Please confirm the amount to pay below and then continue to the payment form, hosted by Stripe.com
                 </p>

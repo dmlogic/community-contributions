@@ -12,7 +12,7 @@ defineProps({'selected' : false});
             :href="route(link.route)"
             as="a"
             :class="[
-                route().current() === link.route ? 'bg-amber-700/40' : '',
+                route().current().split('.')[0] === link.route.split('.')[0] ? 'bg-amber-700/40' : '    ',
                 'w-full block rounded-md p-3 my-2 text-white hover:bg-amber-700'
             ]"
             >
