@@ -23,11 +23,18 @@ services:
             - sail
         depends_on:
             - mailpit
+            - selenium
     mailpit:
         image: 'axllent/mailpit:latest'
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+        networks:
+            - sail
+    selenium:
+        image: 'selenium/standalone-chrome'
+        volumes:
+            - '/dev/shm:/dev/shm'
         networks:
             - sail
 networks:

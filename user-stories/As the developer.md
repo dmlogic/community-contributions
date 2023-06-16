@@ -4,8 +4,8 @@
 ✅ Implement Laravel Sail
 👍  So I can benefit from extra services without polluting my OS
 
-I need to achieve very high test coverage
-So I know the code works
+✅ I need to achieve very high test coverage
+👍 So I know the code works
 
 ✅ I should re-brand the interface
 👍 So it reflects a community portal rather than Laravel scaffolding
