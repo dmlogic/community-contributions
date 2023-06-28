@@ -11,6 +11,8 @@ use Tests\SeedsCampaigns;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
 use Inertia\Testing\AssertableInertia;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\OfflinePaymentVerified;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 class LedgerTest extends FeatureTest
@@ -152,13 +154,22 @@ class LedgerTest extends FeatureTest
 
     public function test_unverfied_entries_can_be_verified(): void
     {
+        Notification::fake();
         $this->seedCampaigns();
-        $ledger = Ledger::factory()->create(['fund_id' => $this->seedData['fund']->id, 'amount' => 101, 'type' => LedgerTypes::RESIDENT_OFFLINE->value]);
+        $ledger = Ledger::factory()->create([
+            'fund_id' => $this->seedData['fund']->id,
+            'user_id' => $this->seedData['members'][0]->id,
+            'amount' => 101,
+            'type' => LedgerTypes::RESIDENT_OFFLINE->value
+        ]);
         CampaignRequest::where('user_id','=', $this->seedData['members'][0]->id)->update(['ledger_id' => $ledger->id]);
         $this->actingAs($this->adminUser());
         $this->patch(route('ledger.verify', $ledger->id))
              ->assertSessionHas('success');
         $this->assertDatabaseHas('funds', ['id' => $this->seedData['fund']->id, 'balance' => 101]);
+        Notification::assertSentTo(
+            [$this->seedData['members'][0]], OfflinePaymentVerified::class
+        );
     }
 
     public function test_verfied_entries_cannot_be_verified(): void

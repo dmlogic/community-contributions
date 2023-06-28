@@ -16,7 +16,7 @@ let nextPage = props.ledgers.next_page_url;
 const loadMoreIntersect = ref(null)
 const confirmingVerify = ref(false);
 const confirmingDeletion = ref(false);
-const formProcesssing = ref(false);
+const formProcessing = ref(false);
 const formAction = ref(false);
 const filter = computed(function() {
     let urlParams = new URLSearchParams(window.location.search);
@@ -105,16 +105,15 @@ onMounted(() => {
 
             <div class="mt-6 flex justify-center">
                 <SecondaryButton @click="closeModal" class="mr-10"> Cancel </SecondaryButton>
-                <form :action="formAction" method="POST">
+                <form @submit="router.delete(formAction)">
                     <DangerButton
                         class="ml-3"
                         :type="'submit'"
-                        :class="{ 'opacity-25': formProcesssing }"
-                        :disabled="formProcesssing"
-                        @click="formProcesssing.value = true">
+                        :class="{ 'opacity-25': formProcessing }"
+                        :disabled="formProcessing"
+                        @click="formProcessing.value = true">
                         Delete transaction
                     </DangerButton>
-                    <input type="hidden" name="_method" value="DELETE"/>
                 </form>
             </div>
         </div>
@@ -127,16 +126,15 @@ onMounted(() => {
 
             <div class="mt-6 flex justify-center">
                 <SecondaryButton @click="closeModal" class="mr-10"> Cancel </SecondaryButton>
-                <form :action="formAction" method="POST">
+                <form @submit="router.patch(formAction)">
                     <PrimaryButton
                         class="ml-3"
                         :type="'submit'"
-                        :class="{ 'opacity-25': formProcesssing }"
-                        :disabled="formProcesssing"
-                        @click="formProcesssing.value = true">
+                        :class="{ 'opacity-25': formProcessing }"
+                        :disabled="formProcessing"
+                        @click="formProcessing.value = true">
                         Verify transaction
                     </PrimaryButton>
-                    <input type="hidden" name="_method" value="PATCH"/>
                 </form>
             </div>
         </div>

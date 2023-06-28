@@ -36,16 +36,9 @@ Route::prefix('invitation')->group(function () {
 });
 
 /**
- * Stripe payment
+ * Stripe callback
  */
-Route::prefix('payment')->group(function () {
-    Route::get('/', [PaymentController::class, 'form'])->name('payment.form');
-    Route::post('/', [PaymentController::class, 'checkout'])->name('payment.checkout');
-    Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
-    Route::get('/error', [PaymentController::class, 'error'])->name('payment.error');
-    Route::get('/offline', [PaymentController::class, 'offlineForm'])->name('payment.offline-form');
-    Route::post('/offline', [PaymentController::class, 'offline'])->name('payment.offline');
-})->middleware('auth');
+
 Route::post('/payment/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
     ->middleware('stripe');
 
@@ -57,6 +50,21 @@ Route::middleware('auth')->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+    });
+
+    /**
+     * Online payments
+     */
+    Route::prefix('payment')->group(function () {
+        Route::get('/foo', function () {
+            return 'hello';
+        });
+        Route::get('/', [PaymentController::class, 'form'])->name('payment.form');
+        Route::post('/', [PaymentController::class, 'checkout'])->name('payment.checkout');
+        Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
+        Route::get('/error', [PaymentController::class, 'error'])->name('payment.error');
+        Route::get('/offline', [PaymentController::class, 'offlineForm'])->name('payment.offline-form');
+        Route::post('/offline', [PaymentController::class, 'offline'])->name('payment.offline');
     });
 
     /**

@@ -41,7 +41,7 @@ class PaymentWebhookRequest extends FormRequest
             'data.object.metadata.user_id' => ['required', 'exists:users,id'],
             'data.object.metadata.fund_id' => ['required', 'exists:funds,id'],
             'data.object.metadata.request_id' => ['nullable', 'exists:campaign_requests,id'],
-            'data.object.payment_intent' => ['required'],
+            'data.object.payment_intent' => ['required', 'unique:ledger,provider_reference'],
         ];
     }
 }

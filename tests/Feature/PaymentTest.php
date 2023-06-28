@@ -8,7 +8,10 @@ use Tests\SeedsCampaigns;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
 use Illuminate\Testing\TestResponse;
+use App\Events\OnlinePaymentReceived;
+use Illuminate\Support\Facades\Event;
 use Inertia\Testing\AssertableInertia;
+use App\Listeners\SendOnlinePaymentReceipt;
 use App\Http\Middleware\VerifyStripeRequest;
 
 class PaymentTest extends FeatureTest
@@ -132,6 +135,7 @@ class PaymentTest extends FeatureTest
         $this->assertDatabaseHas('funds', ['id' => $this->seedData['fund']->id, 'balance' => $this->seedData['fund']->balance + 1234]);
         // request updated
         $this->assertDatabaseHas('campaign_requests', ['id' => $request->id, 'ledger_id' => $ledger->id]);
+
     }
 
     public function test_sundry_endpoints_render(): void
@@ -145,15 +149,24 @@ class PaymentTest extends FeatureTest
 
     public function test_only_one_ledger_per_payment_intent(): void
     {
-        // with reference to ledger.provider_reference, ensure we can't double process
-        // an entry. This could be via validation or a separate "ok" bailout check
-        $this->markTestIncomplete();
+        $resident = $this->seedData['members'][0];
+        $request = CampaignRequest::where('user_id', $resident->id)->first();
+        $this->withoutMiddleware(VerifyStripeRequest::class)
+             ->submitWebhookPayload(999, $resident->id, $request->id)
+             ->assertOk();
+
+        $this->withoutMiddleware(VerifyStripeRequest::class)
+            ->submitWebhookPayload(999, $resident->id, $request->id)
+            ->assertInvalid(['data.object.payment_intent']);
     }
 
     public function test_payment_receipt_is_sent(): void
     {
-        // this is the SendOnlinePaymentReceipt notification
-        $this->markTestIncomplete();
+        Event::fake();
+        Event::assertListening(
+            OnlinePaymentReceived::class,
+            SendOnlinePaymentReceipt::class
+        );
     }
 
     // ------------------------------------------------------------------------

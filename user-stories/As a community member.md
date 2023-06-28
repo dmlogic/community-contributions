@@ -1,3 +1,10 @@
+# Still to do
+
+I need to see a history of payments I've made
+Cos it's nice to know that kind of thing
+
+# Done
+
 ✅ I need to respond to an invitation
 👍 So I can join the community
 👍 So I can set my password
@@ -28,14 +35,12 @@ So I can keep my contributions up to date if I miss a request
 ✅ I need to see any outstanding requests I have
 👍 So I have any easy means to click and pay
 
+✅ I need to receive a receipt email whenever I make a payment
+👍 To confirm the payment was successful
+
+✅ I need to receive a receipt email whenever an offline payment is verified
+👍 So I know the admin has reconciled the books
+
+# Future
 I need to see an overview of maintenance activity
 So I can see how my money is being spent
-
-I need to receive a receipt email whenever I make a payment
-To confirm the payment was successful
-
-I need to receive a receipt email whenever an offline payment is verified
-So I know the admin has reconciled the books
-
-I need to see a history of payments I've made
-Cos it's nice to know that kind of thing

@@ -28,12 +28,14 @@ And not delete funds with key relationships
 ✅ I need to review who has paid any given request
 👍 So I can delete or send a nag
 
+✅ I need to receive an email whenever an offline payment is logged
+👍 So I know I need to go verify
+👍     This should be a daily cron
+
+✅ I need to see a summary of offline payment advice
+👍 So I can easily reconcile
+
+# Future
+
 I need to post information about maintenance activity
 So the community has visibility
-
-I need to receive an email whenever an offline payment is logged
-So I know I need to go verify
-    This should be a daily cron
-
-I need to see a summary of offline payment advice
-So I can easily reconcile

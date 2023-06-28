@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\LedgerCreateRequest;
+use App\Notifications\OfflinePaymentVerified;
 use Illuminate\Validation\ValidationException;
 
 class LedgerController extends Controller
@@ -60,6 +61,8 @@ class LedgerController extends Controller
 
         $ledger->verified_at = now();
         $ledger->save();
+
+        $ledger->user->notify(new OfflinePaymentVerified($ledger));
 
         return Redirect::route('fund.show', [$ledger->fund_id])
                        ->with('success', 'Fund value updated');
