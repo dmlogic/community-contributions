@@ -20,7 +20,7 @@ class CampaignController extends Controller
     public function index(): Response
     {
         return Inertia::render('Campaign/List', [
-            'campaigns' => Campaign::orderBy('closed_at', 'desc')->orderBy('created_at', 'desc')->get(),
+            'campaigns' => Campaign::with('fund')->orderBy('closed_at', 'desc')->orderBy('created_at', 'desc')->get(),
         ]);
     }
 
@@ -39,6 +39,7 @@ class CampaignController extends Controller
 
     public function show(Campaign $campaign): Response
     {
+        $campaign->load('fund');
         return Inertia::render('Campaign/View', [
             'campaign' => $campaign,
             'requests' => $campaign->requests()

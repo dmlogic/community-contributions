@@ -1,5 +1,6 @@
 # Still to do
 
+
 I need to implement the cron schedule on Fly.io
 So that notifications get sent
 
@@ -7,6 +8,9 @@ I need to implement the smtp mail for the primary admin on Fly.io
 So that email is sent from the appropriate account
 
 # Done
+
+✅ I need to review query logs and optimise where necessary
+👍 As I've seen some hints of repetition
 
 ✅ I should remove unwanted default Breeze endpoints and markup
 👍 So that unwanted functionality is not present

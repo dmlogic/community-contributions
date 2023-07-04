@@ -14,8 +14,6 @@ class Campaign extends Model
 
     protected $guarded = [];
 
-    protected $with = ['fund'];
-
     protected $appends = ['target_value', 'raised_value'];
 
     protected $casts = [
