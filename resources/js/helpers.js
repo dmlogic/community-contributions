@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/vue3'
+import moment from 'moment'
 
 export function can(doWhat) {
     return usePage().props.can[doWhat] ?? false;
@@ -20,6 +21,10 @@ export function balanceColor(amount) {
         return 'text-red-800'
     }
     return 'text-amber-800'
+}
+
+export function formatDate(rawDate) {
+    return moment(rawDate).format('DD/MM/YYYY')
 }
 
 export function ledgerTypes() {

@@ -32,7 +32,7 @@ import Icon from '@/Components/Icon.vue';
                                     active ? 'bg-amber-700 text-white' : 'text-gray-900',
                                     'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
-                                >My Profile</Link>
+                                >Edit your details</Link>
                         </MenuItem>
                         <MenuItem v-slot="{ active }" >
                             <Link

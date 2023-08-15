@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StatementController;
 use App\Http\Controllers\InvitationController;
 
 Route::get('/scratch', function () {
@@ -50,6 +51,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
     });
+
+    /**
+     * Statement of payments
+     */
+    Route::get('/statement', StatementController::class)->name('statement');
 
     /**
      * Online payments
@@ -102,4 +108,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

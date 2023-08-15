@@ -2,12 +2,13 @@
 import moment from 'moment';
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import { balanceBackground } from '@/helpers.js';
+import { balanceBackground,  } from '@/helpers.js';
 import Icon from '@/Components/Icon.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 
 const props = defineProps({
     model: Object,
+    admin: Boolean,
 })
 
 const date = computed(() => moment(props.model.created_at).format('DD/MM/YYYY'))
@@ -35,10 +36,14 @@ const type = computed(function () {
         <td class=" py-3 px-5 border-b border-blue-gray-50">
             {{ date }}
         </td>
+        <td class="py-3 px-5 border-b border-blue-gray-50" v-if="!props.admin">
+            <p class="mb-2 text-gray-500 uppercase">{{ model.fund.name }}</p>
+            <p v-if="model.request" class="mb-2"><em>{{ model.request.campaign.description }}</em></p>
+        </td>
         <td class="py-3 px-5 border-b border-blue-gray-50">
             <p class="font-bold mb-2 uppercase text-sm text-gray-400">{{ type }}</p>
             <p v-if="model.description" class="mb-2">{{ model.description }}</p>
-            <p v-if="model.user" class="mb-2">
+            <p v-if="model.user && props.admin" class="mb-2">
                 <Link class="inline-anchor" :href="route('member.show', props.model.user_id)">
                 {{ model.user.name }}
                 </Link>
@@ -56,7 +61,7 @@ const type = computed(function () {
                 <span class="p-2 block rounded-md bg-blue-500/20 uppercase">Unverified</span>
             </div>
         </td>
-        <td class=" py-3 px-5 border-b border-blue-gray-50 text-right">
+        <td class=" py-3 px-5 border-b border-blue-gray-50 text-right" v-if="props.admin">
             <Dropdown align="right" width="48">
                 <template #trigger>
                     <span class="inline-flex rounded-md">

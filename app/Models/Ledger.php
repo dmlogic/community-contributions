@@ -37,6 +37,15 @@ class Ledger extends Model
         return $query;
     }
 
+    public static function statementForUser(User $user): Builder
+    {
+        $query = Ledger::with(['request.campaign', 'fund'])
+            ->where('user_id', '=', $user->id)
+            ->orderBy('created_at', 'desc');
+
+        return $query;
+    }
+
     // ------------------------------------------------------------------------
     // Custom attributes
 

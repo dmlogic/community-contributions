@@ -90,6 +90,7 @@ onMounted(() => {
             <LedgerEntry
                 v-for="ledger in allData"
                 :model="ledger"
+                :admin="true"
                 @verify-ledger="confirmVerifyLedger"
                 @delete-ledger="confirmDeleteLedger"  />
         </tbody>
