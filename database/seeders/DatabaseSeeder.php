@@ -60,13 +60,13 @@ class DatabaseSeeder extends Seeder
     public function seedProperties(): Collection
     {
         return Property::factory()
-                ->count(4)
-                ->state(new Sequence(
-                    ['number' => '1', 'user_id' => 1],
-                    ['number' => '10', 'user_id' => 2],
-                    ['number' => '10a', 'user_id' => 3],
-                    ['number' => '20', 'user_id' => 4],
-                ))
-                ->create();
+            ->count(4)
+            ->state(new Sequence(
+                ['number' => '1', 'user_id' => 1],
+                ['number' => '10', 'user_id' => 2],
+                ['number' => '10a', 'user_id' => 3],
+                ['number' => '20', 'user_id' => 4],
+            ))
+            ->create();
     }
 }

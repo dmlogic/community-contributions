@@ -21,8 +21,8 @@ class LedgerController extends Controller
     {
         return response()->json([
             'ledgers' => Ledger::forFund($request->fund_id, $request->filter)
-                               ->simplePaginate(20)
-                               ->appends(['fund_id' => $request->fund_id, 'filter' => $request->filter]),
+                ->simplePaginate(20)
+                ->appends(['fund_id' => $request->fund_id, 'filter' => $request->filter]),
         ]);
     }
 
@@ -46,11 +46,11 @@ class LedgerController extends Controller
 
         if ($request->campaignRequest) {
             return Redirect::route('campaign.show', $request->campaignRequest->campaign_id)
-                       ->with('success', 'Campaign total updated');
+                ->with('success', 'Campaign total updated');
         }
 
         return Redirect::route('fund.show', $request->fund_id)
-                       ->with('success', 'Fund value updated');
+            ->with('success', 'Fund value updated');
     }
 
     public function verify(Ledger $ledger): RedirectResponse
@@ -65,7 +65,7 @@ class LedgerController extends Controller
         $ledger->user->notify(new OfflinePaymentVerified($ledger));
 
         return Redirect::route('fund.show', [$ledger->fund_id])
-                       ->with('success', 'Fund value updated');
+            ->with('success', 'Fund value updated');
     }
 
     public function destroy(Ledger $ledger): RedirectResponse
@@ -73,6 +73,6 @@ class LedgerController extends Controller
         $ledger->delete();
 
         return Redirect::route('fund.show', [$ledger->fund_id])
-                       ->with('success', 'Fund value updated');
+            ->with('success', 'Fund value updated');
     }
 }

@@ -34,19 +34,20 @@ class CampaignController extends Controller
         $model = Campaign::create($request->validated());
 
         return Redirect::route('campaign.show', $model->id)
-                       ->with('success', 'Campaign created');
+            ->with('success', 'Campaign created');
     }
 
     public function show(Campaign $campaign): Response
     {
         $campaign->load('fund');
+
         return Inertia::render('Campaign/View', [
             'campaign' => $campaign,
             'requests' => $campaign->requests()
-                                    ->orderBy('ledger_id', 'asc')
-                                    ->orderBy('updated_at', 'asc')
-                                    ->with('ledger')
-                                    ->get(),
+                ->orderBy('ledger_id', 'asc')
+                ->orderBy('updated_at', 'asc')
+                ->with('ledger')
+                ->get(),
             'residents' => Member::residents(),
         ]);
     }
@@ -62,14 +63,15 @@ class CampaignController extends Controller
         $campaign->save();
 
         return Redirect::route('campaign.index')
-                       ->with('success', 'Campaign updated');
+            ->with('success', 'Campaign updated');
     }
 
     public function close(Campaign $campaign): RedirectResponse
     {
         $campaign->close();
+
         return Redirect::route('campaign.index')
-                       ->with('success', 'Campaign closed');
+            ->with('success', 'Campaign closed');
     }
 
     public function destroy(Campaign $campaign): RedirectResponse
@@ -80,7 +82,7 @@ class CampaignController extends Controller
         $campaign->delete();
 
         return Redirect::route('campaign.index')
-                       ->with('success', 'Campaign deleted');
+            ->with('success', 'Campaign deleted');
     }
 
     public function newRequest(CampaignMembersRequest $request, Campaign $campaign)
@@ -88,7 +90,7 @@ class CampaignController extends Controller
         CampaignRequestsGenerated::dispatch($campaign, $request->createModels($campaign->id));
 
         return Redirect::route('campaign.show', $campaign->id)
-                       ->with('success', 'Requests created');
+            ->with('success', 'Requests created');
     }
 
     public function remindRequest(CampaignMembersRequest $request, Campaign $campaign)
@@ -96,7 +98,7 @@ class CampaignController extends Controller
         CampaignRemindersGenerated::dispatch($campaign, $request->getModelsToBeReminded($campaign->id));
 
         return Redirect::route('campaign.show', $campaign->id)
-                       ->with('success', 'Requests created');
+            ->with('success', 'Requests created');
     }
 
     public function deleteRequest(CampaignMembersRequest $request, Campaign $campaign)
@@ -104,7 +106,7 @@ class CampaignController extends Controller
         $request->deleteModels($campaign->id);
 
         return Redirect::route('campaign.show', $campaign->id)
-                       ->with('success', 'Requests deleted');
+            ->with('success', 'Requests deleted');
     }
 
     private function renderForm(Campaign $campaign): Response

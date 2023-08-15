@@ -24,23 +24,21 @@ class LedgerTest extends FeatureTest
         $this->actingAs($this->adminUser());
 
         $response = $this->getJson('ledger?fund_id=1&page=1');
-        $response->assertJson(fn (AssertableJson $json) =>
-            $json->has('ledgers.current_page')
-                 ->has('ledgers.data')
-                 ->has('ledgers.next_page_url')
+        $response->assertJson(fn (AssertableJson $json) => $json->has('ledgers.current_page')
+            ->has('ledgers.data')
+            ->has('ledgers.next_page_url')
         );
 
         $response = $this->getJson('ledger?fund_id=1&page=1&filter=unverified');
-        $response->assertJson(fn (AssertableJson $json) =>
-            $json->has('ledgers.data')
+        $response->assertJson(fn (AssertableJson $json) => $json->has('ledgers.data')
         );
     }
 
     public function test_ledger_form_renders()
     {
         $response = $this->actingAs($this->adminUser())
-             ->get(route('ledger.create',['fund_id' => 1]))
-             ->assertInertia(fn (AssertableInertia $page) => $page
+            ->get(route('ledger.create', ['fund_id' => 1]))
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('fund')
                 ->has('residents')
             );
@@ -86,7 +84,7 @@ class LedgerTest extends FeatureTest
             'fund_id' => $fund->id,
         ]);
         $this->post(route('ledger.store'), $ledger->toArray())
-                ->assertSessionHas('success');
+            ->assertSessionHas('success');
 
         $this->assertDatabaseHas('ledger', [
             'user_id' => $user->id,
@@ -99,7 +97,7 @@ class LedgerTest extends FeatureTest
         // Not allowed
         $ledger->type = LedgerTypes::ADMIN_ADJUSTMENT->value;
         $this->post(route('ledger.store'), $ledger->toArray())
-                 ->assertInvalid();
+            ->assertInvalid();
     }
 
     public function test_resident_can_contribute_to_a_specific_request(): void
@@ -126,7 +124,7 @@ class LedgerTest extends FeatureTest
         $this->actingAs($this->adminUser());
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 101]);
         $this->delete(route('ledger.destroy', $ledger->id))
-             ->assertValid();
+            ->assertValid();
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 0]);
     }
 
@@ -137,7 +135,7 @@ class LedgerTest extends FeatureTest
         $this->actingAs($this->adminUser());
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 20]);
         $this->delete(route('ledger.destroy', $ledger->id))
-             ->assertValid();
+            ->assertValid();
         $this->assertDatabaseHas('funds', ['id' => $fund->id, 'balance' => 20]);
     }
 
@@ -149,7 +147,7 @@ class LedgerTest extends FeatureTest
         $this->actingAs($user);
         $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'amount' => 101]);
         $response = $this->delete(route('ledger.destroy', $ledger->id))
-                        ->assertForbidden();
+            ->assertForbidden();
     }
 
     public function test_unverfied_entries_can_be_verified(): void
@@ -160,12 +158,12 @@ class LedgerTest extends FeatureTest
             'fund_id' => $this->seedData['fund']->id,
             'user_id' => $this->seedData['members'][0]->id,
             'amount' => 101,
-            'type' => LedgerTypes::RESIDENT_OFFLINE->value
+            'type' => LedgerTypes::RESIDENT_OFFLINE->value,
         ]);
-        CampaignRequest::where('user_id','=', $this->seedData['members'][0]->id)->update(['ledger_id' => $ledger->id]);
+        CampaignRequest::where('user_id', '=', $this->seedData['members'][0]->id)->update(['ledger_id' => $ledger->id]);
         $this->actingAs($this->adminUser());
         $this->patch(route('ledger.verify', $ledger->id))
-             ->assertSessionHas('success');
+            ->assertSessionHas('success');
         $this->assertDatabaseHas('funds', ['id' => $this->seedData['fund']->id, 'balance' => 101]);
         Notification::assertSentTo(
             [$this->seedData['members'][0]], OfflinePaymentVerified::class
@@ -178,6 +176,6 @@ class LedgerTest extends FeatureTest
         $fund = Fund::factory()->create();
         $ledger = Ledger::factory()->create(['fund_id' => $fund->id, 'type' => LedgerTypes::RESIDENT_OFFLINE->value, 'verified_at' => now()]);
         $this->patch(route('ledger.verify', $ledger->id))
-             ->assertInvalid();
+            ->assertInvalid();
     }
 }

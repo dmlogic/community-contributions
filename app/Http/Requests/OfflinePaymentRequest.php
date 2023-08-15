@@ -13,8 +13,8 @@ class OfflinePaymentRequest extends FormRequest
     public function createLedgerEntry()
     {
         $campaignRequest = CampaignRequest::with('campaign')
-                                  ->where('user_id', '=', $this->user()->id)
-                                  ->findorFail($this->input('request_id'));
+            ->where('user_id', '=', $this->user()->id)
+            ->findorFail($this->input('request_id'));
         $ledger = Ledger::create([
             'fund_id' => $campaignRequest->campaign->id,
             'user_id' => $campaignRequest->user_id,

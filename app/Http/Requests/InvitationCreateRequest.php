@@ -27,7 +27,7 @@ class InvitationCreateRequest extends FormRequest
     private function destroyMatches()
     {
         Invitation::where('email', '=', $this->input('email'))
-                  ->delete();
+            ->delete();
     }
 
     public function rules(): array

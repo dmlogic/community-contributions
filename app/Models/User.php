@@ -36,7 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // ------------------------------------------------------------------------
     // Helpers
 
-    public static function newUser(string $name, string $email, ?string $password = null): User
+    public static function newUser(string $name, string $email, string $password = null): User
     {
         if (! $password) {
             $password = Str::random(40);
@@ -53,8 +53,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin(): bool
     {
         return $this->roles
-                ->where('id', Roles::ADMIN->value)
-                ->isNotEmpty();
+            ->where('id', Roles::ADMIN->value)
+            ->isNotEmpty();
     }
 
     // ------------------------------------------------------------------------

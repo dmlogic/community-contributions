@@ -26,7 +26,7 @@ class InvitationController extends Controller
         $request->createInvitation();
 
         return Redirect::route('member.index')
-                       ->with('success', 'Member invitation sent');
+            ->with('success', 'Member invitation sent');
     }
 
     /**
@@ -48,6 +48,6 @@ class InvitationController extends Controller
         Auth::login($user);
 
         return Redirect::route('dashboard')
-                       ->with('success', 'Welcome to '.config('app.name'));
+            ->with('success', 'Welcome to '.config('app.name'));
     }
 }

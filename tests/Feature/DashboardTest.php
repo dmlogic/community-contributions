@@ -2,16 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Enums\LedgerTypes;
-use App\Enums\Roles;
-use App\Models\CampaignRequest;
-use App\Models\User;
 use App\Models\Ledger;
-use App\Models\Member;
 use Tests\FeatureTest;
-use App\Models\Property;
 use Tests\SeedsCampaigns;
-use App\Models\Invitation;
+use App\Enums\LedgerTypes;
+use App\Models\CampaignRequest;
 use Inertia\Testing\AssertableInertia;
 
 class DashboardTest extends FeatureTest
@@ -44,15 +39,15 @@ class DashboardTest extends FeatureTest
             'created_by' => $this->seedData['members'][0]->id,
             'type' => LedgerTypes::RESIDENT_OFFLINE->value,
             'verified_at' => null,
-            'amount' => 50
+            'amount' => 50,
         ]);
 
-        CampaignRequest::where('user_id','=',$this->seedData['members'][0]->id)->update(['ledger_id' => $ledger->id]);
+        CampaignRequest::where('user_id', '=', $this->seedData['members'][0]->id)->update(['ledger_id' => $ledger->id]);
 
         $this->actingAs($this->adminUser())->get(route('dashboard'))
-        ->assertInertia(fn (AssertableInertia $page) => $page
-            ->has('reconcile.0.name')
-        );
-        ;
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->has('reconcile.0.name')
+            );
+
     }
 }

@@ -27,7 +27,7 @@ class OfflinePaymentVerified extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         $message = (new MailMessage);
-        $message->subject(config('app.name') . ' payment verified');
+        $message->subject(config('app.name').' payment verified');
         $message->markdown(
             'mail.offline-payment-verified',
             ['ledger' => $this->ledger]

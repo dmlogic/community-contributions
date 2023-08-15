@@ -47,7 +47,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-             ->get('/login')
-             ->assertRedirectToRoute('dashboard');
+            ->get('/login')
+            ->assertRedirectToRoute('dashboard');
     }
 }

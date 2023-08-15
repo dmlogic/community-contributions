@@ -26,7 +26,7 @@ class OnlinePaymentReceipt extends Notification
     public function toMail($notifiable): MailMessage
     {
         $message = (new MailMessage);
-        $message->subject(config('app.name') . ' payment received');
+        $message->subject(config('app.name').' payment received');
         $message->markdown(
             'mail.online-payment-receipt',
             [

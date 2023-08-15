@@ -11,8 +11,8 @@ class FundTest extends FeatureTest
     public function test_non_admin_cannot_access(): void
     {
         $this->actingAs($this->supplierUser())
-             ->get(route('fund.index'))
-             ->assertForbidden();
+            ->get(route('fund.index'))
+            ->assertForbidden();
     }
 
     public function test_funds_are_listed(): void
@@ -68,7 +68,7 @@ class FundTest extends FeatureTest
         $fund->name = 'Edited name';
 
         $this->actingAs($this->adminUser())
-             ->patch(route('fund.update', $fund->id), $fund->toArray());
+            ->patch(route('fund.update', $fund->id), $fund->toArray());
 
         $this->assertDatabaseHas('funds', [
             'id' => $fund->id,
@@ -80,8 +80,8 @@ class FundTest extends FeatureTest
     {
         $fund = Fund::factory()->create();
         $this->actingAs($this->adminUser())
-             ->delete(route('fund.destroy', $fund->id))
-             ->assertSessionHas('success');
+            ->delete(route('fund.destroy', $fund->id))
+            ->assertSessionHas('success');
 
         $this->assertSoftDeleted($fund);
     }

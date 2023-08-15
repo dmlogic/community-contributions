@@ -26,8 +26,8 @@ class CampaignTest extends FeatureTest
     public function test_non_admin_cannot_access(): void
     {
         $this->actingAs($this->supplierUser())
-             ->get(route('campaign.index'))
-             ->assertForbidden();
+            ->get(route('campaign.index'))
+            ->assertForbidden();
     }
 
     public function test_campaigns_are_listed(): void
@@ -45,14 +45,14 @@ class CampaignTest extends FeatureTest
     public function test_campaign_view_includes_requests_and_residents(): void
     {
         $response = $this->get(route('campaign.show', $this->seedData['campaign']->id))
-                        ->assertInertia(fn (AssertableInertia $page) => $page
-                        ->has('campaign')
-                        ->has('campaign.fund')
-                        ->has('requests')
-                        ->has('requests.0.user_id')
-                        ->has('residents')
-                        ->has('residents.0.name')
-                        );
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->has('campaign')
+                ->has('campaign.fund')
+                ->has('requests')
+                ->has('requests.0.user_id')
+                ->has('residents')
+                ->has('residents.0.name')
+            );
     }
 
     public function test_can_create_campaign(): void
@@ -69,7 +69,7 @@ class CampaignTest extends FeatureTest
         $response = $this->patch(route('campaign.update', $this->seedData['campaign']->id),
             $this->seedData['campaign']->toArray()
         )
-        ->assertSessionHas('success');
+            ->assertSessionHas('success');
 
         $this->assertDatabaseHas('campaigns', ['id' => $this->seedData['campaign']->id, 'description' => 'edited']);
     }
@@ -98,7 +98,7 @@ class CampaignTest extends FeatureTest
             'amount' => 50,
             'members' => [$this->seedData['members'][1]->id],
         ])
-        ->assertInvalid();
+            ->assertInvalid();
     }
 
     public function test_can_resend_notifications(): void
@@ -124,7 +124,7 @@ class CampaignTest extends FeatureTest
         $this->post(route('campaign.remind-request', $this->seedData['campaign']->id), [
             'members' => [$this->seedData['members'][1]->id],
         ])
-        ->assertInvalid();
+            ->assertInvalid();
     }
 
     public function test_can_delete_member_requests_from_campaign(): void
@@ -132,7 +132,7 @@ class CampaignTest extends FeatureTest
         $this->delete(route('campaign.delete-request', $this->seedData['campaign']->id), [
             'members' => [$this->seedData['members'][1]->id, $this->seedData['members'][2]->id],
         ])
-        ->assertSessionHas('success');
+            ->assertSessionHas('success');
 
         $this->assertEquals(1, CampaignRequest::where('campaign_id', $this->seedData['campaign']->id)->count());
     }
@@ -150,7 +150,7 @@ class CampaignTest extends FeatureTest
         $this->delete(route('campaign.delete-request', $this->seedData['campaign']->id), [
             'members' => [$request->user_id],
         ])
-        ->assertInvalid();
+            ->assertInvalid();
     }
 
     public function test_cannot_delete_campaign_with_activity()
@@ -159,27 +159,27 @@ class CampaignTest extends FeatureTest
         $request->ledger_id = 1;
         $request->save();
         $this->delete(route('campaign.destroy', $this->seedData['campaign']->id))
-             ->assertInvalid();
+            ->assertInvalid();
     }
 
     public function test_can_delete_campaign(): void
     {
         $this->delete(route('campaign.destroy', $this->seedData['campaign']->id))
-             ->assertSessionHas('success');
+            ->assertSessionHas('success');
         $this->assertDatabaseMissing('campaigns', ['id' => $this->seedData['campaign']->id]);
     }
 
     public function test_can_close_campaign(): void
     {
         $this->patch(route('campaign.close', $this->seedData['campaign']->id))
-             ->assertSessionHas('success');
+            ->assertSessionHas('success');
         $this->assertDatabaseMissing('campaigns', ['id' => $this->seedData['campaign']->id, 'closed_at' => null]);
     }
 
     public function test_forms_render()
     {
         $this->get(route('campaign.create'))
-             ->assertOk();
+            ->assertOk();
 
         $this->get(route('campaign.edit', $this->seedData['campaign']->id))
             ->assertInertia(fn (AssertableInertia $page) => $page

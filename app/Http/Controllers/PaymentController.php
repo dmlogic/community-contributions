@@ -43,8 +43,8 @@ class PaymentController extends Controller
 
             // This form requires a valid campaign request record to have any meaning
             'request' => CampaignRequest::where('user_id', '=', $request->user()->id)
-                                        ->with('campaign')
-                                        ->findOrFail($request->input('request_id')),
+                ->with('campaign')
+                ->findOrFail($request->input('request_id')),
         ];
 
         return Inertia::render('Payment/OfflineForm', $formData);
@@ -55,7 +55,7 @@ class PaymentController extends Controller
         $request->createLedgerEntry();
 
         return Redirect::route('dashboard')
-                       ->with('success', 'Payment advice logged');
+            ->with('success', 'Payment advice logged');
     }
 
     public function checkout(StripeClient $stripe, PaymentRequest $request): \Symfony\Component\HttpFoundation\Response

@@ -17,9 +17,9 @@ class Member extends User
     public static function residents(): Collection
     {
         return static::select('id', 'name', 'email')
-                     ->whereHas('roles', function (Builder $query) {
-                         $query->where('role_id', '=', Roles::RESIDENT->value);
-                     })->get();
+            ->whereHas('roles', function (Builder $query) {
+                $query->where('role_id', '=', Roles::RESIDENT->value);
+            })->get();
     }
 
     // ------------------------------------------------------------------------

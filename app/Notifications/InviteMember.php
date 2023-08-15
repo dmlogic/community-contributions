@@ -26,7 +26,7 @@ class InviteMember extends Notification
     public function toMail($notifiable): MailMessage
     {
         $message = (new MailMessage);
-        $message->subject(config('app.name') . ' invitation');
+        $message->subject(config('app.name').' invitation');
         $message->replyTo(config('mail.from.address'), config('mail.from.name'));
         $message->markdown(
             'mail.invite-user',

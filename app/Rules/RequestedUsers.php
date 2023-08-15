@@ -24,8 +24,8 @@ class RequestedUsers implements InvokableRule
     public function countRequestedUsers($userIds, $withLedgerEntry = false): int
     {
         $query = DB::table('campaign_requests')
-                    ->where('campaign_id', '=', request()->route('campaign')->id)
-                    ->whereIn('user_id', $userIds);
+            ->where('campaign_id', '=', request()->route('campaign')->id)
+            ->whereIn('user_id', $userIds);
 
         if ($withLedgerEntry) {
             $query->whereNotNull('ledger_id');

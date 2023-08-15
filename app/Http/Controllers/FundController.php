@@ -25,8 +25,8 @@ class FundController extends Controller
         return Inertia::render('Fund/View', [
             'fund' => $fund,
             'ledgers' => Ledger::forFund($fund->id, $request->filter)
-                               ->simplePaginate(20)
-                               ->withPath(route('ledger.index', ['fund_id' => $fund->id, 'filter' => $request->filter])),
+                ->simplePaginate(20)
+                ->withPath(route('ledger.index', ['fund_id' => $fund->id, 'filter' => $request->filter])),
         ]);
     }
 
@@ -47,7 +47,7 @@ class FundController extends Controller
         Fund::create($request->validated());
 
         return Redirect::route('fund.index')
-                       ->with('success', 'Fund created');
+            ->with('success', 'Fund created');
     }
 
     public function update(FundRequest $request, Fund $fund): RedirectResponse
@@ -55,7 +55,7 @@ class FundController extends Controller
         $fund->fill($request->validated())->save();
 
         return Redirect::route('fund.index')
-                       ->with('success', 'Fund updated');
+            ->with('success', 'Fund updated');
     }
 
     public function destroy(Fund $fund): RedirectResponse
@@ -63,6 +63,6 @@ class FundController extends Controller
         $fund->delete();
 
         return Redirect::route('fund.index')
-                       ->with('success', 'Fund deleted');
+            ->with('success', 'Fund deleted');
     }
 }

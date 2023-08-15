@@ -25,7 +25,7 @@ class DashboardController extends Controller
                 },
                 'campaigns.requests.ledger',
             ])
-            ->get(),
+                ->get(),
             'reconcile' => [],
         ];
 

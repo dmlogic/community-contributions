@@ -22,9 +22,9 @@ class Property extends Model
     public static function listData(): Collection
     {
         return Property::with('member')
-                    ->select('id', 'number', 'street', 'user_id')
-                    ->orderBy('number')
-                    ->get();
+            ->select('id', 'number', 'street', 'user_id')
+            ->orderBy('number')
+            ->get();
     }
 
     public static function defaultData(): Property
@@ -58,6 +58,6 @@ class Property extends Model
     public function member(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id')
-                    ->select('id', 'name', 'email');
+            ->select('id', 'name', 'email');
     }
 }

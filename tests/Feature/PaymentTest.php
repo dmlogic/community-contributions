@@ -30,8 +30,8 @@ class PaymentTest extends FeatureTest
             ->get(route('payment.form', ['fund_id' => 1]))
             ->assertInertia(
                 fn (AssertableInertia $page) => $page
-            ->has('fund')
-            ->where('request', null)
+                    ->has('fund')
+                    ->where('request', null)
             );
     }
 
@@ -42,8 +42,8 @@ class PaymentTest extends FeatureTest
             ->get(route('payment.form', ['fund_id' => 1, 'request_id' => $request->id]))
             ->assertInertia(
                 fn (AssertableInertia $page) => $page
-            ->has('fund')
-            ->where('request.id', $request->id)
+                    ->has('fund')
+                    ->where('request.id', $request->id)
             );
     }
 
@@ -62,9 +62,9 @@ class PaymentTest extends FeatureTest
             ->get(route('payment.offline-form', ['fund_id' => 1, 'request_id' => $request->id]))
             ->assertInertia(
                 fn (AssertableInertia $page) => $page
-            ->has('fund.id')
-            ->has('request.id')
-            ->has('paymentDate')
+                    ->has('fund.id')
+                    ->has('request.id')
+                    ->has('paymentDate')
             );
     }
 
@@ -91,7 +91,7 @@ class PaymentTest extends FeatureTest
         $resident = $this->seedData['members'][0];
         $this->actingAs($resident);
         $this->post(route('payment.checkout'), [])
-        ->assertInvalid(['amount', 'fund_id']);
+            ->assertInvalid(['amount', 'fund_id']);
     }
 
     public function test_checkout_session_is_created_and_redirects_to_stripe(): void
@@ -105,7 +105,7 @@ class PaymentTest extends FeatureTest
             'request_id' => $request->id,
             'fund_id' => $this->seedData['fund']->id,
         ])
-        ->assertRedirectContains('https://checkout.stripe.com/c/pay/');
+            ->assertRedirectContains('https://checkout.stripe.com/c/pay/');
     }
 
     public function test_webhook_fails_with_invalid_signature(): void
@@ -121,8 +121,8 @@ class PaymentTest extends FeatureTest
         $resident = $this->seedData['members'][0];
         $request = CampaignRequest::where('user_id', $resident->id)->first();
         $this->withoutMiddleware(VerifyStripeRequest::class)
-             ->submitWebhookPayload(1234, $resident->id, $request->id)
-             ->assertOk();
+            ->submitWebhookPayload(1234, $resident->id, $request->id)
+            ->assertOk();
 
         // ledger created and verified
         $ledger = Ledger::latest()->first();
@@ -141,10 +141,10 @@ class PaymentTest extends FeatureTest
     public function test_sundry_endpoints_render(): void
     {
         $this->actingAs($this->adminUser())
-             ->get(route('payment.success'))
-             ->assertOk();
+            ->get(route('payment.success'))
+            ->assertOk();
         $this->get(route('payment.error'))
-             ->assertOk();
+            ->assertOk();
     }
 
     public function test_only_one_ledger_per_payment_intent(): void
@@ -152,8 +152,8 @@ class PaymentTest extends FeatureTest
         $resident = $this->seedData['members'][0];
         $request = CampaignRequest::where('user_id', $resident->id)->first();
         $this->withoutMiddleware(VerifyStripeRequest::class)
-             ->submitWebhookPayload(999, $resident->id, $request->id)
-             ->assertOk();
+            ->submitWebhookPayload(999, $resident->id, $request->id)
+            ->assertOk();
 
         $this->withoutMiddleware(VerifyStripeRequest::class)
             ->submitWebhookPayload(999, $resident->id, $request->id)
@@ -173,7 +173,7 @@ class PaymentTest extends FeatureTest
 
     private function submitWebhookPayload($amount, $userId, $requestId): TestResponse
     {
-        $payload = file_get_contents(__DIR__ . '/../stripe_responses/checkout_success.json');
+        $payload = file_get_contents(__DIR__.'/../stripe_responses/checkout_success.json');
         $payload = json_decode(
             str_replace(
                 ['{amount}', '{user_id}', '{fund_id}', '{request_id}'],

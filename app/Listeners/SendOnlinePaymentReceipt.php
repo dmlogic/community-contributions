@@ -19,5 +19,4 @@ class SendOnlinePaymentReceipt implements ShouldQueue
         $this->ledger = $event->ledger;
         $this->ledger->user->notify(new OnlinePaymentReceipt($this->ledger));
     }
-
 }

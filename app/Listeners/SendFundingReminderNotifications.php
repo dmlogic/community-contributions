@@ -9,8 +9,8 @@ class SendFundingReminderNotifications extends SendFundingRequestNotifications
     public function sendNotifications(): void
     {
         foreach ($this->requests as $request) {
-            $this->users[$request->user_id]
-                 ->notify(new FundingReminder($request));
+            $this->users[$request->getAttribute('user_id')]
+                ->notify(new FundingReminder($request));
         }
     }
 }

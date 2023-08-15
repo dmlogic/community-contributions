@@ -55,7 +55,7 @@ class PropertyController extends Controller
         Property::create($request->validated());
 
         return Redirect::route('property.index')
-                       ->with('success', 'Property created');
+            ->with('success', 'Property created');
     }
 
     /**
@@ -66,7 +66,7 @@ class PropertyController extends Controller
         $property->fill($request->validated())->save();
 
         return Redirect::route('property.index')
-                       ->with('success', 'Property updated');
+            ->with('success', 'Property updated');
     }
 
     /**
@@ -77,7 +77,7 @@ class PropertyController extends Controller
         $property->delete();
 
         return Redirect::route('property.index')
-                       ->with('success', 'Property deleted');
+            ->with('success', 'Property deleted');
     }
 
     /**

@@ -15,15 +15,15 @@ class InvitationTest extends FeatureTest
     public function test_non_admin_cannot_create_invitations(): void
     {
         $this->actingAs($this->supplierUser())
-             ->get(route('member.index'))
-             ->assertForbidden();
+            ->get(route('member.index'))
+            ->assertForbidden();
     }
 
     public function test_invitation_form_renders(): void
     {
         $this->actingAs($this->adminUser())
-             ->get(route('invitation.create'))
-             ->assertInertia(fn (AssertableInertia $page) => $page
+            ->get(route('invitation.create'))
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('properties')
             );
     }
@@ -83,7 +83,7 @@ class InvitationTest extends FeatureTest
             'password' => 'pass',
             'password_confirmation' => 'pass',
         ])
-                ->assertRedirectToRoute('dashboard');
+            ->assertRedirectToRoute('dashboard');
 
         $user = Member::whereEmail($invite->email)->first();
         $this->assertInstanceOf(User::class, $user);

@@ -38,15 +38,15 @@ class SendFundingRequestNotifications implements ShouldQueue
     public function sendNotifications(): void
     {
         foreach ($this->requests as $request) {
-            $this->users[$request->user_id]
-                 ->notify(new FundingRequest($request));
+            $this->users[$request->getAttribute('user_id')]
+                ->notify(new FundingRequest($request));
         }
     }
 
     public function eagerLoadUsers(): void
     {
         $this->users = User::whereIn('id', $this->requests->pluck('user_id'))
-                    ->get()
-                    ->keyBy('id');
+            ->get()
+            ->keyBy('id');
     }
 }

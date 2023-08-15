@@ -61,7 +61,7 @@ class MemberController extends Controller
         $member->roles()->sync($request->validated('role_id'));
 
         return Redirect::route('member.index')
-                       ->with('success', 'Member created');
+            ->with('success', 'Member created');
     }
 
     /**
@@ -73,7 +73,7 @@ class MemberController extends Controller
         $member->roles()->sync($request->validated('role_id'));
 
         return Redirect::route('member.index')
-                       ->with('success', 'Member updated');
+            ->with('success', 'Member updated');
     }
 
     /**
@@ -87,7 +87,7 @@ class MemberController extends Controller
         $member->delete();
 
         return Redirect::route('member.index')
-                       ->with('success', 'Member deleted');
+            ->with('success', 'Member deleted');
     }
 
     /**

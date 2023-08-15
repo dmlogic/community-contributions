@@ -15,8 +15,8 @@ class MemberTest extends FeatureTest
     public function test_non_admin_cannot_access(): void
     {
         $this->actingAs($this->supplierUser())
-             ->get(route('member.index'))
-             ->assertForbidden();
+            ->get(route('member.index'))
+            ->assertForbidden();
     }
 
     public function test_members_are_listed(): void
@@ -68,11 +68,11 @@ class MemberTest extends FeatureTest
         $member = User::factory()->make();
         $this->actingAs($this->adminUser());
         $response = $this->actingAs($this->adminUser())
-             ->post(route('member.store'), [
-                 'name' => $member->name,
-                 'email' => $member->email,
-             ])
-             ->assertSessionHas('success');
+            ->post(route('member.store'), [
+                'name' => $member->name,
+                'email' => $member->email,
+            ])
+            ->assertSessionHas('success');
 
         $this->assertDatabaseHas('users', [
             'email' => $member->email,
@@ -92,8 +92,8 @@ class MemberTest extends FeatureTest
         ];
 
         $response = $this->actingAs($this->adminUser())
-             ->patch(route('member.update', $member->id), $formData)
-             ->assertSessionHas('success');
+            ->patch(route('member.update', $member->id), $formData)
+            ->assertSessionHas('success');
 
         $this->assertDatabaseHas('users', [
             'id' => $member->id,
@@ -117,7 +117,7 @@ class MemberTest extends FeatureTest
         $member = User::factory()->create();
 
         $this->actingAs($this->adminUser())
-              ->delete(route('member.destroy', $member->id));
+            ->delete(route('member.destroy', $member->id));
 
         $this->assertSoftDeleted($member);
     }
@@ -127,7 +127,7 @@ class MemberTest extends FeatureTest
         $member = User::factory()->create();
         $property = Property::factory()->create(['user_id' => $member->id]);
         $this->actingAs($this->adminUser())
-              ->delete(route('member.destroy', $member->id))
-              ->assertInvalid();
+            ->delete(route('member.destroy', $member->id))
+            ->assertInvalid();
     }
 }

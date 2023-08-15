@@ -18,27 +18,26 @@ Route::get('/scratch', function () {
 });
 
 Route::get('/', [DashboardController::class, 'show'])
-     ->name('dashboard')
-     ->middleware(['auth', 'verified']);
+    ->name('dashboard')
+    ->middleware(['auth', 'verified']);
 
 /**
  * Invitation handling
  */
 Route::prefix('invitation')->group(function () {
     Route::get('/create', [InvitationController::class, 'create'])->name('invitation.create')
-            ->middleware(['auth', 'auth.admin']);
+        ->middleware(['auth', 'auth.admin']);
     Route::post('/', [InvitationController::class, 'store'])->name('invitation.store')
-            ->middleware(['auth', 'auth.admin']);
+        ->middleware(['auth', 'auth.admin']);
     Route::get('/{invitation}', [InvitationController::class, 'confirm'])->name('invitation.confirm')
-            ->middleware('guest');
+        ->middleware('guest');
     Route::post('/{invitation}', [InvitationController::class, 'process'])->name('invitation.process')
-            ->middleware('guest');
+        ->middleware('guest');
 });
 
 /**
  * Stripe callback
  */
-
 Route::post('/payment/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm')
     ->middleware('stripe');
 
@@ -97,10 +96,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/new', [LedgerController::class, 'create'])->name('ledger.create');
         Route::post('/', [LedgerController::class, 'store'])->name('ledger.store');
         Route::patch('/{ledger}', [LedgerController::class, 'verify'])->name('ledger.verify')
-             ->middleware('auth.admin');
+            ->middleware('auth.admin');
         Route::delete('/{ledger}', [LedgerController::class, 'destroy'])->name('ledger.destroy')
-             ->middleware('auth.admin');
+            ->middleware('auth.admin');
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

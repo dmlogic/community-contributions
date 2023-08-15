@@ -7,9 +7,6 @@ use Tests\FeatureTest;
 use Tests\SeedsCampaigns;
 use App\Enums\LedgerTypes;
 use App\Models\CampaignRequest;
-use App\Notifications\OfflinePayment;
-use Illuminate\Support\Facades\Notification;
-
 
 class SendReconcileAlertCommandTest extends FeatureTest
 {
@@ -29,6 +26,4 @@ class SendReconcileAlertCommandTest extends FeatureTest
         CampaignRequest::latest()->update(['ledger_id' => $ledger->id]);
         $this->artisan('reconcile:alert')->assertSuccessful();
     }
-
-
 }

@@ -40,16 +40,16 @@ class CampaignMembersRequest extends FormRequest
     public function deleteModels($campaignId)
     {
         CampaignRequest::whereIn('user_id', $this->validated('members'))
-                       ->where('campaign_id', $campaignId)
-                       ->delete();
+            ->where('campaign_id', $campaignId)
+            ->delete();
     }
 
     public function getModelsToBeReminded(int $campaignId): Collection
     {
         return CampaignRequest::whereNull('ledger_id')
-                       ->where('campaign_id', $campaignId)
-                       ->whereIn('user_id', $this->validated('members'))
-                       ->get();
+            ->where('campaign_id', $campaignId)
+            ->whereIn('user_id', $this->validated('members'))
+            ->get();
     }
 
     public function getMemberRule(): InvokableRule

@@ -9,7 +9,7 @@ class FundingReminder extends FundingRequest
     public function toMail($notifiable): MailMessage
     {
         $message = (new MailMessage);
-        $message->subject(config('app.name') . ' funding reminder');
+        $message->subject(config('app.name').' funding reminder');
         $message->replyTo(config('mail.from.address'), config('mail.from.name'));
         $message->markdown(
             'mail.funding-reminder',

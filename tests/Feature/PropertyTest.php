@@ -12,8 +12,8 @@ class PropertyTest extends FeatureTest
     public function test_non_admin_cannot_access(): void
     {
         $this->actingAs($this->supplierUser())
-             ->get(route('property.index'))
-             ->assertForbidden();
+            ->get(route('property.index'))
+            ->assertForbidden();
     }
 
     public function test_properties_are_listed(): void
@@ -66,7 +66,7 @@ class PropertyTest extends FeatureTest
         $house->user_id = $member->id;
 
         $this->actingAs($this->adminUser())
-             ->patch(route('property.update', $house->id), $house->only('number', 'street', 'town', 'postcode', 'user_id'));
+            ->patch(route('property.update', $house->id), $house->only('number', 'street', 'town', 'postcode', 'user_id'));
 
         $this->assertDatabaseHas('properties', [
             'id' => $house->id,
@@ -79,7 +79,7 @@ class PropertyTest extends FeatureTest
     {
         $house = Property::factory()->create();
         $this->actingAs($this->adminUser())
-             ->delete(route('property.destroy', $house->id));
+            ->delete(route('property.destroy', $house->id));
 
         $this->assertDatabaseMissing('properties', ['id', $house->id]);
     }
@@ -97,9 +97,9 @@ class PropertyTest extends FeatureTest
         $house = Property::first();
         $this->get(route('property.show', $house->id))
             ->assertInertia(fn (AssertableInertia $page) => $page
-            ->has('property')
-            ->has('residents')
-            ->has('property.id')
+                ->has('property')
+                ->has('residents')
+                ->has('property.id')
             );
     }
 }
