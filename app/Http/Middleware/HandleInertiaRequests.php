@@ -51,7 +51,7 @@ class HandleInertiaRequests extends Middleware
 
     public function navForUser(?User $user): ?array
     {
-        if (!$user) {
+        if (! $user) {
             return null;
         }
         $nav = [
