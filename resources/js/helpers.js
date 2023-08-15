@@ -4,7 +4,10 @@ import moment from 'moment'
 export function can(doWhat) {
     return usePage().props.can[doWhat] ?? false;
 }
-export function balanceBackground(amount) {
+export function balanceBackground(amount, type) {
+    if(typeof type !='undefined' && type == "EXPENDITURE") {
+        amount = amount *-1
+    }
     if(amount > 0) {
         return 'bg-lime-500/20'
     }

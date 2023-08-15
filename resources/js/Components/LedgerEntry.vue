@@ -51,7 +51,7 @@ const type = computed(function () {
         </td>
         <td class="py-3 px-5 border-b border-blue-gray-50 text-right">
             <span v-if="props.model.verified_at"
-                :class="['p-2 rounded-full', balanceBackground(props.model.amount)]">
+                :class="['p-2 rounded-full', balanceBackground(props.model.amount, props.model.type)]">
                 {{ props.model.value }}
             </span>
             <div v-else>
