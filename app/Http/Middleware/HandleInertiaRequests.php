@@ -51,12 +51,12 @@ class HandleInertiaRequests extends Middleware
 
     public function navForUser(?User $user): ?array
     {
-        if (! $user) {
+        if (!$user) {
             return null;
         }
         $nav = [
             ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'gauge-simple-high'],
-            ['route' => 'statement', 'label' => 'Statement', 'icon' => 'scale-balanced'],
+            ['route' => 'statement', 'label' => 'Payment history', 'icon' => 'scale-balanced'],
 
         ];
         if ($user->isAdmin()) {

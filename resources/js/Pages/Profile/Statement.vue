@@ -15,10 +15,10 @@ defineProps({
     <Head title="Statement" />
     <AuthenticatedLayout>
         <template #header>
-            Statement of payments
+            Your payment history
         </template>
 
-        <table v-if="payments" class="w-full table-auto">
+        <table v-if="payments.length" class="w-full table-auto">
             <thead>
                 <tr>
                     <th class="border-b border-blue-gray-50 py-3 px-5 text-left">Date</th>
